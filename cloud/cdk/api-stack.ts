@@ -50,8 +50,8 @@ export class ApiStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10)
     });
     const invokePublish = new LambdaFunction(this.publishLambda)
-    const publishScheduleRule = new Rule(this, 'DailyTriggerPublish', {
-      ruleName: 'DailyTriggerPublishCDK',
+    const publishScheduleRule = new Rule(this, `DailyTriggerPublish${props.environment}`, {
+      ruleName: `DailyTriggerPublishCDK${props.environment}`,
       schedule: Schedule.cron({minute: '0', hour: '4'}),
       targets: [invokePublish],
     });
