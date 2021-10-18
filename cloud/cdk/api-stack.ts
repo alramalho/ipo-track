@@ -25,7 +25,7 @@ export class ApiStack extends cdk.Stack {
 
     const subscribeLambdaNameBaseName  = 'IPOWarningSubscribeCDK'
     this.subscribeLambda = new PythonFunction(this, 'SubscribeLambda', {
-      functionName: `${subscribeLambdaNameBaseName}${props.environment}`,
+      functionName: `${subscribeLambdaNameBaseName}-${props.environment}`,
       entry: path.join(__dirname, '../lambdas/subscribe/'),
       index: 'main.py',
       handler: 'lambda_handler', // optional, defaults to 'handler'
@@ -41,7 +41,7 @@ export class ApiStack extends cdk.Stack {
     }));
 
     this.publishLambda = new PythonFunction(this, 'PublishLambda', {
-      functionName: `IPOWarningPublishCDK${props.environment}`,
+      functionName: `IPOWarningPublishCDK-${props.environment}`,
       entry: path.join(__dirname, '../lambdas/publish/'),
       index: 'main.py',
       handler: 'lambda_handler',
@@ -51,7 +51,7 @@ export class ApiStack extends cdk.Stack {
     });
     const invokePublish = new LambdaFunction(this.publishLambda)
     const publishScheduleRule = new Rule(this, `DailyTriggerPublish${props.environment}`, {
-      ruleName: `DailyTriggerPublishCDK${props.environment}`,
+      ruleName: `DailyTriggerPublishCDK-${props.environment}`,
       schedule: Schedule.cron({minute: '0', hour: '4'}),
       targets: [invokePublish],
     });
@@ -62,7 +62,7 @@ export class ApiStack extends cdk.Stack {
     }));
 
     this.userRemovalLambda = new PythonFunction(this, 'UserRemovalLambda', {
-      functionName: `IPOWarningUserRemovalCDK${props.environment}`,
+      functionName: `IPOWarningUserRemovalCDK-${props.environment}`,
       entry: path.join(__dirname, '../lambdas/user-removal/'),
       index: 'main.py',
       handler: 'lambda_handler',

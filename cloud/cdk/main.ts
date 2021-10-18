@@ -13,6 +13,6 @@ if (!process.env.ENVIRONMENT || (process.env.ENVIRONMENT != "sandbox" && process
   process.exit(1)
 }
 
-new MainStack(app, `IPOWarningCdkStack-${process.env.ENVIRONMENT}`, {
+new MainStack(app, `IPOWarningCdkStack`, {
   environment: process.env.ENVIRONMENT
 });
