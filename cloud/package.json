@@ -12,7 +12,7 @@
     "diff": "cdk diff --profile ipo-warning",
     "synth": "echo '\n️\\0033[43;1m ⚠ Consider running `yarn diff` to check differences ⚠\\0033[0m️\n️' &&  rm -rf cdk.out && cdk synth",
     "deploy": "cdk deploy --profile ipo-warning",
-    "fast-deploy": "yarn synth && yarn deploy --require-approval never"
+    "fast-deploy": "yarn synth && yarn deploy --require-approval never --all"
   },
   "devDependencies": {
     "@types/node": "10.17.27",

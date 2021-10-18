@@ -14,11 +14,11 @@ export class MainStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: MainStackProps) {
     super(scope, id);
 
-    const apiStack = new ApiStack(this, `Api${props.environment}Stack`, {
+    const apiStack = new ApiStack(this, `ApiStack-${props.environment}`, {
       environment: props.environment
     })
 
-    new DbStack(this, `DynamoDB${props.environment}Stack`, {
+    new DbStack(this, `DynamoDBStack-${props.environment}`, {
       tableSuffix: props.environment,
       writableBy: [apiStack.subscribeLambda, apiStack.userRemovalLambda],
       readableBy: [apiStack.publishLambda]
