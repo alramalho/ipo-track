@@ -8,6 +8,8 @@ jobs:
 
   Deploy-Backend-To-Sandbox:
     runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: sandbox
     steps:
 
       - name: Checkout source code
@@ -42,5 +44,5 @@ jobs:
           yarn
           cdk bootstrap --profile ipo-warning
           yarn diff
-          yarn fast-deploy
+          yarn fast-deploy --all
 

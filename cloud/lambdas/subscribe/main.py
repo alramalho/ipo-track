@@ -6,9 +6,10 @@ import email_utils
 
 
 def lambda_handler(event, context):
+    environment = event['stageVariables']['environment']
 
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('IPOWarningCDK')
+    table = dynamodb.Table(f'IPOWarningCDK{environment}')
     ses_client = boto3.client('ses',region_name="eu-west-1")
 
 #     print(event)

@@ -7,9 +7,10 @@ from boto3.dynamodb.conditions import Attr
 from urllib.request import urlopen
 
 def lambda_handler(event, context):
+    environment = event['stageVariables']['environment']
 
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('IPOWarningCDK')
+    table = dynamodb.Table(f'IPOWarningCDK{environment}')
     ses_client = boto3.client('ses',region_name="eu-west-1")
 
     query = table.scan(
@@ -79,7 +80,7 @@ def remove_user(user_email, user_keyword):
 
     print("Tryuing to remove user: ", user_email)
     response = lambda_client.invoke(
-        FunctionName = 'IPOWarningUserRemovalCDK',
+        FunctionName = f'IPOWarningUserRemovalCDK{environment}',
         InvocationType = 'RequestResponse',
         Payload = json.dumps({'email': user_email, 'keyword': user_keyword})
     )
