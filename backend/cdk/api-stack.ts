@@ -85,7 +85,7 @@ export class ApiStack extends cdk.Stack {
         allowOrigins: apigw.Cors.ALL_ORIGINS,
         allowMethods: ['POST']
       },
-      restApiName: "IPOWarningCDK",
+      restApiName: `IPOWarningCDK-${props.environment}`,
       deploy: false
     });
     const deployment = new apigw.Deployment(this, `${props.environment}_api_deployment`, {api: this.api});
@@ -103,7 +103,7 @@ export class ApiStack extends cdk.Stack {
     const stageSubscribeLambda = lambda.Function.fromFunctionArn(
       this,
       `subscribe-lambda-stage`,
-      `arn:aws:lambda:eu-west-1:854257060653:function:${subscribeLambdaNameBaseName}\${stageVariables.environment}`
+      `arn:aws:lambda:eu-west-1:854257060653:function:${subscribeLambdaNameBaseName}-\${stageVariables.environment}`
     )
     subscribeResource.addMethod('POST', new LambdaIntegration(stageSubscribeLambda, {
       proxy: true, // Make lambda responsible for building the API response according to https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-output-format
