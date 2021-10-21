@@ -1,89 +1,34 @@
 import Head from 'next/head'
-import React, {useState} from "react"
-import {subscribe} from "../service/service";
+import React from "react"
 
-
-export default function Home() {
-
-  const [formData, setFormData] = useState<FormData>()
-
-  function handleSubmit(event) {
-    event.preventDefault()
-    subscribe(formData).then(() => alert('success'))
-  }
-
-  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormData({...formData, [event.target.name]: event.target.value})
-  }
-
+export default function TermsOfService() {
 
   return (
     <div className="container">
       <Head>
-        <title>IPO Warning</title>
+        <title>IPO Warning | Terms of Service</title>
         <link rel="icon" href="/favicon.ico"/>
       </Head>
 
       <main>
 
         <h1 className="title">
-          Welcome to IPO Warning
+          Terms of Service
         </h1>
 
-        <form onSubmit={handleSubmit} method="post" className="form-example">
-          <div className="form-example">
-            <label htmlFor="email">Enter your email: </label>
-            <input className='input' type="email" name="email" id="email" required
-                   onChange={handleInputChange}/>
-          </div>
-          <div className="form-example">
-            <label htmlFor="keyword">Enter your keyword: </label>
-            <input className='input' type="text" name="keyword" id="keyword" required
-                   onChange={handleInputChange}/>
-          </div>
-          <div className="form-example">
-            <input className='button' type="submit" value="Submit &rarr;"
-                   onClick={handleSubmit}/>
-          </div>
-        </form>
 
-
-        {/*<div className="grid">*/}
-        {/*  <a href="https://nextjs.org/docs" className="card">*/}
-        {/*    <h3>Documentation &rarr;</h3>*/}
-        {/*    <p>Find in-depth information about Next.js features and API.</p>*/}
-        {/*  </a>*/}
-
-        {/*  <a href="https://nextjs.org/learn" className="card">*/}
-        {/*    <h3>Learn &rarr;</h3>*/}
-        {/*    <p>Learn about Next.js in an interactive course with quizzes!</p>*/}
-        {/*  </a>*/}
-
-        {/*  <a*/}
-        {/*    href="https://github.com/vercel/next.js/tree/master/examples"*/}
-        {/*    className="card"*/}
-        {/*  >*/}
-        {/*    <h3>Examples &rarr;</h3>*/}
-        {/*    <p>Discover and deploy boilerplate example Next.js projects.</p>*/}
-        {/*  </a>*/}
-
-        {/*<a*/}
-        {/*  href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"*/}
-        {/*  className="button"*/}
-        {/*>*/}
-        {/*  <h3>Submit &rarr;</h3>*/}
-        {/*</a>*/}
-        {/*</div>*/}
       </main>
+
 
       <footer>
         <a
-          href="/terms-of-service"
+          href="/"
           rel="noopener noreferrer"
         >
-          Terms of service
+          Go back
         </a>
       </footer>
+
 
       <style jsx>{`
         .container {
