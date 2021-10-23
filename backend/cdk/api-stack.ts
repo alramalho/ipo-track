@@ -7,6 +7,7 @@ import * as iam from '@aws-cdk/aws-iam'
 import {Rule, Schedule} from '@aws-cdk/aws-events';
 import {LambdaFunction} from '@aws-cdk/aws-events-targets';
 import * as path from 'path';
+import {NodejsFunction} from "@aws-cdk/aws-lambda-nodejs";
 import {PythonFunction} from "@aws-cdk/aws-lambda-python";
 
 interface ApiStackProps {
@@ -24,12 +25,11 @@ export class ApiStack extends cdk.Stack {
     super(scope, id);
 
     const subscribeLambdaNameBaseName  = 'IPOWarningSubscribeCDK'
-    this.subscribeLambda = new PythonFunction(this, 'SubscribeLambda', {
+    this.subscribeLambda = new NodejsFunction(this, 'SubscribeLambda', {
       functionName: `${subscribeLambdaNameBaseName}-${props.environment}`,
-      entry: path.join(__dirname, '../lambdas/subscribe'),
-      index: 'module/main.py',
-      handler: 'lambda_handler',
-      runtime: lambda.Runtime.PYTHON_3_9,
+      entry: path.join(__dirname, '../lambdas/subscribe2/index.js'), // accepts .js, .jsx, .ts and .tsx files
+      handler: 'handler',
+      runtime: lambda.Runtime.NODEJS_14_X,
       memorySize: 1024,
       timeout: cdk.Duration.seconds(10),
     });
@@ -43,7 +43,7 @@ export class ApiStack extends cdk.Stack {
     this.publishLambda = new PythonFunction(this, 'PublishLambda', {
       functionName: `IPOWarningPublishCDK-${props.environment}`,
       entry: path.join(__dirname, '../lambdas/publish/'),
-      index: 'main.py',
+      index: 'module/main.py',
       handler: 'lambda_handler',
       runtime: lambda.Runtime.PYTHON_3_9,
       memorySize: 1024,
