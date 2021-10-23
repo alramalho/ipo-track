@@ -2,7 +2,7 @@ import json
 import boto3
 import datetime
 from botocore.exceptions import ClientError
-import email_utils
+from . import email_utils
 
 
 def lambda_handler(event, context):
@@ -10,21 +10,15 @@ def lambda_handler(event, context):
 
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(f'IPOWarningCDK-{environment}')
-    ses_client = boto3.client('ses',region_name="eu-west-1")
+    ses_client = boto3.client('ses', region_name="eu-west-1")
 
-#     print(event)
-
-    # current_keywords = (
-        # table.get_item(Key={'email': event['email']})['Item']['keywords']
-        # if 'Item' in table.get_item(Key={'email': event['email']})
-        # and table.get_item(Key={'email': event['email']})['Item']['keywords']  is not None
-        # else [])
-
-    # new_keywords = event['keyword']
-    # new_keywords.extend(current_keywords)
     body = json.loads(event['body'])
-    user_email=body['email']
-    user_keyword=body['keyword']
+
+    if 'email' not in body or 'keyword' not in body:
+        return build_response(400)
+
+    user_email = body['email']
+    user_keyword = body['keyword']
 
     table.put_item(
         Item={
@@ -34,12 +28,11 @@ def lambda_handler(event, context):
         }
     )
 
-
     try:
         response = ses_client.send_email(
             Destination={
                 'ToAddresses': [
-                  user_email
+                    user_email
                 ],
             },
             Message={
@@ -67,11 +60,15 @@ def lambda_handler(event, context):
         print("Email sent! Message ID:"),
         print(response['MessageId'])
 
+    return build_response(201, 'User created!')
+
+
+def build_response(status_code, body=""):
     return {
         "isBase64Encoded": False,
         "headers": {
             "Access-Control-Allow-Origin": "*"
         },
-        'statusCode': 201,
-        'body': json.dumps(f'User created!')
+        'statusCode': status_code,
+        'body': json.dumps(body) if body else ""
     }

@@ -26,10 +26,10 @@ export class ApiStack extends cdk.Stack {
     const subscribeLambdaNameBaseName  = 'IPOWarningSubscribeCDK'
     this.subscribeLambda = new PythonFunction(this, 'SubscribeLambda', {
       functionName: `${subscribeLambdaNameBaseName}-${props.environment}`,
-      entry: path.join(__dirname, '../lambdas/subscribe/'),
-      index: 'main.py',
-      handler: 'lambda_handler', // optional, defaults to 'handler'
-      runtime: lambda.Runtime.PYTHON_3_9, // optional, defaults to lambda.Runtime.PYTHON_3_7
+      entry: path.join(__dirname, '../lambdas/subscribe'),
+      index: 'module/main.py',
+      handler: 'lambda_handler',
+      runtime: lambda.Runtime.PYTHON_3_9,
       memorySize: 1024,
       timeout: cdk.Duration.seconds(10),
     });

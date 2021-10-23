@@ -3,7 +3,10 @@ import boto3
 from botocore.exceptions import ClientError
 import email_utils
 
+
 def lambda_handler(event, context):
+    environment = event['stageVariables']['environment']
+
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(f'IPOWarningCDK-{environment}')
     ses_client = boto3.client('ses',region_name="eu-west-1")
@@ -11,13 +14,11 @@ def lambda_handler(event, context):
     user_email=event['email']
     user_keyword=event['keyword']
 
-
     table.update_item(
         Key={'email': user_email},
         UpdateExpression="REMOVE activatedOn",
         ReturnValues="UPDATED_NEW"
     )
-
 
     try:
         response = ses_client.send_email(
