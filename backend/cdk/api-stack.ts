@@ -27,7 +27,7 @@ export class ApiStack extends cdk.Stack {
     const subscribeLambdaNameBaseName  = 'IPOWarningSubscribeCDK'
     this.subscribeLambda = new NodejsFunction(this, 'SubscribeLambda', {
       functionName: `${subscribeLambdaNameBaseName}-${props.environment}`,
-      entry: path.join(__dirname, '../lambdas/subscribe2/index.js'), // accepts .js, .jsx, .ts and .tsx files
+      entry: path.join(__dirname, '../lambdas/subscribe/index.js'), // accepts .js, .jsx, .ts and .tsx files
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_14_X,
       memorySize: 1024,
@@ -40,12 +40,11 @@ export class ApiStack extends cdk.Stack {
       effect: iam.Effect.ALLOW,
     }));
 
-    this.publishLambda = new PythonFunction(this, 'PublishLambda', {
+    this.publishLambda = new NodejsFunction(this, 'PublishLambda', {
       functionName: `IPOWarningPublishCDK-${props.environment}`,
-      entry: path.join(__dirname, '../lambdas/publish/'),
-      index: 'module/main.py',
-      handler: 'lambda_handler',
-      runtime: lambda.Runtime.PYTHON_3_9,
+      entry: path.join(__dirname, '../lambdas/publish/index.js'),
+      handler: 'handler',
+      runtime: lambda.Runtime.NODEJS_14_X,
       memorySize: 1024,
       timeout: cdk.Duration.seconds(10)
     });
