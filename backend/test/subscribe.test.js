@@ -1,9 +1,20 @@
-const subscribeLambda = require("../lambdas/subscribe/index")
 const AWS = require('aws-sdk')
+const {QueryCommand} = require("@aws-sdk/client-dynamodb");
 AWS.config.update({region:'eu-west-1'});
-const dynamoDB = new AWS.DynamoDB()
+const {DynamoDBClient} = require("@aws-sdk/client-dynamodb");
+const {mocked} = require("ts-jest/utils");
+const SES = require("@aws-sdk/client-ses");
+const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
+jest.mock('@aws-sdk/client-ses')
+const subscribeLambda = require("../lambdas/subscribe/index")
 
 describe('when testing the subscribe flow', () => {
+  let MockedSES = mocked(SES, true);
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  });
+
   afterAll(() => {
 
     dynamoDB.deleteItem({
@@ -39,15 +50,16 @@ describe('when testing the subscribe flow', () => {
       'body': JSON.stringify('User created!')
     })
 
-    const query = dynamoDB.query({
+    const query = await dynamoDB.send(new QueryCommand({
       TableName: 'IPOWarningCDK-sandbox',
       KeyConditionExpression: 'email = :email AND keyword = :keyword',
       ExpressionAttributeValues: {
         ':email': {'S': "teste@teste.com"},
         ':keyword': {'S': 'acme'},
       }
-    }, function (err, data) {
-      expect(data['Items'].length).toEqual(1)
-    })
+    }))
+    expect(query['Items'].length).toEqual(1)
+    expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(1)
+
   })
 })

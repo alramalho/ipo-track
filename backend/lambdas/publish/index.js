@@ -1,8 +1,8 @@
 const https = require('https')
 const {DynamoDBClient, ScanCommand} = require("@aws-sdk/client-dynamodb");
 const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
-const {SESv2Client, SendEmailCommand} = require("@aws-sdk/client-sesv2");
-const ses = new SESv2Client({region: "eu-west-1"});
+const {SESClient, SendEmailCommand} = require("@aws-sdk/client-ses");
+const ses = new SESClient({region: "eu-west-1"});
 const {LambdaClient, InvokeCommand} = require("@aws-sdk/client-lambda");
 const lambda = new LambdaClient({region: "eu-west-1"});
 
@@ -69,37 +69,37 @@ exports.handler = async (event) => {
         if (word.toLowerCase() === keyword) {
           const full_name = ipoName.join(' ')
 
-          const data = ses.send(new SendEmailCommand({
-            Destination: {
-              'ToAddresses': [
-                SENDER
-              ],
-            },
-            Message: {
-              'Body': {
-                'Html': {
-                  'Charset': "UTF-8",
-                  'Data': get_body_html(full_name),
+          try {
+            ses.send(new SendEmailCommand({
+              Destination: {
+                'ToAddresses': [
+                  SENDER
+                ],
+              },
+              Message: {
+                'Body': {
+                  'Html': {
+                    'Charset': "UTF-8",
+                    'Data': get_body_html(full_name),
+                  },
+                  'Text': {
+                    'Charset': "UTF-8",
+                    'Data': get_body_text(full_name),
+                  },
                 },
-                'Text': {
+                'Subject': {
                   'Charset': "UTF-8",
-                  'Data': get_body_text(full_name),
+                  'Data': get_subject(full_name),
                 },
               },
-              'Subject': {
-                'Charset': "UTF-8",
-                'Data': get_subject(full_name),
-              },
-            },
-            Source: SENDER,
-          }))
-          if (data !== undefined) {
-            console.log("Email sent! Message ID:")
-            console.log(data['MessageId'])
+              Source: SENDER,
+            }))
+            console.log(`${keyword} present in ${full_name} for ${email}`)
+            console.log("Email sent!")
             break
+          } catch (e) {
+            console.error(e)
           }
-
-          console.log(`${keyword} present in ${full_name} for ${email}`)
         }
 
         remove_user(email, keyword, environment)

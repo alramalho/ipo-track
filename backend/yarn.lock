@@ -836,10 +836,10 @@
     "@aws-sdk/util-waiter" "3.38.0"
     tslib "^2.3.0"
 
-"@aws-sdk/client-sesv2@^3.38.0":
+"@aws-sdk/client-ses@^3.38.0":
   version "3.38.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-sesv2/-/client-sesv2-3.38.0.tgz#cfab6801ae7b206276e85e8539e72a5a38e98916"
-  integrity sha512-MuTGv9EqcrarH0YRWqMjDX/8d4wszG8Xq125Lan6f5rTfXAt6m0j9EbUpU1RFjUJ2SBQ0XbhevAaZM2FTaE7Kg==
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-ses/-/client-ses-3.38.0.tgz#e2e90370ea004a8b9f3c7c16615bbcc1a1820f55"
+  integrity sha512-NJXZ8h6a8Df2f3ZBxl+23UsmRQcYy3Bx8GDaHVbGkqQlgFjzxrWjHgF8XW8J9FWl66+Pjx4cMqG75T2BLlagqQ==
   dependencies:
     "@aws-crypto/sha256-browser" "^1.0.0"
     "@aws-crypto/sha256-js" "^1.0.0"
@@ -871,6 +871,9 @@
     "@aws-sdk/util-user-agent-node" "3.38.0"
     "@aws-sdk/util-utf8-browser" "3.37.0"
     "@aws-sdk/util-utf8-node" "3.37.0"
+    "@aws-sdk/util-waiter" "3.38.0"
+    entities "2.2.0"
+    fast-xml-parser "3.19.0"
     tslib "^2.3.0"
 
 "@aws-sdk/client-sso@3.38.0":

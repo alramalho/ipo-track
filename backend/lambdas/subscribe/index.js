@@ -1,7 +1,7 @@
-const AWS = require('aws-sdk')
-const dynamoDB = new AWS.DynamoDB()
-const ses = new AWS.SESV2()
-
+const {DynamoDBClient, PutItemCommand} = require("@aws-sdk/client-dynamodb");
+const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
+const {SESClient, SendEmailCommand} = require("@aws-sdk/client-ses");
+const ses = new SESClient({region: "eu-west-1"});
 
 const SENDER = 'alexandre.ramalho.1998@gmail.com'
 
@@ -45,22 +45,20 @@ exports.handler = async (event) => {
   const user_email = body['email']
   const user_keyword = body['keyword']
 
-  dynamoDB.putItem({
+  await dynamoDB.send(new PutItemCommand({
     TableName: `IPOWarningCDK-${environment}`,
     Item: {
       'email': {'S': user_email},
       'keyword': {'S': user_keyword.toLowerCase()},
       'activatedOn': {'S': new Date().toString()}
     }
-  })
+  }))
 
-  let error = false
-  let response
   try {
-    response = ses.sendEmail({
+    await ses.send(new SendEmailCommand({
       Destination: {
         'ToAddresses': [
-          user_email
+          SENDER
         ],
       },
       Message: {
@@ -80,15 +78,11 @@ exports.handler = async (event) => {
         },
       },
       Source: SENDER,
-    })
+    }))
   } catch (ex) {
-    error = true
-    console.error(ex['message'])
+    console.error(ex)
   }
-  if (!error) {
-    console.log("Email sent! Message ID:"),
-    console.log(response['MessageId'])
-  }
+  console.log("Email sent!")
 
   return build_response(201, 'User created!')
 };

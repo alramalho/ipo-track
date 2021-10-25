@@ -5,13 +5,13 @@ import {
   DeleteItemCommand
 } from "@aws-sdk/client-dynamodb";
 import { mocked } from 'ts-jest/utils';
-import * as SES from "@aws-sdk/client-sesv2";
+import * as SES from "@aws-sdk/client-ses";
 import * as AWS from "aws-sdk"
 AWS.config.update({region: 'eu-west-1'});
 
 const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 
-jest.mock('@aws-sdk/client-sesv2')
+jest.mock('@aws-sdk/client-ses')
 import * as publishLambda from "../lambdas/publish"
 
 
@@ -22,8 +22,8 @@ describe('when testing the publish flow', () => {
     jest.clearAllMocks()
   });
 
-  beforeAll(() => {
-    dynamoDB.send(new PutItemCommand({
+  beforeAll(async () => {
+    await dynamoDB.send(new PutItemCommand({
       TableName: "IPOWarningCDK-sandbox",
       Item: {
         'email': {'S': 'teste@teste.com'},
@@ -32,9 +32,9 @@ describe('when testing the publish flow', () => {
       }
     }))
   })
-  afterAll(() => {
+  afterAll(async () => {
 
-    dynamoDB.send(new DeleteItemCommand({
+    await dynamoDB.send(new DeleteItemCommand({
       TableName: 'IPOWarningCDK-sandbox',
       Key: {
         'email': {
@@ -74,8 +74,6 @@ describe('when testing the publish flow', () => {
 
     expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(1)
 
-    // verify(mockSESClient.send(anything())).once();
-    // verify(mockSESClient.send(anyOfClass(SES.SendEmailCommand))).once();
-    // TODO: Verify email was sent
+    // TODO: test that user removal lambda was invoked
   })
 })

@@ -3,8 +3,8 @@ const {
   UpdateItemCommand
 } = require("@aws-sdk/client-dynamodb");
 const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
-const {SESv2Client, SendEmailCommand} = require("@aws-sdk/client-sesv2");
-const ses = new SESv2Client({region: "eu-west-1"});
+const {SESClient, SendEmailCommand} = require("@aws-sdk/client-ses");
+const ses = new SESClient({region: "eu-west-1"});
 
 const SENDER = 'alexandre.ramalho.1998@gmail.com'
 
@@ -39,9 +39,10 @@ function get_body_text(keyword) {
 }
 
 exports.handler = async (event) => {
+  console.log("EVENT: ", event)
   const environment = event['stageVariables']['environment']
 
-  const body = JSON.parse(event['body'])
+  const body = event['body']
 
   const userEmail = body['email']['S']
   const userKeyword = body['keyword']['S']
@@ -54,7 +55,7 @@ exports.handler = async (event) => {
   }))
 
   try {
-    const data = ses.send(new SendEmailCommand({
+    await ses.send(new SendEmailCommand({
       Destination: {
         'ToAddresses': [
           SENDER
@@ -78,11 +79,7 @@ exports.handler = async (event) => {
       },
       Source: SENDER,
     }))
-    if (data !== undefined) {
-      console.log("Email sent! Message ID:")
-      console.log(data['MessageId'])
-    }
-
+    console.log("Email sent!")
   } catch (ex) {
     console.log(ex)
   }

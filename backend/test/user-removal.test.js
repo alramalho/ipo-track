@@ -4,13 +4,13 @@ import {
   PutItemCommand,
 } from "@aws-sdk/client-dynamodb";
 import { mocked } from 'ts-jest/utils';
-import * as SES from "@aws-sdk/client-sesv2";
+import * as SES from "@aws-sdk/client-ses";
 import * as AWS from "aws-sdk"
 AWS.config.update({region: 'eu-west-1'});
 
 const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 
-jest.mock('@aws-sdk/client-sesv2')
+jest.mock('@aws-sdk/client-ses')
 import * as userRemovalLambda from "../lambdas/user-removal"
 
 
@@ -37,10 +37,10 @@ describe('when testing the user removal flow', () => {
 
     const requestBody = {
       "stageVariables": {"environment": "sandbox"},
-      "body": JSON.stringify({
+      "body": {
         'email': {'S': "teste@teste.com"},
         'keyword': {'S': "acme"}
-      })
+      }
     }
 
     const response = await userRemovalLambda.handler(requestBody)
