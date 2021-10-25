@@ -1,22 +1,27 @@
-const AWS = require('aws-sdk')
-AWS.config.update({region: 'eu-west-1'});
 import {
   DynamoDBClient,
   QueryCommand,
   PutItemCommand,
   DeleteItemCommand
 } from "@aws-sdk/client-dynamodb";
+import { mocked } from 'ts-jest/utils';
+import * as SES from "@aws-sdk/client-sesv2";
+import * as AWS from "aws-sdk"
+AWS.config.update({region: 'eu-west-1'});
 
 const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
-import * as SES from "@aws-sdk/client-sesv2";
-import {anyOfClass, anything, mock, verify} from "ts-mockito"
 
-let mockSESClient = mock(SES.SESv2Client);
-// const sendEmailMock = jest.fn(() => ({resolveMiddleware: () => {}}))
+jest.mock('@aws-sdk/client-sesv2')
+import * as publishLambda from "../lambdas/publish"
 
-const publishLambda = require("../lambdas/publish")
 
 describe('when testing the publish flow', () => {
+  let MockedSES = mocked(SES, true);
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  });
+
   beforeAll(() => {
     dynamoDB.send(new PutItemCommand({
       TableName: "IPOWarningCDK-sandbox",
@@ -43,15 +48,7 @@ describe('when testing the publish flow', () => {
   })
 
   it('should properly send the emails to matched users', async () => {
-    jest.mock('@aws-sdk/client-sesv2', () => {
-      const originalModule = jest.requireActual('@aws-sdk/client-sesv2');
 
-      return {
-        __esModule: true, // Use it when dealing with esModules
-        ...originalModule,
-        SESv2Client: mockSESClient,
-      };
-    });
     const requestBody = {
       "stageVariables": {"environment": "sandbox"},
       "body": ""
@@ -74,7 +71,10 @@ describe('when testing the publish flow', () => {
       }
     }))
     expect(data['Items'].length).toEqual(1)
-    verify(mockSESClient.send(anything())).once();
+
+    expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(1)
+
+    // verify(mockSESClient.send(anything())).once();
     // verify(mockSESClient.send(anyOfClass(SES.SendEmailCommand))).once();
     // TODO: Verify email was sent
   })

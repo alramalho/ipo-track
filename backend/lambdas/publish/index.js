@@ -6,7 +6,6 @@ const ses = new SESv2Client({region: "eu-west-1"});
 const {LambdaClient, InvokeCommand} = require("@aws-sdk/client-lambda");
 const lambda = new LambdaClient({region: "eu-west-1"});
 
-
 const SENDER = 'alexandre.ramalho.1998@gmail.com'
 
 function get_subject(ipo_name) {
@@ -70,8 +69,7 @@ exports.handler = async (event) => {
         if (word.toLowerCase() === keyword) {
           const full_name = ipoName.join(' ')
 
-          console.log("TRIGGERED")
-          ses.send(new SendEmailCommand({
+          const data = ses.send(new SendEmailCommand({
             Destination: {
               'ToAddresses': [
                 SENDER
@@ -94,12 +92,12 @@ exports.handler = async (event) => {
               },
             },
             Source: SENDER,
-          })).then((data) => {
+          }))
+          if (data !== undefined) {
             console.log("Email sent! Message ID:")
             console.log(data['MessageId'])
-          }).catch((err) => {
-            console.log(err)
-          })
+            break
+          }
 
           console.log(`${keyword} present in ${full_name} for ${email}`)
         }
