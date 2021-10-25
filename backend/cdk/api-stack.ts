@@ -4,7 +4,7 @@ import * as lambda from '@aws-cdk/aws-lambda';
 import * as apigw from '@aws-cdk/aws-apigateway';
 import {EndpointType, LambdaIntegration} from '@aws-cdk/aws-apigateway';
 import * as iam from '@aws-cdk/aws-iam'
-import {Rule, Schedule} from '@aws-cdk/aws-events';
+import {Rule, Schedule, RuleTargetInput} from '@aws-cdk/aws-events';
 import {LambdaFunction} from '@aws-cdk/aws-events-targets';
 import * as path from 'path';
 import {NodejsFunction} from "@aws-cdk/aws-lambda-nodejs";
@@ -23,7 +23,7 @@ export class ApiStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: ApiStackProps) {
     super(scope, id);
 
-    const subscribeLambdaNameBaseName  = 'IPOWarningSubscribeCDK'
+    const subscribeLambdaNameBaseName = 'IPOWarningSubscribeCDK'
     this.subscribeLambda = new NodejsFunction(this, 'SubscribeLambda', {
       functionName: `${subscribeLambdaNameBaseName}-${props.environment}`,
       entry: path.join(__dirname, '../lambdas/subscribe/index.js'), // accepts .js, .jsx, .ts and .tsx files
@@ -47,9 +47,14 @@ export class ApiStack extends cdk.Stack {
       memorySize: 1024,
       timeout: cdk.Duration.seconds(10)
     });
-    const invokePublish = new LambdaFunction(this.publishLambda)
-    const publishScheduleRule = new Rule(this, `DailyTriggerPublish${props.environment}`, {
-      ruleName: `DailyTriggerPublishCDK-${props.environment}`,
+    const invokePublish = new LambdaFunction(this.publishLambda, {
+      event: RuleTargetInput.fromObject({
+        stageVariables: {environment: props.environment}
+      })
+    })
+
+    const publishScheduleRule = new Rule(this, `TriggerPublish${props.environment}`, {
+      ruleName: `TriggerPublishCDK-${props.environment}`,
       schedule: Schedule.cron({minute: '0', hour: '4'}),
       targets: [invokePublish],
     });
