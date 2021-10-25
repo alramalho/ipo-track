@@ -92,7 +92,9 @@ export class ApiStack extends cdk.Stack {
       {
         deployment,
         stageName: props.environment,
-        variables: {environment: props.environment}
+        variables: {environment: props.environment},
+        loggingLevel: apigw.MethodLoggingLevel.INFO,
+        dataTraceEnabled: true
       }
     );
 
