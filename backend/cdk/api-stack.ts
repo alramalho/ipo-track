@@ -8,7 +8,6 @@ import {Rule, Schedule} from '@aws-cdk/aws-events';
 import {LambdaFunction} from '@aws-cdk/aws-events-targets';
 import * as path from 'path';
 import {NodejsFunction} from "@aws-cdk/aws-lambda-nodejs";
-import {PythonFunction} from "@aws-cdk/aws-lambda-python";
 
 interface ApiStackProps {
   environment: string
@@ -60,11 +59,10 @@ export class ApiStack extends cdk.Stack {
       effect: iam.Effect.ALLOW,
     }));
 
-    this.userRemovalLambda = new PythonFunction(this, 'UserRemovalLambda', {
+    this.userRemovalLambda = new NodejsFunction(this, 'UserRemovalLambda', {
       functionName: `IPOWarningUserRemovalCDK-${props.environment}`,
-      entry: path.join(__dirname, '../lambdas/user-removal/'),
-      index: 'main.py',
-      handler: 'lambda_handler',
+      entry: path.join(__dirname, '../lambdas/user-removal/index.js'),
+      handler: 'handler',
       runtime: lambda.Runtime.PYTHON_3_9,
       memorySize: 1024,
       timeout: cdk.Duration.seconds(10),
