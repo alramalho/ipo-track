@@ -39,11 +39,11 @@ function get_body_text(keyword) {
 }
 
 exports.handler = async (event) => {
-  console.log("EVENT: ", event)
+  console.log(typeof event)
+  console.log(event)
   const environment = event['stageVariables']['environment']
 
   const body = event['body']
-
   const userEmail = body['email']['S']
   const userKeyword = body['keyword']['S']
 
@@ -58,7 +58,7 @@ exports.handler = async (event) => {
     await ses.send(new SendEmailCommand({
       Destination: {
         'ToAddresses': [
-          SENDER
+          userEmail
         ],
       },
       Message: {
@@ -82,6 +82,11 @@ exports.handler = async (event) => {
     console.log("Email sent!")
   } catch (ex) {
     console.log(ex)
+
+    return {
+      'statusCode': 500,
+      'body': ex.toString()
+    }
   }
 
   return {

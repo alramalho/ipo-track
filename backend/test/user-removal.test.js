@@ -35,11 +35,11 @@ describe('when testing the user removal flow', () => {
 
   it('should properly mark the user as non active and send the goodbye email', async () => {
 
-    const requestBody = {
+    const requestBody =  {
       "stageVariables": {"environment": "sandbox"},
       "body": {
         'email': {'S': "teste@teste.com"},
-        'keyword': {'S': "acme"}
+        'keyword': {'S': "acme"},
       }
     }
 

@@ -70,10 +70,10 @@ exports.handler = async (event) => {
           const full_name = ipoName.join(' ')
 
           try {
-            ses.send(new SendEmailCommand({
+            await ses.send(new SendEmailCommand({
               Destination: {
                 'ToAddresses': [
-                  SENDER
+                  email
                 ],
               },
               Message: {
@@ -96,13 +96,12 @@ exports.handler = async (event) => {
             }))
             console.log(`${keyword} present in ${full_name} for ${email}`)
             console.log("Email sent!")
-            break
+            await remove_user(email, keyword, environment)
           } catch (e) {
             console.error(e)
           }
         }
 
-        remove_user(email, keyword, environment)
       }
     }
 
@@ -115,15 +114,23 @@ exports.handler = async (event) => {
 
 }
 
-function remove_user(user_email, user_keyword, environment) {
-  console.log("Removing user ", user_email)
-  lambda.send(new InvokeCommand({
-    FunctionName: `IPOWarningUserRemovalCDK-${environment}`,
-    InvocationType: 'RequestResponse',
-    Payload: {'email': {'S': user_email}, 'keyword': {'S': user_keyword}}
-  }))
-    .then((data) => console.log(data.Payload))
-    .catch((err) => console.error(err.message))
+async function remove_user(user_email, user_keyword, environment) {
+  try {
+    const response = await lambda.send(new InvokeCommand({
+      FunctionName: `IPOWarningUserRemovalCDK-${environment}`,
+      InvocationType: 'RequestResponse',
+      Payload: new TextEncoder().encode(JSON.stringify({
+        "stageVariables": {"environment": "sandbox"},
+        "body": {
+          'email': {'S': user_email},
+          'keyword': {'S': user_keyword},
+        }
+      }))
+    }))
+    console.log("Removed user ", user_email)
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 async function httpsExchange(requestOptions) {

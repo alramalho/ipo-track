@@ -6,17 +6,20 @@ import {
 } from "@aws-sdk/client-dynamodb";
 import { mocked } from 'ts-jest/utils';
 import * as SES from "@aws-sdk/client-ses";
+import * as lambda from "@aws-sdk/client-lambda";
 import * as AWS from "aws-sdk"
 AWS.config.update({region: 'eu-west-1'});
 
 const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 
 jest.mock('@aws-sdk/client-ses')
+jest.mock('@aws-sdk/client-lambda')
 import * as publishLambda from "../lambdas/publish"
 
 
 describe('when testing the publish flow', () => {
   let MockedSES = mocked(SES, true);
+  let MockedLambda = mocked(lambda, true);
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -73,7 +76,7 @@ describe('when testing the publish flow', () => {
     expect(data['Items'].length).toEqual(1)
 
     expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(1)
-
+    expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(1)
     // TODO: test that user removal lambda was invoked
   })
 })
