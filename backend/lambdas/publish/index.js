@@ -116,10 +116,11 @@ exports.handler = async (event) => {
 }
 
 function remove_user(user_email, user_keyword, environment) {
+  console.log("Removing user ", user_email)
   lambda.send(new InvokeCommand({
     FunctionName: `IPOWarningUserRemovalCDK-${environment}`,
     InvocationType: 'RequestResponse',
-    Payload: JSON.stringify({'email': user_email, 'keyword': user_keyword})
+    Payload: {'email': {'S': user_email}, 'keyword': {'S': user_keyword}}
   }))
     .then((data) => console.log(data.Payload))
     .catch((err) => console.error(err.message))
