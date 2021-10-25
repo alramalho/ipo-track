@@ -40,7 +40,7 @@ jobs:
 
       - name: Deploy
         run: |
-          cd cloud
+          cd backend
           yarn
           cdk bootstrap --profile ipo-warning
           yarn diff
@@ -82,7 +82,7 @@ jobs:
 
       - name: Deploy
         run: |
-          cd cloud
+          cd backend
           yarn
           cdk bootstrap --profile ipo-warning
           yarn diff
