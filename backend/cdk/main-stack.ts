@@ -1,5 +1,4 @@
 import * as cdk from '@aws-cdk/core';
-import * as apigw from '@aws-cdk/aws-apigateway';
 import {DbStack} from "./db-stack";
 import {ApiStack} from "./api-stack";
 
@@ -8,8 +7,6 @@ interface MainStackProps {
 }
 
 export class MainStack extends cdk.Stack {
-
-  readonly api: apigw.RestApi;
 
   constructor(scope: cdk.Construct, id: string, props: MainStackProps) {
     super(scope, id);

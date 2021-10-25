@@ -63,7 +63,7 @@ export class ApiStack extends cdk.Stack {
       functionName: `IPOWarningUserRemovalCDK-${props.environment}`,
       entry: path.join(__dirname, '../lambdas/user-removal/index.js'),
       handler: 'handler',
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.NODEJS_14_X,
       memorySize: 1024,
       timeout: cdk.Duration.seconds(10),
     });
