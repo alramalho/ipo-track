@@ -51,13 +51,20 @@ jobs:
 
       - name: Deploy-Frontend
         run: |
-          aws configure list --profile ipo-warning
-          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null' | tr -d '"')
-
           cd frontend
           yarn
+
+          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null' | tr -d '"')
           yarn build
-          yarn deploy-sandbox
+
+          export SANDBOX_DISTRIBUTION_ID=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
+          if [ "$(yarn --silent deploy-sandbox)" ]; then
+            echo "Differences found! Creating cache invalidation 🪄";
+            aws cloudfront create-invalidation --distribution-id=$SANDBOX_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
+            echo "Done ✨"
+          else
+            echo "No differences found";
+          fi
 
 
 
@@ -106,10 +113,18 @@ jobs:
 
       - name: Deploy-Frontend
         run: |
-          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionApiURL' | grep -v 'null' | tr -d '"')
-
           cd frontend
           yarn
+
+          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionApiURL' | grep -v 'null' | tr -d '"')
           yarn build
-          yarn deploy-production
+
+          export PRODUCTION_DISTRIBUTION_ID=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
+          if [ "$(yarn --silent deploy-production)" ]; then
+            echo "Differences found! Creating cache invalidation 🪄";
+            aws cloudfront create-invalidation --distribution-id=$PRODUCTION_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
+            echo "Done ✨"
+          else
+            echo "No differences found";
+          fi
 

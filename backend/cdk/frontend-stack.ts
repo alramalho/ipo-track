@@ -22,6 +22,7 @@ export class FrontendStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, `${props.environment}S3Arn`, {value: bucket.bucketArn});
     new cdk.CfnOutput(this, `${props.environment}S3-S3Url`, {value: `s3://${bucket.bucketName}`});
+    new cdk.CfnOutput(this, `${props.environment}CloudFrontDistributionID`, {value: distribution.distributionId});
     new cdk.CfnOutput(this, `${props.environment}CloudFrontDistributionURL`, {value: `https://${distribution.distributionDomainName}`});
   }
 }
