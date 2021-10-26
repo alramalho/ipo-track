@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  Deploy-Backend-To-Sandbox:
+  Deploy-To-Sandbox:
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: sandbox
@@ -39,7 +39,15 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-warning
           aws configure set default.region eu-west-1  --profile ipo-warning
 
-      - name: Deploy
+      - name: Deploy-Frontend
+        run: |
+          cd frontend
+          yarn
+          yarn build
+          aws configure list
+          aws s3 sync ./out s3://ipo-warning-s3-bucket-sandbox/
+
+      - name: Deploy-Backend
         run: |
           cd backend
           yarn
@@ -48,8 +56,8 @@ jobs:
           yarn fast-deploy --all
 
 
-  Deploy-Backend-To-Production:
-    needs: Deploy-Backend-To-Sandbox
+  Deploy-To-Production:
+    needs: Deploy-To-Sandbox
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: production
@@ -82,7 +90,14 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-warning
           aws configure set default.region eu-west-1  --profile ipo-warning
 
-      - name: Deploy
+      - name: Deploy-Frontend
+        run: |
+          cd frontend
+          yarn
+          yarn build
+          aws s3 sync ./out s3://ipo-warning-s3-bucket-production/
+
+      - name: Deploy-Backend
         run: |
           cd backend
           yarn
