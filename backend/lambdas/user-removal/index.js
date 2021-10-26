@@ -21,6 +21,7 @@ function get_body_html(keyword) {
           <h1>Thank you.</h1>
           <p>You are seeing this email because you previously subscribed to get an IPO email alert with the keyword "${keyword}" via ipo-warning.com.<p/>
           <p>By now you should have received the warning already. If that's not the case, please contact our support team at support@ipo-warning.com<p/>
+          <p>This is the last email that you will receive from us.<p/>
 
           <small><p>If you don't know what this is about, please ignore this email.<small/>
         </body>
@@ -34,6 +35,7 @@ function get_body_text(keyword) {
     Thank you for using IPO Warning.
     You are seeing this email because you previously subscribed to get an IPO email alert with the keyword "${keyword}" via ipo-warning.com.
     By now you should have received the warning already. If that's not the case, please contact our support team at support@ipo-warning.com
+    This is the last email that you will receive from us.
     If you don't know what this is about, please ignore this email.
   `;
 }
