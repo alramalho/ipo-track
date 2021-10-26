@@ -41,20 +41,12 @@ function get_body_text(keyword) {
 }
 
 exports.handler = async (event) => {
-  console.log(typeof event)
   console.log(event)
   const environment = event['stageVariables']['environment']
 
   const body = event['body']
   const userEmail = body['email']['S']
   const userKeyword = body['keyword']['S']
-
-  await dynamoDB.send(new UpdateItemCommand({
-    TableName: `IPOWarningCDK-${environment}`,
-    Key: {email: {'S': userEmail}, keyword: {'S': userKeyword}},
-    UpdateExpression: "REMOVE activatedOn",
-    ReturnValues: "UPDATED_NEW"
-  }))
 
   try {
     await ses.send(new SendEmailCommand({
@@ -82,6 +74,13 @@ exports.handler = async (event) => {
       Source: SENDER,
     }))
     console.log("Email sent!")
+
+    await dynamoDB.send(new UpdateItemCommand({
+      TableName: `IPOWarningCDK-${environment}`,
+      Key: {email: {'S': userEmail}, keyword: {'S': userKeyword}},
+      UpdateExpression: "REMOVE activatedOn",
+      ReturnValues: "UPDATED_NEW"
+    }))
   } catch (ex) {
     console.log(ex)
 
