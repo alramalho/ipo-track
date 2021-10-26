@@ -17,6 +17,7 @@ export class FrontendStack extends cdk.Stack {
     });
     const distribution = new cloudfront.Distribution(this, `IPOWarningDistribution-${props.environment}`, {
       defaultBehavior: { origin: new origins.S3Origin(bucket) },
+      defaultRootObject: "index.html"
     });
 
     new cdk.CfnOutput(this, `${props.environment}S3Arn`, {value: bucket.bucketArn});
