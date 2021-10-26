@@ -45,7 +45,7 @@ jobs:
           yarn
           yarn build
           aws configure list
-          aws s3 sync ./out s3://ipo-warning-s3-bucket-sandbox/
+          aws s3 sync ./out s3://ipo-warning-s3-bucket-sandbox/ --profile ipo-warning
 
       - name: Deploy-Backend
         run: |
