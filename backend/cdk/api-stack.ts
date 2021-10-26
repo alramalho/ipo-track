@@ -127,6 +127,7 @@ export class ApiStack extends cdk.Stack {
     new cdk.CfnOutput(this, `${props.environment}SubscribeLambdaArn`, {value: this.subscribeLambda.functionArn});
     new cdk.CfnOutput(this, `${props.environment}PublishLambdaArn`, {value: this.subscribeLambda.functionArn});
     new cdk.CfnOutput(this, `${props.environment}UserRemovalLambdaArn`, {value: this.userRemovalLambda.functionArn});
+    new cdk.CfnOutput(this, `${props.environment}ApiURL`, {value: `https://${this.api.restApiId}.execute-api.${this.region}.amazonaws.com/${props.environment}`});
     new cdk.CfnOutput(this, `${props.environment}SubscribeURL`, {
       value: `https://${this.api.restApiId}.execute-api.${this.region}.amazonaws.com/${props.environment}${subscribeResource.path}`,
     })
