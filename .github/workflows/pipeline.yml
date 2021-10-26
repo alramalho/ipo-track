@@ -47,12 +47,13 @@ jobs:
           yarn
           cdk bootstrap --profile ipo-warning
           yarn diff
-          yarn fast-deploy --all
-          API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null')
-          export API_URL=$API_URL
+          yarn fast-deploy
 
       - name: Deploy-Frontend
         run: |
+          aws configure list --profile ipo-warning
+          export API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null')
+
           cd frontend
           yarn
           yarn build
@@ -100,12 +101,14 @@ jobs:
           yarn
           cdk bootstrap --profile ipo-warning
           yarn diff
-          yarn fast-deploy --all
-          API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null')
-          export API_URL=$API_URL
+          yarn fast-deploy
+
 
       - name: Deploy-Frontend
         run: |
+          API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null')
+          export API_URL=$API_URL
+
           cd frontend
           yarn
           yarn build
