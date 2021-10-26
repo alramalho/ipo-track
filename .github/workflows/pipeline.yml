@@ -48,7 +48,7 @@ jobs:
           cdk bootstrap --profile ipo-warning
           yarn diff
           yarn fast-deploy --all
-          API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[] as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null')
+          API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[] as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null')
           export API_URL=$API_URL
 
       - name: Deploy-Frontend
@@ -101,7 +101,7 @@ jobs:
           cdk bootstrap --profile ipo-warning
           yarn diff
           yarn fast-deploy --all
-          API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[] as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null')
+          API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[] as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null')
           export API_URL=$API_URL
 
       - name: Deploy-Frontend
