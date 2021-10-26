@@ -52,12 +52,12 @@ jobs:
       - name: Deploy-Frontend
         run: |
           aws configure list --profile ipo-warning
-          export API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null')
+          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null' | tr -d '"')
 
           cd frontend
           yarn
           yarn build
-          aws s3 sync ./out s3://ipo-warning-s3-bucket-sandbox/
+          yarn deploy-sandbox
 
 
 
@@ -106,11 +106,10 @@ jobs:
 
       - name: Deploy-Frontend
         run: |
-          API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null')
-          export API_URL=$API_URL
+          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionApiURL' | grep -v 'null' | tr -d '"')
 
           cd frontend
           yarn
           yarn build
-          aws s3 sync ./out s3://ipo-warning-s3-bucket-production/
+          yarn deploy-production
 
