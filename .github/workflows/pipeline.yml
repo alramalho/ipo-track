@@ -23,9 +23,9 @@ jobs:
           sudo apt install npm
           npm -v
           npm install -g aws-cdk
-
           cdk --version
-          ls -l
+          sudo apt install jq
+          jq --version
 
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
@@ -33,19 +33,13 @@ jobs:
           aws --version
           aws -h
 
+
+
       - name: Configure AWS
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ipo-warning
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-warning
           aws configure set default.region eu-west-1  --profile ipo-warning
-
-      - name: Deploy-Frontend
-        run: |
-          cd frontend
-          yarn
-          yarn build
-          aws configure list
-          aws s3 sync ./out s3://ipo-warning-s3-bucket-sandbox/ --profile ipo-warning
 
       - name: Deploy-Backend
         run: |
@@ -54,6 +48,16 @@ jobs:
           cdk bootstrap --profile ipo-warning
           yarn diff
           yarn fast-deploy --all
+          API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[] as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxSubscribeURL' | grep -v 'null')
+          export API_URL=$API_URL
+
+      - name: Deploy-Frontend
+        run: |
+          cd frontend
+          yarn
+          yarn build
+          aws s3 sync ./out s3://ipo-warning-s3-bucket-sandbox/
+
 
 
   Deploy-To-Production:
@@ -74,9 +78,9 @@ jobs:
           sudo apt install npm
           npm -v
           npm install -g aws-cdk
-
           cdk --version
-          ls -l
+          sudo apt install jq
+          jq --version
 
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
@@ -90,13 +94,6 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-warning
           aws configure set default.region eu-west-1  --profile ipo-warning
 
-      - name: Deploy-Frontend
-        run: |
-          cd frontend
-          yarn
-          yarn build
-          aws s3 sync ./out s3://ipo-warning-s3-bucket-production/
-
       - name: Deploy-Backend
         run: |
           cd backend
@@ -104,5 +101,13 @@ jobs:
           cdk bootstrap --profile ipo-warning
           yarn diff
           yarn fast-deploy --all
+          API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[] as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxSubscribeURL' | grep -v 'null')
+          export API_URL=$API_URL
 
+      - name: Deploy-Frontend
+        run: |
+          cd frontend
+          yarn
+          yarn build
+          aws s3 sync ./out s3://ipo-warning-s3-bucket-production/
 

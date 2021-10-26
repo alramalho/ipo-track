@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "verify": "if [ -z ${API_URL+x} ]; then echo \"API_URL is unset\"; exit 1; else echo \"var is set to '$API_URL'\"; fi",
+    "build": "yarn verify && next build && next export",
     "start": "next start"
   },
   "dependencies": {
