@@ -12,7 +12,12 @@ if (!process.env.ENVIRONMENT || (process.env.ENVIRONMENT != "sandbox" && process
   prettyError(" ❌ Environment improperly set. Please set env var ENVIRONMENT to either 'sandbox' or 'production'.")
   process.exit(1)
 }
+if (!process.env.DATA_API_URL) {
+  prettyError(" ❌ Environment variable DATA_API_URL not provided.")
+  process.exit(1)
+}
 
 new MainStack(app, `IPOWarningCdkStack`, {
-  environment: process.env.ENVIRONMENT
+  environment: process.env.ENVIRONMENT,
+  dataApiUrl: process.env.DATA_API_URL
 });

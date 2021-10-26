@@ -39,6 +39,7 @@ function get_body_text(ipo_name) {
 
 exports.handler = async (event) => {
   const environment = event['stageVariables']['environment']
+  const dataApiUrl = event['stageVariables']['dataApiUrl']
 
   let activeUsers = []
   const query = await dynamoDB.send(new ScanCommand({
@@ -51,12 +52,7 @@ exports.handler = async (event) => {
     activeUsers = query.Items
   }
 
-  const body = await httpsExchange({
-    host: "arnnvraxch.execute-api.eu-west-1.amazonaws.com",
-    path: "/sandbox/stocks",
-    method: 'GET',
-    protocol: 'https:'
-  })
+  const body = await httpsExchange(dataApiUrl)
   const ipoRawData = JSON.parse(body)
   const parsedIpos = ipoRawData.map((ipo) => ipo['companyName'].split(" "))
 
@@ -116,7 +112,7 @@ exports.handler = async (event) => {
 
 async function remove_user(user_email, user_keyword, environment) {
   try {
-    const response = await lambda.send(new InvokeCommand({
+    await lambda.send(new InvokeCommand({
       FunctionName: `IPOWarningUserRemovalCDK-${environment}`,
       InvocationType: 'RequestResponse',
       Payload: new TextEncoder().encode(JSON.stringify({
@@ -127,13 +123,20 @@ async function remove_user(user_email, user_keyword, environment) {
         }
       }))
     }))
-    console.log("Removed user ", user_email)
+    console.log("Successfully called user removal lambda for ", user_email)
   } catch (e) {
     console.error(e)
   }
 }
 
-async function httpsExchange(requestOptions) {
+async function httpsExchange(url) {
+  const parsedUrl = new URL(url)
+  const requestOptions = {
+    host: parsedUrl.host,
+    path: parsedUrl.pathname,
+    method: "GET",
+    protocol: "https:"
+  }
   return new Promise((resolve, reject) => {
     const request = https.request(requestOptions, (response) => {
       if (response.statusCode < 200 || response.statusCode > 299) {

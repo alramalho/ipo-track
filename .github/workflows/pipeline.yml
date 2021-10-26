@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: sandbox
+      DATA_API_URL: https://arnnvraxch.execute-api.eu-west-1.amazonaws.com/sandbox/stocks
     steps:
 
       - name: Checkout source code
@@ -52,6 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: production
+      DATA_API_URL: https://arnnvraxch.execute-api.eu-west-1.amazonaws.com/sandbox/stocks
     steps:
 
       - name: Checkout source code

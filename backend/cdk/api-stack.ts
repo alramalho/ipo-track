@@ -10,7 +10,8 @@ import * as path from 'path';
 import {NodejsFunction} from "@aws-cdk/aws-lambda-nodejs";
 
 interface ApiStackProps {
-  environment: string
+  environment: string,
+  dataApiUrl: string,
 }
 
 export class ApiStack extends cdk.Stack {
@@ -97,7 +98,10 @@ export class ApiStack extends cdk.Stack {
       {
         deployment,
         stageName: props.environment,
-        variables: {environment: props.environment},
+        variables: {
+          environment: props.environment,
+          dataApiUrl: props.dataApiUrl,
+        },
         loggingLevel: apigw.MethodLoggingLevel.INFO,
         dataTraceEnabled: true
       }

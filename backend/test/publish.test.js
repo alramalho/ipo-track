@@ -36,7 +36,6 @@ describe('when testing the publish flow', () => {
     }))
   })
   afterAll(async () => {
-
     await dynamoDB.send(new DeleteItemCommand({
       TableName: 'IPOWarningCDK-sandbox',
       Key: {
@@ -53,7 +52,10 @@ describe('when testing the publish flow', () => {
   it('should properly send the emails to matched users', async () => {
 
     const requestBody = {
-      "stageVariables": {"environment": "sandbox"},
+      "stageVariables": {
+        "environment": "sandbox",
+        "dataApiUrl": "https://arnnvraxch.execute-api.eu-west-1.amazonaws.com/sandbox/stocks"
+      },
       "body": ""
     }
 
@@ -77,6 +79,5 @@ describe('when testing the publish flow', () => {
 
     expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(1)
     expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(1)
-    // TODO: test that user removal lambda was invoked
   })
 })
