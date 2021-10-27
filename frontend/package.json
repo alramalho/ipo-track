@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "yarn verify && next dev",
     "verify": "if [ -z ${NEXT_PUBLIC_API_URL+x} ]; then echo \"NEXT_PUBLIC_API_URL is unset\"; exit 1; else echo \"NEXT_PUBLIC_API_URL is set to '$API_URL'\"; fi",
-    "build": "yarn verify && next build && next export",
+    "build": "yarn verify && rm -rf .next && rm -rf out && next build && next export",
     "start": "next start",
     "deploy-sandbox": "aws s3 sync ./out s3://ipo-warning-s3-bucket-sandbox/ --delete",
     "fast-deploy-sandbox": "yarn build && yarn deploy-sandbox",
