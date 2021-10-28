@@ -50,7 +50,10 @@ export class ApiStack extends cdk.Stack {
     });
     const invokePublish = new LambdaFunction(this.publishLambda, {
       event: RuleTargetInput.fromObject({
-        stageVariables: {environment: props.environment}
+        stageVariables: {
+          environment: props.environment,
+          dataApiUrl: props.dataApiUrl
+        }
       })
     })
 
@@ -99,8 +102,7 @@ export class ApiStack extends cdk.Stack {
         deployment,
         stageName: props.environment,
         variables: {
-          environment: props.environment,
-          dataApiUrl: props.dataApiUrl,
+          environment: props.environment
         },
         loggingLevel: apigw.MethodLoggingLevel.INFO,
         dataTraceEnabled: true
