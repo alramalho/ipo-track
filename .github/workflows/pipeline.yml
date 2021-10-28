@@ -58,13 +58,8 @@ jobs:
           yarn build
 
           export SANDBOX_DISTRIBUTION_ID=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
-          if [ "$(yarn --silent deploy-sandbox)" ]; then
-            echo "Differences found! Creating cache invalidation 🪄";
-            aws cloudfront create-invalidation --distribution-id=$SANDBOX_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
-            echo "Done ✨"
-          else
-            echo "No differences found";
-          fi
+          yarn --silent deploy-sandbox
+          aws cloudfront create-invalidation --distribution-id=$SANDBOX_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
 
 
 
@@ -120,11 +115,6 @@ jobs:
           yarn build
 
           export PRODUCTION_DISTRIBUTION_ID=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
-          if [ "$(yarn --silent deploy-production)" ]; then
-            echo "Differences found! Creating cache invalidation 🪄";
-            aws cloudfront create-invalidation --distribution-id=$PRODUCTION_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
-            echo "Done ✨"
-          else
-            echo "No differences found";
-          fi
+          yarn deploy-production
+          aws cloudfront create-invalidation --distribution-id=$PRODUCTION_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
 
