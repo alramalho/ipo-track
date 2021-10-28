@@ -18,7 +18,6 @@ export class DbStack extends cdk.Stack {
     const dynamoTable = new Table(this, 'MainTable', {
       tableName: `IPOWarningCDK-${props?.tableSuffix || ""}`,
       partitionKey: {name: 'email', type: AttributeType.STRING},
-      sortKey: {name: 'keyword', type: AttributeType.STRING},
       billingMode: BillingMode.PAY_PER_REQUEST,
       removalPolicy: RemovalPolicy.DESTROY
     });

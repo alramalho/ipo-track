@@ -25,7 +25,7 @@ describe('when testing the publish flow', () => {
     jest.clearAllMocks()
   });
 
-  beforeAll(async () => {
+  it('should properly send the emails to matched users of 1 keyword', async () => {
     await dynamoDB.send(new PutItemCommand({
       TableName: "IPOWarningCDK-sandbox",
       Item: {
@@ -34,23 +34,6 @@ describe('when testing the publish flow', () => {
         'activatedOn': {'S': new Date().toString()}
       }
     }))
-  })
-  afterAll(async () => {
-    await dynamoDB.send(new DeleteItemCommand({
-      TableName: 'IPOWarningCDK-sandbox',
-      Key: {
-        'email': {
-          'S': 'teste@teste.com',
-        },
-        'keyword': {
-          'S': 'acme',
-        },
-      },
-    }))
-  })
-
-  it('should properly send the emails to matched users', async () => {
-
     const requestBody = {
       "stageVariables": {
         "environment": "sandbox",
@@ -67,17 +50,29 @@ describe('when testing the publish flow', () => {
       'body': JSON.stringify('Success')
     })
 
-    const data = await dynamoDB.send(new QueryCommand({
+    const query = await dynamoDB.send(new QueryCommand({
       TableName: 'IPOWarningCDK-sandbox',
-      KeyConditionExpression: 'email = :email AND keyword = :keyword',
+      KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
         ':email': {'S': "teste@teste.com"},
-        ':keyword': {'S': 'acme'},
       }
     }))
-    expect(data['Items'].length).toEqual(1)
+    expect(query['Items'].length).toEqual(1)
+    expect(query['Items'][0]['keyword']).toEqual({'S': 'acme'})
 
     expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(1)
     expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(1)
+
+    await dynamoDB.send(new DeleteItemCommand({
+      TableName: 'IPOWarningCDK-sandbox',
+      Key: {
+        'email': {
+          'S': 'teste@teste.com',
+        },
+        'keyword': {
+          'S': 'acme',
+        },
+      },
+    }))
   })
 })

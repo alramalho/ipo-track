@@ -52,13 +52,14 @@ describe('when testing the subscribe flow', () => {
 
     const query = await dynamoDB.send(new QueryCommand({
       TableName: 'IPOWarningCDK-sandbox',
-      KeyConditionExpression: 'email = :email AND keyword = :keyword',
+      KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
         ':email': {'S': "teste@teste.com"},
-        ':keyword': {'S': 'acme'},
       }
     }))
+
     expect(query['Items'].length).toEqual(1)
+    expect(query['Items'][0]['keyword']).toEqual({'S': 'acme'})
     expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(1)
 
   })
