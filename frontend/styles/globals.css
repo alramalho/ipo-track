@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Domine&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    padding: 0;
+    color: black;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+    sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    cursor: pointer;
+    color: inherit;
+    border-bottom: 1px solid #232323;
+}
+
+.highlight, em {
+    color: inherit;
+    font-style: inherit;
+    background: linear-gradient(120deg, #ECFCCB, #ECFCCB);
+    background-repeat: no-repeat;
+    background-size: 100% 50%;
+    background-position: 50% 100%;
+    transition: 0.2s;
+}
+
+a.highlight:hover {
+    background-size: 100% 100%;
+}
+
+main {
+    min-height: 100vh;
+}

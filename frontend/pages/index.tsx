@@ -2,8 +2,6 @@ import Head from 'next/head'
 import React, {useState} from "react"
 import {subscribe} from "../service/service";
 import Header from "../components/header"
-import Stripe from "../public/logos/stripe.svg"
-import 'tailwindcss/tailwind.css'
 
 export default function Home() {
 
@@ -29,7 +27,7 @@ export default function Home() {
     <div>
       <Head>
         <title>IPO Alert</title>
-        <link rel="icon" href="/favicon.ico"/>
+        <link rel="icon" href="./static/favicon.ico"/>
       </Head>
 
       <main>
@@ -38,7 +36,8 @@ export default function Home() {
         <div
           className='relative inset-x-0 bottom-0 transition duration-300 transform translate-y-m15vh z-50 text-gray-50 max-w-screen-md my-0 mx-auto text-center'>
 
-          <h1 className="hard-text-shadow font-serif text-4xl font-bold mt-0 mx-auto mb-8">
+          <h1
+            className="hard-text-shadow font-serif text-4xl font-bold mt-0 mx-auto mb-8">
             IPO Warning
           </h1>
 
@@ -123,11 +122,11 @@ export default function Home() {
             </div>
           </div>
 
-          <div className='mt-32 mx-8 xl:mx-0 text-left '>
+          <div className='mt-32 mx-8 xl:mx-0 text-left text-gray-800 '>
             <h1 className="text-right font-serif text-5xl font-bold mb-5 text-gray-700">
               🧐 How does this work?
             </h1>
-            <div className="font-sans font-light text-md text-gray-800 break-words">
+            <div className="font-sans font-light text-md break-words">
               <p>
                 It is very simple:<br/><br/> IPO Warning checks on a regular basis for
                 upcoming IPOs that were recently announced in the market. We analyse them
@@ -142,31 +141,35 @@ export default function Home() {
           </div>
 
 
-          <div className='mt-32 mx-8 xl:mx-0 text-left '>
-            <h1 className="font-serif text-4+xl font-bold mb-5 text-gray-700 mb-8">
+          <div className='mt-32 mx-8 xl:mx-0 text-left text-gray-800'>
+            <h1 className="font-serif text-4+xl font-bold mb-5 mb-8 text-gray-700 ">
               Some upcoming IPOs 💸
             </h1>
-            <div className="flex flex-row items-center justify-around">
+            <div className="flex flex-row items-center justify-around mb-8">
               <img onClick={() => setKeyword("discord")}
                    className="cursor-pointer object-fit h-8 filter hover:filter-none"
-                   src="/logos/discord.svg" alt="Discord"/>
+                   src="./static/logos/discord.svg" alt="Discord"/>
               <img onClick={() => setKeyword("impossible")}
                    className="cursor-pointer object-fit h-6 filter"
-                   src="/logos/impossible-foods.svg" alt="Impossible foods"/>
+                   src="./static/impossible-foods.svg" alt="Impossible foods"/>
               <img onClick={() => setKeyword("stripe")}
                    className="cursor-pointer object-fit h-8 filter"
-                   src="/logos/stripe.svg" alt="Stripe"/>
+                   src="./static/logos/stripe.svg" alt="Stripe"/>
               <img onClick={() => setKeyword("instacart")}
                    className="cursor-pointer object-fit h-8 filter"
-                   src="/logos/instacart.svg" alt="Instacart"/>
+                   src="./static/logos/instacart.svg" alt="Instacart"/>
             </div>
+
+            <p>Some of them don't have a fixed date yet! Do you want to know when they
+              do?</p>
           </div>
 
-          <p>Some of them don't have a fixed date yet! Do you want to know when they
-            do?</p>
 
         </div>
 
+        <div className="w-full flex justify-center my-4">
+          <a className="text-gray-800" href="#header">&uarr;</a>
+        </div>
       </main>
       <footer>
         <a
@@ -232,49 +235,6 @@ export default function Home() {
             border-radius: 30px;
           }
         }
-
-      `}</style>
-
-      <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Domine&display=swap');
-
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-          Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-          sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-
-        a {
-          cursor: pointer;
-          color: inherit;
-          border-bottom: 1px solid #232323;
-        }
-
-        .highlight, em {
-          color: inherit;
-          font-style: inherit;
-          background: linear-gradient(120deg, #ECFCCB, #ECFCCB);
-          background-repeat: no-repeat;
-          background-size: 100% 50%;
-          background-position: 50% 100%;
-          transition: 0.2s;
-        }
-
-        a.highlight:hover {
-          background-size: 100% 100%;
-        }
-
-        main {
-          min-height: 100vh;
-        }
-
 
       `}</style>
 

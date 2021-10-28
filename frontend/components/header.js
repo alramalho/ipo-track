@@ -26,7 +26,7 @@ const Header = () => (
         text-align: center;
         color: white;
         
-        background-image: url('/test.png');
+        background-image: url('./static/test.png');
         object-fit: scale-down;
         position: relative;
         height: 40vh;
