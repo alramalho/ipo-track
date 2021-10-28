@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>IPO Alert</title>
+        <title>IPO Warning</title>
         <link rel="icon" href="./static/favicon.ico"/>
       </Head>
 
@@ -34,15 +34,15 @@ export default function Home() {
         <Header/>
 
         <div
-          className='relative inset-x-0 bottom-0 transition duration-300 transform translate-y-m15vh z-50 text-gray-50 max-w-screen-md my-0 mx-auto text-center'>
+          className='relative inset-x-0 bottom-0 transition duration-300 -mt-56 z-50 text-gray-50 max-w-screen-md my-0 mx-auto text-center'>
 
           <h1
             className="hard-text-shadow font-serif text-4xl font-bold mt-0 mx-auto mb-8">
             IPO Warning
           </h1>
 
-          <p className="soft-text-shadow font-sans text-lg font-light mt-0 mx-auto mb-8">
-            Get warned when your favourite company goes public. It's
+          <p className="soft-text-shadow font-sans text-lg font-light mt-0 mb-3 mx-auto">
+            Be the first to know when your favourite company goes public. It's
             <span className="font-bold text-s"> FREE!</span>
           </p>
 
@@ -61,6 +61,7 @@ export default function Home() {
                 <input
                   className="focus:ring-1 focus:ring-lime-400 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                   type="email" name="email" id="email" required
+                  placeholder="my@email.com"
                   onChange={handleInputChange}/>
               </div>
               <div className="py-2">
@@ -72,6 +73,7 @@ export default function Home() {
                 <input
                   className="focus:ring-1 focus:ring-lime-400 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                   type="text" name="keyword" id="keyword" required
+                  placeholder="stripe"
                   onChange={handleInputChange}/>
               </div>
               <input
@@ -87,30 +89,29 @@ export default function Home() {
             </h1>
             <div className="font-sans font-light text-md text-gray-800 break-words">
               <p>
-                According to Forbes: An IPO is an <b>initial public offering</b>. In an
+                According to Forbes: An IPO is an <em>initial public offering</em>. In an
                 IPO, a privately owned company lists its shares on a stock exchange,
                 making them available for purchase by the general public.
 
               </p>
 
               <h3 className="font-serif font-bold text-lg mt-3 mb-2">
-                How do IPOs work?
+                Why are IPOs important?
               </h3>
               <p>
-                Before an IPO, a company is considered <em>private</em>. As a pre-IPO
-                private
-                company, the business has grown with a relatively small number of
-                shareholders including early investors like the founders, family, and
-                friends along with professional investors such as venture capitalists or
-                angel investors.
-                <br/>The <em>IPO provides the company</em> with access to raising a lot of
+                The <em>IPO provides the company</em> with access to raising a lot of
                 money.
                 This gives the company a greater <em>ability to grow and expand.</em> The
-                increased
-                transparency and share listing credibility can also be a factor in helping
-                it obtain better terms when seeking borrowed funds as well.
+                increased transparency and share listing credibility can also be a
+                factor in helping it obtain better terms when seeking borrowed funds as
+                well.
+                This makes IPOs a possible good investment, with some previous private
+                companies having experienced a huge stock price increase some days or
+                weeks
+                after its
 
               </p>
+
               <p>
                 <br/>
                 You can learn more about this in the&nbsp;
@@ -128,35 +129,59 @@ export default function Home() {
             </h1>
             <div className="font-sans font-light text-md break-words">
               <p>
-                It is very simple:<br/><br/> IPO Warning checks on a regular basis for
-                upcoming IPOs that were recently announced in the market. We analyse them
-                and if any words
-                in their name match your given keyword then we consider it a match (don't
-                worry about casing).
+                It is very simple:<br/><br/> <em>IPO Warning checks on a regular basis for
+                recently
+                announced upcoming IPOs</em>. We analyse them
+                and <em>if your keyword matches any word on their full company name</em>, then we
+                consider it a match! (don't
+                worry about casing)
               </p>
               <br/>
-              <p>We alert you via the provided email and we de-activate your account.
-                Meaning that you will receive no spam from us :)</p>
+              <p>We then <em>alert you via the provided email</em> and we immediately de-activate
+                your account,
+                meaning that you won't receive any more emails from us 😊</p>
+
+            </div>
+          </div>
+
+          <div className='mt-32 mx-8 xl:mx-0 text-left text-gray-800 '>
+            <h1 className="font-serif text-5xl font-bold mb-5 text-gray-700">
+              Who is this for? 🙋
+            </h1>
+            <div className="font-sans font-light text-md break-words">
+              <p>
+                Unfortunately investing in private companies without having inside
+                connections
+                is very hard or it requires a lot of money. I remember trying to sign up
+                for this private companies investment platform for and they required me
+                to do a 10 000$ initial deposit. 🤯
+                <br/>
+                Timing is everything! So <em>this is for anyone that wants to be the first
+                invest in a private company </em>once it goes public but doesn't want
+                to be constantly browsing the markets to check if its IPO date was
+                already announced.
+              </p>
             </div>
           </div>
 
 
           <div className='mt-32 mx-8 xl:mx-0 text-left text-gray-800'>
-            <h1 className="font-serif text-4+xl font-bold mb-5 mb-8 text-gray-700 ">
+            <h1 className="text-right font-serif text-4+xl font-bold mb-5 mb-8 text-gray-700 ">
               Some upcoming IPOs 💸
             </h1>
-            <div className="flex flex-row items-center justify-around mb-8">
+            <div
+              className="grid grid-cols-2 md:grid-cols-4 gap-16 md:gap-4 place-items-center mb-8">
               <img onClick={() => setKeyword("discord")}
-                   className="cursor-pointer object-fit h-8 filter hover:filter-none"
+                   className="cursor-pointer object-fit h-8"
                    src="./static/logos/discord.svg" alt="Discord"/>
               <img onClick={() => setKeyword("impossible")}
-                   className="cursor-pointer object-fit h-6 filter"
-                   src="./static/impossible-foods.svg" alt="Impossible foods"/>
+                   className="cursor-pointer object-fit h-8"
+                   src="./static/logos/impossible-foods.svg" alt="Discord"/>
               <img onClick={() => setKeyword("stripe")}
-                   className="cursor-pointer object-fit h-8 filter"
+                   className="cursor-pointer object-fit h-8"
                    src="./static/logos/stripe.svg" alt="Stripe"/>
               <img onClick={() => setKeyword("instacart")}
-                   className="cursor-pointer object-fit h-8 filter"
+                   className="cursor-pointer object-fit h-8"
                    src="./static/logos/instacart.svg" alt="Instacart"/>
             </div>
 
@@ -167,17 +192,26 @@ export default function Home() {
 
         </div>
 
-        <div className="w-full flex justify-center my-4">
-          <a className="text-gray-800" href="#header">&uarr;</a>
+        <div className="w-full flex justify-center mb-8 mt-44">
+          <a className="text-gray-800 highlight" href="#header">&uarr;</a>
         </div>
       </main>
       <footer>
-        <a
-          href="/terms-of-service.html"
-          rel="noopener noreferrer"
-        >
-          Terms of service
-        </a>
+        <div className="grid grid-cols-2 gap-5 place-items-center my-8">
+          <a
+            href="/terms-of-service.html"
+            rel="noopener noreferrer"
+          >
+            Terms of service & privacy policy
+          </a>
+
+          <a
+            href="/terms-of-service.html"
+            rel="noopener noreferrer"
+          >
+            Feature Roadmap
+          </a>
+        </div>
       </footer>
 
       <style jsx>{`

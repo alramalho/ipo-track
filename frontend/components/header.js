@@ -29,7 +29,7 @@ const Header = () => (
         background-image: url('./static/test.png');
         object-fit: scale-down;
         position: relative;
-        height: 40vh;
+        height: 35vh;
       }
 
       .header a {

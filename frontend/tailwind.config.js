@@ -14,9 +14,6 @@ module.exports = {
       fontSize: {
         '4+xl' : '2.6rem',
       },
-      spacing: {
-        'm15vh': '-25vh'
-      },
       colors: {
         lime: colors.lime
       },
