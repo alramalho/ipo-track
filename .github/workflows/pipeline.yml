@@ -59,7 +59,7 @@ jobs:
           yarn build
 
           export SANDBOX_DISTRIBUTION_ID=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
-          yarn --silent deploy-sandbox
+          yarn deploy-sandbox
           aws cloudfront create-invalidation --distribution-id=$SANDBOX_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
 
 
