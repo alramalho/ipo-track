@@ -10,7 +10,8 @@
     "deploy-sandbox": "aws s3 sync ./out s3://ipo-warning-s3-bucket-sandbox/ --delete",
     "fast-deploy-sandbox": "yarn build && yarn deploy-sandbox",
     "deploy-production": "aws s3 sync ./out s3://ipo-warning-s3-bucket-production/ --delete",
-    "fast-deploy-production": "yarn build && yarn deploy-production"
+    "fast-deploy-production": "yarn build && yarn deploy-production",
+    "test": "jest"
   },
   "dependencies": {
     "@emotion/react": "^11",

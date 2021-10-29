@@ -12,7 +12,7 @@ describe('when testing the index page', () => {
       render(<Home />)
 
       const heading = screen.getByRole('heading', {
-        name: /welcome to ipo warning/i,
+        name: /ipo warning/i,
       })
 
       expect(heading).toBeInTheDocument()
@@ -21,8 +21,8 @@ describe('when testing the index page', () => {
     it('should have the form', () => {
       render(<Home />)
 
-      const emailInput = screen.getByLabelText(/enter your email/i)
-      const keywordInput = screen.getByLabelText(/enter your keyword/i)
+      const emailInput = screen.getByLabelText(/email/i)
+      const keywordInput = screen.getByLabelText(/keyword/i)
       const submitInput = screen.getByRole('button', {
         name: /submit/i,
       })
@@ -36,8 +36,8 @@ describe('when testing the index page', () => {
   it('should call the subscribe service on form submit', () => {
     subscribe.mockImplementation(() => new Promise(() => {}))
     render(<Home />)
-    const emailInput = screen.getByLabelText(/enter your email/i)
-    const keywordInput = screen.getByLabelText(/enter your keyword/i)
+    const emailInput = screen.getByLabelText(/email/i)
+    const keywordInput = screen.getByLabelText(/keyword/i)
     const submitInput = screen.getByRole('button', {
       name: /submit/i,
     })

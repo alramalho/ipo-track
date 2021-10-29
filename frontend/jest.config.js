@@ -1,9 +1,10 @@
 module.exports = {
   collectCoverageFrom: [
-    '**/*.{js,jsx,ts,tsx}',
+    '**/*.test.{js,jsx,ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
   ],
+  testMatch: [ "**/__tests__/**/*.test.js" ],
   moduleNameMapper: {
     /* Handle CSS imports (with CSS modules)
     https://jestjs.io/docs/webpack#mocking-css-modules */
@@ -28,5 +29,5 @@ module.exports = {
     '^.+\\.module\\.(css|sass|scss)$',
   ],
   globalSetup: '<rootDir>/__tests__/setupEnv.js',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js']
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 }
