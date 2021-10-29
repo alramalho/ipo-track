@@ -10,7 +10,7 @@ export default function Home() {
   function setKeyword(keyword) {
     document.getElementById("keyword").setAttribute('value', keyword)
     document.getElementById("keyword").focus()
-    document.getElementById("header").scrollIntoView()
+    document.getElementById("main").scrollIntoView()
   }
 
   function handleSubmit(event) {
@@ -30,24 +30,26 @@ export default function Home() {
         <link rel="icon" href="./static/favicon.ico"/>
       </Head>
 
-      <main>
-        <Header/>
+      <main id="main">
+        {/*<Header/>*/}
 
         <div
-          className='relative inset-x-0 bottom-0 transition duration-300 -mt-56 z-50 text-gray-50 max-w-screen-md my-0 mx-auto text-center'>
+          className='relative inset-x-0 bottom-0 transition duration-300 mt-32 z-50 text-gray-700 max-w-screen-md my-0 mx-auto text-left'>
 
-          <h1
-            className="hard-text-shadow font-serif text-4xl font-bold mt-0 mx-auto mb-8">
-            IPO Warning
-          </h1>
+          <div className="px-4 md:px-0">
+            <h1
+              className="font-serif text-7xl font-bold mt-0 mx-auto mb-8 highlight">
+              IPO Warning!
+            </h1>
 
-          <p className="soft-text-shadow font-sans text-lg font-light mt-0 mb-3 mx-auto">
-            Be the first to know when your favourite company goes public. It's
-            <span className="font-bold text-s"> FREE!</span>
-          </p>
+            <p className="font-sans text-lg font-light mt-0 mb-3 mx-auto ">
+              Be the first to know when your favourite company goes public.&nbsp;
+              <em>(it's <span className="font-medium"> free</span>)</em>
+            </p>
+          </div>
 
           <div
-            className='rounded-3xl bg-gray-50 text-gray-900 pt-12 pb-14 px-8 rounded-10 shadow-2xl mx-8 xl:mx-0'>
+            className='rounded-3xl bg-gray-115 text-gray-900 pt-12 pb-14 px-8 rounded-10 shadow-neum mx-8 mt-24 mb-32 xl:mx-0'>
 
             <form className="flex flex-col md:flex-row justify-around md:items-end"
                   onSubmit={handleSubmit}
@@ -59,7 +61,7 @@ export default function Home() {
                   Email
                 </label>
                 <input
-                  className="focus:ring-1 focus:ring-lime-400 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                  className="focus:shadow-inner appearance-none block w-full bg-gray-130 text-gray-700 border-2 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none"
                   type="email" name="email" id="email" required
                   placeholder="my@email.com"
                   onChange={handleInputChange}/>
@@ -71,13 +73,13 @@ export default function Home() {
                   Keyword
                 </label>
                 <input
-                  className="focus:ring-1 focus:ring-lime-400 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                  className="focus:shadow-inner appearance-none block w-full bg-gray-130 text-gray-700 border-2 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none"
                   type="text" name="keyword" id="keyword" required
                   placeholder="stripe"
                   onChange={handleInputChange}/>
               </div>
               <input
-                className="cursor-pointer	transform hover:scale-125 hover:poi transition duration-300 rounded border border-lime-100 bg-lime-200 uppercase tracking-wide text-gray-700 leading-tight text-s font-bold py-5 px-4"
+                className="submit-button cursor-pointer	transform transition duration-300 rounded uppercase tracking-wide text-gray-700 leading-tight text-s font-bold py-5 px-4"
                 type="submit" value="Submit &rarr;"
                 onClick={handleSubmit}/>
             </form>
@@ -124,7 +126,7 @@ export default function Home() {
           </div>
 
           <div className='mt-32 mx-8 xl:mx-0 text-left text-gray-800 '>
-            <h1 className="text-right font-serif text-5xl font-bold mb-5 text-gray-700">
+            <h1 className="font-serif text-5xl font-bold mb-5 text-gray-700">
               🧐 How does this work?
             </h1>
             <div className="font-sans font-light text-md break-words">
@@ -132,12 +134,14 @@ export default function Home() {
                 It is very simple:<br/><br/> <em>IPO Warning checks on a regular basis for
                 recently
                 announced upcoming IPOs</em>. We analyse them
-                and <em>if your keyword matches any word on their full company name</em>, then we
+                and <em>if your keyword matches any word on their full company name</em>,
+                then we
                 consider it a match! (don't
                 worry about casing)
               </p>
               <br/>
-              <p>We then <em>alert you via the provided email</em> and we immediately de-activate
+              <p>We then <em>alert you via the provided email</em> and we immediately
+                de-activate
                 your account,
                 meaning that you won't receive any more emails from us 😊</p>
 
@@ -149,7 +153,8 @@ export default function Home() {
                 That means if you fill the small form multiple times <em>only the last one
                 will be accounted</em> for and you will be warned about it.
 
-                If you really really want to be alerted about multiple IPOs on the same email
+                If you really really want to be alerted about multiple IPOs on the same
+                email
                 than I recommend checking out our
                 <a className="highlight" href="/roadmap.html">roadmap</a> and maybe even
                 contributing.
@@ -179,8 +184,9 @@ export default function Home() {
 
 
           <div className='mt-32 mx-8 xl:mx-0 text-left text-gray-800'>
-            <h1 className="text-right font-serif text-4+xl font-bold mb-5 mb-8 text-gray-700 ">
-              Some upcoming IPOs 💸
+            <h1
+              className="font-serif text-4+xl font-bold mb-5 mb-8 text-gray-700 ">
+              🔜 Some upcoming IPOs
             </h1>
             <div
               className="grid grid-cols-2 md:grid-cols-4 gap-16 md:gap-4 place-items-center mb-8">
@@ -215,7 +221,14 @@ export default function Home() {
             href="/terms-of-service.html"
             rel="noopener noreferrer"
           >
-            Terms of service & privacy policy
+            Terms of service
+          </a>
+
+          <a
+            href="/terms-of-service.html"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
           </a>
 
           <a
@@ -229,6 +242,25 @@ export default function Home() {
 
       <style jsx>{`
 
+        .shadow-neum {
+          box-shadow: 20px 20px 40px #e1e1e1, -20px -20px 40px #ffffff;
+        }
+
+        .submit-button {
+          background: linear-gradient(145deg, #ecfccb, #e0efc1);
+          box-shadow: 2px 2px 5px #d1d1d1, -2px -2px 5px #ffffff;
+          transition: 300ms;
+        }
+
+        .submit-button:hover {
+          box-shadow: none;
+        }
+
+        .submit-button:active {
+          box-shadow: inset 2px 2px 7px #d1d1d1, inset -2px -2px 7px #ffffff;
+        }
+
+
         .hard-text-shadow {
           text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
 
@@ -236,7 +268,6 @@ export default function Home() {
 
         .soft-text-shadow {
           text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
-
         }
 
         footer {
@@ -246,6 +277,7 @@ export default function Home() {
           display: flex;
           justify-content: center;
           align-items: center;
+          padding: 1rem;
         }
 
         footer img {
@@ -256,22 +288,6 @@ export default function Home() {
           display: flex;
           justify-content: center;
           align-items: center;
-        }
-
-        button {
-          width: 120px;
-          height: 50px;
-          font-size: 18px;
-          border: 1px solid rgba(0, 0, 0, 0.0);
-          border-radius: 12.5px;
-          background: #e0e0e0;
-          box-shadow: 16px 16px 18px #aaaaaa,
-            -16px -16px 18px #ffffff;
-        }
-
-        button:active {
-          box-shadow: 16px 16px 18px #aaaaaa inset,
-            -16px -16px 18px #ffffff inset;
         }
 
 

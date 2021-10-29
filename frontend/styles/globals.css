@@ -6,6 +6,7 @@
 html,
 body {
     padding: 0;
+    background: #f0f0f0;
     color: black;
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,

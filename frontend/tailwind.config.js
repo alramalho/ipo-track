@@ -15,7 +15,9 @@ module.exports = {
         '4+xl' : '2.6rem',
       },
       colors: {
-        lime: colors.lime
+        lime: colors.lime,
+        'gray-115': '#f0f0f0',
+        'gray-130': '#ededed'
       },
       maxWidth: {
         '3/4': '75%',
