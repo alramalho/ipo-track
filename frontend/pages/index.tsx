@@ -149,7 +149,8 @@ export default function Home() {
                 When will I get the warning?
               </h3>
               <p>
-                We check against stock analysis free api, which means we only have the IPOs
+                We check against stock analysis free api, which means we only have the
+                IPOs
                 going live in the next week. That translates to you getting your warning
                 <em>with 1 week in advance</em>.
                 If you really really want to get notified earlier than that, consider
@@ -167,7 +168,7 @@ export default function Home() {
 
                 If you really really want to be alerted about multiple IPOs on the same
                 email
-                than I recommend checking out our
+                than I recommend checking out our&nbsp;
                 <a className="highlight" href="/roadmap.html">roadmap</a> and maybe even
                 contributing.
               </p>
