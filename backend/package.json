@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "jest",
+    "test": "jest --runInBand",
     "cdk": "cdk",
     "diff": "cdk diff --profile ipo-warning",
     "synth": "echo '\n️\\0033[43;1m ⚠ Consider running `yarn diff` to check differences ⚠\\0033[0m️\n️' &&  rm -rf cdk.out && cdk synth",
