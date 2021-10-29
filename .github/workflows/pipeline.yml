@@ -63,9 +63,52 @@ jobs:
           aws cloudfront create-invalidation --distribution-id=$SANDBOX_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
 
 
+  Run-Tests:
+    needs: Deploy-To-Sandbox
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+      run: |
+        sudo apt install nodejs
+        node -v
+        sudo apt install npm
+        npm -v
+        npm install -g aws-cdk
+        cdk --version
+        sudo apt install jq
+        jq --version
+
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install --update
+        aws --version
+        aws -h
+
+      - name: Configure AWS
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ipo-warning
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-warning
+          aws configure set region eu-west-1  --profile ipo-warning
+
+      - name: Test
+        run: |
+          cd backend
+          yarn
+          yarn test
+          echo "Backend tests done ✅✨"
+
+          cd ../frontend
+          yarn
+          yarn test
+          echo "Frontend tests done ✅✨"
 
   Deploy-To-Production:
-    needs: Deploy-To-Sandbox
+    needs: Run-Tests
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: production
