@@ -55,7 +55,7 @@ exports.handler = async (event) => {
 
   const body = await getIpoData(dataApiUrl, rapidApiKey)
   const ipoRawData = JSON.parse(body)['data']
-  const parsedIpos = ipoRawData.map((ipo) => ipo['name'].toLowerCase().replaceAll(/,|\.|;/g, '').split(" "))
+  const parsedIpos = ipoRawData.map((ipo) => ipo['name'].toLowerCase().replace(/,|\.|;/g, '').split(" "))
 
   for (const user of activeUsers) {
     const email = user['email']['S']
