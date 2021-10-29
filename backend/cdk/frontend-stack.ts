@@ -31,14 +31,17 @@ export class FrontendStack extends cdk.Stack {
     //     zoneName: 'ipo-warning.com',
     //   });
     //
-    //   // @ts-ignore
-    //   distributionOptions['certificate'] = new acm.Certificate(this, 'Certificate', {
+    //   const myCertificate = new acm.Certificate(this, 'Certificate', {
     //     domainName: 'www.ipo-warning.com',
     //     validation: acm.CertificateValidation.fromDns(myHostedZone),
     //   })
+    //
+    //   // @ts-ignore
+    //   distributionOptions['certificate'] = myCertificate
     //   // @ts-ignore
     //   distributionOptions['domainNames'] = ['www.ipo-warning.com']
     //
+    //   myCertificate.applyRemovalPolicy(RemovalPolicy.DESTROY)
     //   myHostedZone.applyRemovalPolicy(RemovalPolicy.DESTROY)
     // }
 
