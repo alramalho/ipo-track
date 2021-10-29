@@ -77,7 +77,7 @@ exports.handler = async (event) => {
 
     await dynamoDB.send(new UpdateItemCommand({
       TableName: `IPOWarningCDK-${environment}`,
-      Key: {email: {'S': userEmail}, keyword: {'S': userKeyword}},
+      Key: {email: {'S': userEmail}},
       UpdateExpression: "REMOVE activatedOn",
       ReturnValues: "UPDATED_NEW"
     }))
