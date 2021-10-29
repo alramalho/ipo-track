@@ -59,10 +59,11 @@ exports.handler = async (event) => {
   for (const user of activeUsers) {
     const email = user['email']['S']
     const keyword = user['keyword']['S']
+    const keyword_words = keyword.split(" ")
 
     for (const ipoName of parsedIpos) {
       for (const word of ipoName) {
-        if (word.toLowerCase() === keyword) {
+        if (keyword_words.includes(word.toLowerCase())) {
           const full_name = ipoName.join(' ')
 
           try {
@@ -93,6 +94,8 @@ exports.handler = async (event) => {
             console.log(`${keyword} present in ${full_name} for ${email}`)
             console.log("Email sent!")
             await remove_user(email, keyword, environment)
+            break
+
           } catch (e) {
             console.error(e)
           }

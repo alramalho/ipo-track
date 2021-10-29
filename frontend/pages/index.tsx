@@ -141,6 +141,19 @@ export default function Home() {
                 your account,
                 meaning that you won't receive any more emails from us 😊</p>
 
+              <h3 className="font-serif font-bold text-lg mt-3 mb-2">
+                What happens if I submit multiple times?
+              </h3>
+              <p>
+                Currently <em>only 1 keyword per email is allowed</em>.
+                That means if you fill the small form multiple times <em>only the last one
+                will be accounted</em> for and you will be warned about it.
+
+                If you really really want to be alerted about multiple IPOs on the same email
+                than I recommend checking out our
+                <a className="highlight" href="/roadmap.html">roadmap</a> and maybe even
+                contributing.
+              </p>
             </div>
           </div>
 
@@ -209,7 +222,7 @@ export default function Home() {
             href="/terms-of-service.html"
             rel="noopener noreferrer"
           >
-            Feature Roadmap
+            Roadmap
           </a>
         </div>
       </footer>
