@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk')
-const {QueryCommand} = require("@aws-sdk/client-dynamodb");
+const {QueryCommand, DeleteItemCommand} = require("@aws-sdk/client-dynamodb");
 AWS.config.update({region:'eu-west-1'});
 const {DynamoDBClient} = require("@aws-sdk/client-dynamodb");
 const {mocked} = require("ts-jest/utils");
@@ -15,20 +15,18 @@ describe('when testing the subscribe flow', () => {
     jest.clearAllMocks()
   });
 
-  afterAll(() => {
+  afterAll(async () => {
 
-    dynamoDB.deleteItem({
+    await dynamoDB.send(new DeleteItemCommand({
       TableName: 'IPOWarningCDK-sandbox',
       Key: {
         'email': {
           'S': 'teste@teste.com',
-        },
-        'keyword': {
-          'S': 'acme',
-        },
+        }
       },
-    })
+    }))
   })
+
 
   it('should properly register the user', async () => {
     const request_body = {

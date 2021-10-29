@@ -38,6 +38,9 @@ jobs:
 
       - name: Configure AWS
         run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region eu-west-1
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ipo-warning
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-warning
           aws configure set region eu-west-1  --profile ipo-warning
@@ -46,7 +49,7 @@ jobs:
         run: |
           cd backend
           yarn
-          cdk bootstrap --profile ipo-warning
+          cdk bootstrap
           yarn diff
           yarn fast-deploy
 
@@ -55,10 +58,10 @@ jobs:
           cd frontend
           yarn
 
-          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null' | tr -d '"')
+          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null' | tr -d '"')
           yarn build
 
-          export SANDBOX_DISTRIBUTION_ID=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
+          export SANDBOX_DISTRIBUTION_ID=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
           yarn deploy-sandbox
           aws cloudfront create-invalidation --distribution-id=$SANDBOX_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
 
@@ -91,9 +94,13 @@ jobs:
 
       - name: Configure AWS
         run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region eu-west-1
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ipo-warning
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-warning
           aws configure set region eu-west-1  --profile ipo-warning
+
 
       - name: Test
         run: |
@@ -139,15 +146,19 @@ jobs:
 
       - name: Configure AWS
         run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region eu-west-1
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ipo-warning
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-warning
           aws configure set region eu-west-1  --profile ipo-warning
+
 
       - name: Deploy-Backend
         run: |
           cd backend
           yarn
-          cdk bootstrap --profile ipo-warning
+          cdk bootstrap
           yarn diff
           yarn fast-deploy
 
@@ -157,10 +168,10 @@ jobs:
           cd frontend
           yarn
 
-          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionApiURL' | grep -v 'null' | tr -d '"')
+          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionApiURL' | grep -v 'null' | tr -d '"')
           yarn build
 
-          export PRODUCTION_DISTRIBUTION_ID=$(aws cloudformation describe-stacks --profile ipo-warning | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
+          export PRODUCTION_DISTRIBUTION_ID=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
           yarn deploy-production
           aws cloudfront create-invalidation --distribution-id=$PRODUCTION_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
 
