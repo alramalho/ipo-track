@@ -53,8 +53,8 @@ exports.handler = async (event) => {
   }
 
   const body = await httpsExchange(dataApiUrl)
-  const ipoRawData = JSON.parse(body)
-  const parsedIpos = ipoRawData.map((ipo) => ipo['companyName'].split(" "))
+  const ipoRawData = JSON.parse(body)['data']
+  const parsedIpos = ipoRawData.map((ipo) => ipo['name'].toLowerCase().replaceAll(/,|\.|;/g, '').split(" "))
 
   for (const user of activeUsers) {
     const email = user['email']['S']
@@ -63,7 +63,7 @@ exports.handler = async (event) => {
 
     for (const ipoName of parsedIpos) {
       for (const word of ipoName) {
-        if (keyword_words.includes(word.toLowerCase())) {
+        if (keyword_words.includes(word)) {
           const full_name = ipoName.join(' ')
 
           try {

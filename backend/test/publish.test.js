@@ -32,10 +32,7 @@ describe('when testing the publish flow', () => {
       Key: {
         'email': {
           'S': 'teste@teste.com',
-        },
-        'keyword': {
-          'S': 'non_existent',
-        },
+        }
       },
     }))
   });
@@ -55,6 +52,7 @@ describe('when testing the publish flow', () => {
         "stageVariables": {
           "environment": "sandbox",
           "dataApiUrl": "https://arnnvraxch.execute-api.eu-west-1.amazonaws.com/sandbox/stocks"
+          // TODO: Mock this API endpoint instead of having it in the cloud
         },
         "body": ""
       }
@@ -85,10 +83,7 @@ describe('when testing the publish flow', () => {
         Key: {
           'email': {
             'S': 'teste@teste.com',
-          },
-          'keyword': {
-            'S': 'acme',
-          },
+          }
         },
       }))
     })
@@ -136,10 +131,7 @@ describe('when testing the publish flow', () => {
         Key: {
           'email': {
             'S': 'teste@teste.com',
-          },
-          'keyword': {
-            'S': 'alma morta',
-          },
+          }
         },
       }))
     })
