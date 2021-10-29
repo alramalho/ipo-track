@@ -23,6 +23,7 @@
     "aws-sdk": "^2.1013.0",
     "babel-jest": "^27.3.1",
     "jest": "^27.3.1",
+    "nock": "^13.1.4",
     "ts-jest": "^27.0.7"
   },
   "dependencies": {

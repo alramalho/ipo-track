@@ -8,6 +8,7 @@ import {mocked} from 'ts-jest/utils';
 import * as SES from "@aws-sdk/client-ses";
 import * as lambda from "@aws-sdk/client-lambda";
 import * as AWS from "aws-sdk"
+import nock from 'nock';
 
 AWS.config.update({region: 'eu-west-1'});
 
@@ -16,17 +17,32 @@ const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 jest.mock('@aws-sdk/client-ses')
 jest.mock('@aws-sdk/client-lambda')
 import * as publishLambda from "../lambdas/publish"
+import {mockIPOData} from "./mockedData";
 
 
 describe('when testing the publish flow', () => {
   let MockedSES = mocked(SES, true);
   let MockedLambda = mocked(lambda, true);
 
+  const mockApiUrl = 'https://localhost';
+  const mockRapidApiKey = 'dummy';
+
+  nock(mockApiUrl, {
+    reqheaders: {
+      'x-rapidapi-host': 'upcoming-ipo-calendar.p.rapidapi.com',
+      'x-rapidapi-key': mockRapidApiKey
+    },
+  })
+    .persist()
+    .get('/',)
+    .reply(200, mockIPOData,);
+
+
   beforeEach(() => {
     jest.clearAllMocks()
   });
 
-  afterEach(async () =>  {
+  afterEach(async () => {
     await dynamoDB.send(new DeleteItemCommand({
       TableName: 'IPOWarningCDK-sandbox',
       Key: {
@@ -36,6 +52,10 @@ describe('when testing the publish flow', () => {
       },
     }))
   });
+
+  afterAll(() => {
+    nock.cleanAll()
+  })
 
   describe('when there are matches', () => {
 
@@ -51,7 +71,8 @@ describe('when testing the publish flow', () => {
       const requestBody = {
         "stageVariables": {
           "environment": "sandbox",
-          "dataApiUrl": "https://arnnvraxch.execute-api.eu-west-1.amazonaws.com/sandbox/stocks"
+          "dataApiUrl": mockApiUrl,
+          "rapidApiKey": mockRapidApiKey
           // TODO: Mock this API endpoint instead of having it in the cloud
         },
         "body": ""
@@ -89,6 +110,7 @@ describe('when testing the publish flow', () => {
     })
 
     it('should send the email and invoke the user removal lambda for single keyword match', async () => {
+
       await dynamoDB.send(new PutItemCommand({
         TableName: "IPOWarningCDK-sandbox",
         Item: {
@@ -100,7 +122,9 @@ describe('when testing the publish flow', () => {
       const requestBody = {
         "stageVariables": {
           "environment": "sandbox",
-          "dataApiUrl": "https://arnnvraxch.execute-api.eu-west-1.amazonaws.com/sandbox/stocks"
+          "dataApiUrl": mockApiUrl,
+          "rapidApiKey": mockRapidApiKey
+
         },
         "body": ""
       }
@@ -150,7 +174,8 @@ describe('when testing the publish flow', () => {
       const requestBody = {
         "stageVariables": {
           "environment": "sandbox",
-          "dataApiUrl": "https://arnnvraxch.execute-api.eu-west-1.amazonaws.com/sandbox/stocks"
+          "dataApiUrl": mockApiUrl,
+          "rapidApiKey": mockRapidApiKey
         },
         "body": ""
       }

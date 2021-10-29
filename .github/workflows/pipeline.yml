@@ -11,6 +11,7 @@ jobs:
     env:
       ENVIRONMENT: sandbox
       DATA_API_URL: https://arnnvraxch.execute-api.eu-west-1.amazonaws.com/sandbox/stocks
+      RAPID_API_KEY: irrelevant
     steps:
 
       - name: Checkout source code
@@ -68,7 +69,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: production
-      DATA_API_URL: https://arnnvraxch.execute-api.eu-west-1.amazonaws.com/sandbox/stocks
+      DATA_API_URL: https://upcoming-ipo-calendar.p.rapidapi.com/ipos-thisweek
+      RAPID_API_KEY: ${{ secrets.RAPID_API_KEY }}
+
     steps:
 
       - name: Checkout source code

@@ -16,8 +16,13 @@ if (!process.env.DATA_API_URL) {
   prettyError(" ❌ Environment variable DATA_API_URL not provided.")
   process.exit(1)
 }
+if (!process.env.RAPID_API_KEY) {
+  prettyError(" ❌ Environment variable RAPID_API_KEY not provided.")
+  process.exit(1)
+}
 
 new MainStack(app, `IPOWarningCdkStack`, {
   environment: process.env.ENVIRONMENT,
-  dataApiUrl: process.env.DATA_API_URL
+  dataApiUrl: process.env.DATA_API_URL,
+  rapidApiKey: process.env.RAPID_API_KEY
 });

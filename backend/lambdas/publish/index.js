@@ -40,6 +40,7 @@ function get_body_text(ipo_name) {
 exports.handler = async (event) => {
   const environment = event['stageVariables']['environment']
   const dataApiUrl = event['stageVariables']['dataApiUrl']
+  const rapidApiKey = event['stageVariables']['rapidApiKey']
 
   let activeUsers = []
   const query = await dynamoDB.send(new ScanCommand({
@@ -52,7 +53,7 @@ exports.handler = async (event) => {
     activeUsers = query.Items
   }
 
-  const body = await httpsExchange(dataApiUrl)
+  const body = await getIpoData(dataApiUrl, rapidApiKey)
   const ipoRawData = JSON.parse(body)['data']
   const parsedIpos = ipoRawData.map((ipo) => ipo['name'].toLowerCase().replaceAll(/,|\.|;/g, '').split(" "))
 
@@ -132,11 +133,15 @@ async function remove_user(user_email, user_keyword, environment) {
   }
 }
 
-async function httpsExchange(url) {
+async function getIpoData(url, rapidApiKey) {
   const parsedUrl = new URL(url)
   const requestOptions = {
     host: parsedUrl.host,
     path: parsedUrl.pathname,
+    headers: {
+      'x-rapidapi-host': 'upcoming-ipo-calendar.p.rapidapi.com',
+      'x-rapidapi-key': rapidApiKey
+    },
     method: "GET",
     protocol: "https:"
   }

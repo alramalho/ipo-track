@@ -6,6 +6,7 @@ import {FrontendStack} from "./frontend-stack";
 interface MainStackProps {
   environment: string
   dataApiUrl: string
+  rapidApiKey: string
 }
 
 export class MainStack extends cdk.Stack {
@@ -20,6 +21,7 @@ export class MainStack extends cdk.Stack {
     const apiStack = new ApiStack(this, `ApiStack-${props.environment}`, {
       environment: props.environment,
       dataApiUrl: props.dataApiUrl,
+      rapidApiKey: props.rapidApiKey,
     })
 
     new DbStack(this, `DynamoDBStack-${props.environment}`, {

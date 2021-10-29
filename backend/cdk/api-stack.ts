@@ -12,6 +12,7 @@ import {NodejsFunction} from "@aws-cdk/aws-lambda-nodejs";
 interface ApiStackProps {
   environment: string,
   dataApiUrl: string,
+  rapidApiKey: string,
 }
 
 export class ApiStack extends cdk.Stack {
@@ -52,7 +53,8 @@ export class ApiStack extends cdk.Stack {
       event: RuleTargetInput.fromObject({
         stageVariables: {
           environment: props.environment,
-          dataApiUrl: props.dataApiUrl
+          dataApiUrl: props.dataApiUrl,
+          rapidApiKey: props.rapidApiKey
         }
       })
     })
