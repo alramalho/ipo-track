@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import React, {useState} from "react"
 import {subscribe} from "../service/service";
-import Header from "../components/header"
 
 export default function Home() {
 
@@ -39,11 +38,11 @@ export default function Home() {
           <div className="px-4 md:px-0">
             <h1
               className="font-serif text-7xl font-bold mt-0 mx-auto mb-8 highlight">
-              IPO Warning!
+              ⚠️ IPO Warning
             </h1>
 
             <p className="font-sans text-lg font-light mt-0 mb-3 mx-auto ">
-              Be the first to know when your favourite company goes public.&nbsp;
+              Be the first to know when some company goes public.&nbsp;
               <em>(it's <span className="font-medium"> free</span>)</em>
             </p>
           </div>
@@ -91,13 +90,13 @@ export default function Home() {
             </h1>
             <div className="font-sans font-light text-md text-gray-800 break-words">
               <p>
-                According to Forbes: An IPO is an <em>initial public offering</em>. In an
+                An IPO is an <em>initial public offering</em>. In an
                 IPO, a privately owned company lists its shares on a stock exchange,
                 making them available for purchase by the general public.
 
               </p>
 
-              <h3 className="font-serif font-bold text-lg mt-3 mb-2">
+              <h3 className="font-serif font-bold text-lg mt-5 mb-2">
                 Why are IPOs important?
               </h3>
               <p>
@@ -145,7 +144,20 @@ export default function Home() {
                 your account,
                 meaning that you won't receive any more emails from us 😊</p>
 
-              <h3 className="font-serif font-bold text-lg mt-3 mb-2">
+
+              <h3 className="font-serif font-bold text-lg mt-5 mb-2">
+                When will I get the warning?
+              </h3>
+              <p>
+                We check against stock analysis free api, which means we only have the IPOs
+                going live in the next week. That translates to you getting your warning
+                <em>with 1 week in advance</em>.
+                If you really really want to get notified earlier than that, consider
+                reading our roadmap and even contributing.
+                I will implement more features as soon as this is auto-sufficient.
+              </p>
+
+              <h3 className="font-serif font-bold text-lg mt-5 mb-2">
                 What happens if I submit multiple times?
               </h3>
               <p>
@@ -159,6 +171,7 @@ export default function Home() {
                 <a className="highlight" href="/roadmap.html">roadmap</a> and maybe even
                 contributing.
               </p>
+
             </div>
           </div>
 
@@ -205,7 +218,7 @@ export default function Home() {
             </div>
 
             <p>Some of them don't have a fixed date yet! Do you want to know when they
-              do?</p>
+              do?</p> <em>Click them!</em>
           </div>
 
 
@@ -225,14 +238,14 @@ export default function Home() {
           </a>
 
           <a
-            href="/terms-of-service.html"
+            href="/privacy-policy.html"
             rel="noopener noreferrer"
           >
             Privacy Policy
           </a>
 
           <a
-            href="/terms-of-service.html"
+            href="/roadmap.html"
             rel="noopener noreferrer"
           >
             Roadmap
@@ -273,7 +286,7 @@ export default function Home() {
         footer {
           width: 100%;
           height: 100px;
-          border-top: 1px solid #eaeaea;
+          border-top: 1px solid #dedede;
           display: flex;
           justify-content: center;
           align-items: center;

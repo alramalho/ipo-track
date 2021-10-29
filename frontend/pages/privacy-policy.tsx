@@ -8,6 +8,7 @@ export default function PrivacyPolicy() {
       <Head>
         <title>IPO Warning | Terms of Service</title>
         <link rel="icon" href="/favicon.ico"/>
+        <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
       </Head>
 
       <main id="main">
@@ -19,42 +20,21 @@ export default function PrivacyPolicy() {
           <div className="px-4 md:px-0">
             <h1
               className="font-serif text-7xl font-bold mt-0 mx-auto mb-12 highlight">
-              Terms of Service
+              Privacy Policy
             </h1>
             <div className="font-sans font-light text-md break-words">
               <p>
-                Please read the terms and conditions carefully before you use this website. Your use of the site assumes that you agree to these terms, as well as our privacy policy.
-                IPO Warning (the “website” or “site”) may modify these terms at any time.              </p>
+                IPO Warning (the “website” or “site”) takes your privacy and rights seriously. We won’t sell or give your data to any third parties at any point in time.
+              </p>
               <br/>
 
               <h3 className="font-serif font-bold text-lg mt-5 mb-2">
                 How is your data used
               </h3>
               <p>
-                When you enter your email and keyword, your email is stored indefinitely in order to further notify you when your keyword matches any word in the announced company name, case insensitive.
-              </p>
-              <br/>
-              <p>
-                We check against stock analysis free api, which means we only have the IPOs going live in the next week.
-                If you really really want to get notified earlier than that, consider reading our roadmap and even contributing.
-              </p>
-              <br/>
-              <p>
-                We will email when you register, when some company matches your keyword (as stated above) and one email when we you de-activate your account, which happens automatically once you get notified.
-              </p>
 
-              <h3 className="font-serif font-bold text-lg mt-5 mb-2">
-                Misuse of platform
-              </h3>
-
-              <p>
-                Any misuse of the platform, such as wrongly typing the email and the keywords are sole responsibility of the user.
-                We don’t analyze the already public companies, so if you enter a keyword from a company that went live already changes are
-                that you will never receive a warning from us.
-              </p>
-              <br/>
-              <p>
-                If any questions remain please feel free to email us at <em>support@ipo-warning.com</em>.
+                This website only collects the user email as it is mandatory for the warning to be sent.
+                You can request the deletion of all your personal data stored at any time by emailing us at <em>support@ipo-warning.com</em>.
               </p>
             </div>
           </div>
