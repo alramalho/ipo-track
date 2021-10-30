@@ -10,7 +10,9 @@ import * as targets from '@aws-cdk/aws-route53-targets';
 
 
 interface FrontendStackProps {
-  environment: string
+  environment: string,
+  sharedCertificate: acm.DnsValidatedCertificate
+  sharedHostedZone: route53.HostedZone
 }
 
 export class FrontendStack extends cdk.Stack {
@@ -23,31 +25,20 @@ export class FrontendStack extends cdk.Stack {
       bucketName: `ipo-warning-s3-bucket-${props.environment}`
     });
 
-    let myHostedZone = new route53.HostedZone(this, 'IpoWarningZone', {
-      zoneName: 'ipo-warning.com',
-    });
-
-    const myCertificate = new acm.Certificate(this, 'Certificate', {
-      domainName: 'www.ipo-warning.com',
-      validation: acm.CertificateValidation.fromDns(myHostedZone),
-    })
-
     const distribution = new cloudfront.Distribution(this, `IPOWarningDistribution-${props.environment}`, {
       defaultBehavior: {origin: new origins.S3Origin(bucket)},
       defaultRootObject: "index.html",
       errorResponses: [{httpStatus: 404, responsePagePath: '/404.html'}],
       domainNames: inProduction ? ['www.ipo-warning.com'] : ['sandbox.ipo-warning.com'],
-      certificate: inProduction ? myCertificate : undefined
+      certificate: props.sharedCertificate
     })
 
     new route53.ARecord(this, `ARecord-${props.environment}`, {
       recordName: inProduction ? "www.ipo-warning.com" : "sandbox.ipo-warning.com",
-      zone: myHostedZone,
+      zone: props.sharedHostedZone,
       target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution))
     });
 
-    myCertificate.applyRemovalPolicy(RemovalPolicy.DESTROY)
-    myHostedZone.applyRemovalPolicy(RemovalPolicy.DESTROY)
     bucket.applyRemovalPolicy(RemovalPolicy.DESTROY)
     distribution.applyRemovalPolicy(RemovalPolicy.DESTROY)
 
