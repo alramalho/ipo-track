@@ -30,7 +30,6 @@ export default function Home() {
       </Head>
 
       <main id="main">
-        {/*<Header/>*/}
 
         <div
           className='relative inset-x-0 bottom-0 transition duration-300 mt-32 z-50 text-gray-700 max-w-screen-md my-0 mx-auto text-left'>
@@ -38,7 +37,8 @@ export default function Home() {
           <div className="px-4 md:px-0">
             <h1
               className="font-serif text-7xl font-bold mt-0 mx-auto mb-8 highlight">
-              ⚠️ IPO Warning
+               IPO Warning&nbsp;
+              <img className="inline max-h-16 -mt-2 object-scale-down" src="./static/ringing-bell.svg" alt="Ringing bell"/>
             </h1>
 
             <p className="font-sans text-lg font-light mt-0 mb-3 mx-auto ">
@@ -209,7 +209,7 @@ export default function Home() {
                    src="./static/logos/discord.svg" alt="Discord"/>
               <img onClick={() => setKeyword("impossible")}
                    className="cursor-pointer object-fit h-8"
-                   src="./static/logos/impossible-foods.svg" alt="Discord"/>
+                   src="./static/logos/impossible-foods.svg" alt="Impossible Foods"/>
               <img onClick={() => setKeyword("stripe")}
                    className="cursor-pointer object-fit h-8"
                    src="./static/logos/stripe.svg" alt="Stripe"/>
@@ -218,8 +218,10 @@ export default function Home() {
                    src="./static/logos/instacart.svg" alt="Instacart"/>
             </div>
 
-            <p>Some of them don't have a fixed date yet! Do you want to know when they
-              do?</p> <em>Click them!</em>
+            <p>
+              Some of them don't have a fixed date yet! Do you want to know when they do?&nbsp;
+              <em>Click them!</em>
+            </p>
           </div>
 
 
