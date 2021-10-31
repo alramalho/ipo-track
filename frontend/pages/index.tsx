@@ -38,7 +38,7 @@ export default function Home() {
             <h1
               className="font-serif text-7xl font-bold mt-0 mx-auto mb-8 highlight">
               IPO Warning&nbsp;
-              <img className="inline max-h-16 -mt-2 object-scale-down"
+              <img className="inline object-left max-h-16 -mt-2 object-scale-down"
                    src="./static/ringing-bell.svg" alt="Ringing bell"/>
             </h1>
 
