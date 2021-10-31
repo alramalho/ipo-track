@@ -11,8 +11,8 @@ import * as targets from '@aws-cdk/aws-route53-targets';
 
 interface FrontendStackProps {
   environment: string,
-  sharedCertificate: acm.DnsValidatedCertificate
-  sharedHostedZone: route53.HostedZone
+  sharedCertificate: acm.ICertificate
+  sharedHostedZone: route53.IHostedZone
 }
 
 export class FrontendStack extends cdk.Stack {

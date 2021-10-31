@@ -5,33 +5,16 @@ import * as route53 from '@aws-cdk/aws-route53';
 
 export class SharedStack extends cdk.Stack {
 
-  readonly hostedZone: route53.HostedZone
-  readonly certificate: acm.DnsValidatedCertificate
+  readonly hostedZone: route53.IHostedZone
+  readonly certificate: acm.ICertificate
 
   constructor(scope: cdk.Construct, id: string) {
     super(scope, id);
 
-    this.hostedZone = new route53.HostedZone(this, 'IpoWarningZone', {
-      zoneName: 'ipo-warning.com',
-    });
-    new route53.ZoneDelegationRecord(this, `AWSNs`, {
-      zone: this.hostedZone,
-      recordName: '*.ipo-warning.com',
-      nameServers: ['ns-1935.awsdns-49.co.uk.', 'ns-544.awsdns-04.net.', 'ns-444.awsdns-55.com.', 'ns-1500.awsdns-59.org.']
-
+    this.hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, 'SharedHostedZone', {
+      hostedZoneId: "Z06420601ZYM964XOXTOX",
+      zoneName: "ipo-warning.com"
     })
-
-    this.certificate = new acm.DnsValidatedCertificate(this, 'CrossRegionCertificate', {
-      domainName: 'ipo-warning.com',
-      hostedZone: this.hostedZone,
-      region: 'us-east-1',
-      validation: acm.CertificateValidation.fromDnsMultiZone({
-        'www.ipo-warning.com': this.hostedZone,
-        'sandbox.ipo-warning.com': this.hostedZone,
-      })
-    })
-
-    // TODO: apply removal policy to certificate
-    this.hostedZone.applyRemovalPolicy(RemovalPolicy.DESTROY)
+    this.certificate = acm.Certificate.fromCertificateArn(this, `SharedCertificate`, "arn:aws:acm:us-east-1:854257060653:certificate/3c473564-082d-4d3b-96ee-b8527d91dc50")
   }
 }

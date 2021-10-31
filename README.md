@@ -1,5 +1,10 @@
 # IPO WARNING
 
+Everything that is needed for the app to fully work is present in this repo, with the exception of domain configuration and hosted zone.
+
+We couldn't find a way to edit the defautl NameServers record, and since it is not mandatory for 
+the app to fully work we figured it isn't needed for the IaC.
+
 ## Guiding principles:
 - **TDD**
 - **BDD**: Test behaviour, not implmentation details. This means that for example the "unit" lambda tests
