@@ -37,8 +37,9 @@ export default function Home() {
           <div className="px-4 md:px-0">
             <h1
               className="font-serif text-7xl font-bold mt-0 mx-auto mb-8 highlight">
-               IPO Warning&nbsp;
-              <img className="inline max-h-16 -mt-2 object-scale-down" src="./static/ringing-bell.svg" alt="Ringing bell"/>
+              IPO Warning&nbsp;
+              <img className="inline max-h-16 -mt-2 object-scale-down"
+                   src="./static/ringing-bell.svg" alt="Ringing bell"/>
             </h1>
 
             <p className="font-sans text-lg font-light mt-0 mb-3 mx-auto ">
@@ -60,7 +61,7 @@ export default function Home() {
                   Email
                 </label>
                 <input
-                  className="focus:shadow-inner appearance-none block w-full bg-gray-130 text-gray-700 border-2 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none"
+                  className="shadow-inner-neum appearance-none block w-full bg-gray-130 text-gray-700 border-2 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none"
                   type="email" name="email" id="email" required
                   placeholder="my@email.com"
                   onChange={handleInputChange}/>
@@ -72,7 +73,7 @@ export default function Home() {
                   Keyword
                 </label>
                 <input
-                  className="focus:shadow-inner appearance-none block w-full bg-gray-130 text-gray-700 border-2 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none"
+                  className="shadow-inner-neum appearance-none block w-full bg-gray-130 text-gray-700 border-2 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none"
                   type="text" name="keyword" id="keyword" required
                   placeholder="stripe"
                   onChange={handleInputChange}/>
@@ -219,7 +220,8 @@ export default function Home() {
             </div>
 
             <p>
-              Some of them don't have a fixed date yet! Do you want to know when they do?&nbsp;
+              Some of them don't have a fixed date yet! Do you want to know when they
+              do?&nbsp;
               <em>Click them!</em>
             </p>
           </div>
@@ -257,6 +259,14 @@ export default function Home() {
       </footer>
 
       <style jsx>{`
+
+        .shadow-inner-neum {
+          box-shadow: inset 3px 3px 7px #e1e1e1, inset -3px -3px 7px #f8f8f8
+        }
+
+        .shadow-inner-neum:focus {
+          box-shadow: inset 3px 3px 7px #d7e5ba, inset -3px -3px 7px #f7fee7
+        }
 
         .shadow-neum {
           box-shadow: 20px 20px 40px #e1e1e1, -20px -20px 40px #ffffff;
