@@ -8,11 +8,9 @@ export default function PrivacyPolicy() {
       <Head>
         <title>IPO Warning | Terms of Service</title>
         <link rel="icon" href="/favicon.ico"/>
-        <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
       </Head>
 
       <main id="main">
-        {/*<Header/>*/}
 
         <div
           className='relative inset-x-0 bottom-0 transition duration-300 mt-32 z-50 text-gray-700 max-w-screen-md my-0 mx-auto text-left'>
@@ -47,7 +45,7 @@ export default function PrivacyPolicy() {
 
       <footer>
         <a
-          href="/"
+          href="javascript:history.back()"
           rel="noopener noreferrer"
         >
           Go back

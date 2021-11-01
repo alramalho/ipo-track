@@ -54,7 +54,7 @@ export default function Home() {
             <form className="flex flex-col md:flex-row justify-around md:items-end"
                   onSubmit={handleSubmit}
                   method="post">
-              <div className="py-2">
+              <div className="mb-6 md:mb-0">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                   htmlFor="email">
@@ -66,7 +66,7 @@ export default function Home() {
                   placeholder="my@email.com"
                   onChange={handleInputChange}/>
               </div>
-              <div className="py-2">
+              <div className="mb-6 md:mb-0">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                   htmlFor="keyword">
@@ -230,11 +230,11 @@ export default function Home() {
         </div>
 
         <div className="w-full flex justify-center mb-8 mt-44">
-          <a className="text-gray-800 highlight" href="#header">&uarr;</a>
+          <a className="text-gray-800 highlight" href="#main">&uarr;</a>
         </div>
       </main>
       <footer>
-        <div className="grid grid-cols-2 gap-5 place-items-center my-8">
+        <div className="grid grid-cols-2 gap-5 place-items-center">
           <a
             href="/terms-of-service.html"
             rel="noopener noreferrer"
@@ -303,7 +303,7 @@ export default function Home() {
           display: flex;
           justify-content: center;
           align-items: center;
-          padding: 1rem;
+          padding: 4rem;
         }
 
         footer img {
@@ -311,9 +311,10 @@ export default function Home() {
         }
 
         footer a {
-          display: flex;
+          display: inline;
           justify-content: center;
           align-items: center;
+          box-decoration-break: clone;
         }
 
 
