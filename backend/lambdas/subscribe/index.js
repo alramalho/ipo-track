@@ -58,7 +58,7 @@ exports.handler = async (event) => {
     await ses.send(new SendEmailCommand({
       Destination: {
         'ToAddresses': [
-          SENDER
+          user_email
         ],
       },
       Message: {
