@@ -14,7 +14,9 @@ export default function Home() {
 
   function handleSubmit(event) {
     event.preventDefault()
-    subscribe(formData).then(() => alert('success'))
+    subscribe(formData)
+      .then(() => alert('Registered successfully! Check your email'))
+      .catch(() => alert('Oops! Something went wrong. Please try again later'))
   }
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
