@@ -28,7 +28,10 @@ export class FrontendStack extends cdk.Stack {
     const distribution = new cloudfront.Distribution(this, `IPOWarningDistribution-${props.environment}`, {
       defaultBehavior: {origin: new origins.S3Origin(bucket)},
       defaultRootObject: "index.html",
-      errorResponses: [{httpStatus: 404, responsePagePath: '/404.html'}],
+      errorResponses: [
+        {httpStatus: 404, responsePagePath: '/404.html'},
+        {httpStatus: 403, responsePagePath: '/404.html'}
+      ],
       domainNames: inProduction ? ['www.ipo-warning.com'] : ['sandbox.ipo-warning.com'],
       certificate: props.sharedCertificate
     })
