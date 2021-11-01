@@ -170,6 +170,7 @@ jobs:
 
           export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionApiURL' | grep -v 'null' | tr -d '"')
           yarn build
+          yarn sitemap
 
           export PRODUCTION_DISTRIBUTION_ID=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
           yarn deploy-production
