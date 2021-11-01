@@ -1,14 +1,12 @@
 import Head from 'next/head'
 import React from "react"
+import SEO from "../components/seo";
 
 export default function PrivacyPolicy() {
 
   return (
     <div className="container">
-      <Head>
-        <title>IPO Warning | Terms of Service</title>
-        <link rel="icon" href="/favicon.ico"/>
-      </Head>
+      <SEO title={"Terms of service"}/>
 
       <main id="main">
 
