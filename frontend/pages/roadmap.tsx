@@ -32,7 +32,7 @@ export default function PrivacyPolicy() {
 
               </ul>
 
-              <a className="font-mono" href="https://ko-fi.com/alramalho">
+              <a className="font-mono" target="__blank" href="https://ko-fi.com/alramalho">
                 Support ipo-warning
               </a>
             </div>
