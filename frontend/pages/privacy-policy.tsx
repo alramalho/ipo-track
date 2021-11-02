@@ -28,9 +28,9 @@ export default function PrivacyPolicy() {
                 How is your data used?
               </h3>
               <p>
-
                 This website only collects the user email as it is mandatory for the warning to be sent.
-                You can request the deletion of all your personal data stored at any time by emailing us at <em>support@ipo-warning.com</em>.
+                You can request the deletion of all your personal data stored at any time by reaching us through&nbsp;
+                <a href="/contact.html" className="highlight">our contact form</a>.
               </p>
             </div>
           </div>

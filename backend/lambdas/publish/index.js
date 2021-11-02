@@ -21,7 +21,7 @@ function get_body_html(ipo_name) {
           <h1>${ipo_name} is making an IPO!</h1>
           <a href="https://stockanalysis.com/ipos/calendar/">Click here to know the details.<a/>
           
-          <small><p>If this is not the company you were looking for, email us at support@ipo-warning.com
+          <small><p>If this is not the company you were looking for, contact us via <a href="https://www.ipo-warning.com/contact.html" className="highlight">our contact form</a>
           <small/>
         </body>
     </html>
@@ -31,9 +31,10 @@ function get_body_html(ipo_name) {
 
 function get_body_text(ipo_name) {
   return `
-    Your IPO will go public!
-    ${ipo_name} is finally listed to go public in the future!
+    ${ipo_name} is making an IPO!
     Go to https://stockanalysis.com/ipos/calendar to find more.
+    
+    If this is not the company you were looking for, please contact us through www.ipo-warning.com/contact.html
   `;
 }
 

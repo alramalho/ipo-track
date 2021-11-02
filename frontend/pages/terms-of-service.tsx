@@ -50,7 +50,7 @@ export default function PrivacyPolicy() {
               </p>
               <br/>
               <p>
-                If any questions remain please feel free to email us at <em>support@ipo-warning.com</em>.
+                If any questions remain please feel free to contact us through <a href="/contact.html" className="highlight">our contact form</a>.
               </p>
             </div>
           </div>
