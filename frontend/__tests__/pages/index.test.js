@@ -1,10 +1,11 @@
 import React from 'react'
-import {render, screen, waitFor} from '@testing-library/react'
+import {act, render, screen, waitFor} from '@testing-library/react'
 import Home from '../../pages'
 import userEvent from "@testing-library/user-event";
-import {subscribe} from "../../service/service";
+import {subscribe} from "../../service/subscribe";
 
-jest.mock("../../service/service")
+jest.mock("../../service/subscribe")
+
 
 describe('when testing the index page', () => {
   describe('initial rendering', () => {
@@ -53,62 +54,85 @@ describe('when testing the index page', () => {
     expect(subscribe).toHaveBeenCalledTimes(0)
   })
 
-  it('should call the subscribe service on form submit', () => {
-    subscribe.mockImplementation(() => new Promise(() => {
-    }))
-    render(<Home/>)
-    const emailInput = screen.getByLabelText(/email/i)
-    const keywordInput = screen.getByLabelText(/keyword/i)
-    const submitInput = screen.getByRole('button', {
-      name: /submit/i,
+  describe('when submitting the form', () => {
+
+    beforeAll(function () {
+      jest.useFakeTimers()
+    });
+
+    afterAll(function () {
+      jest.useRealTimers()
+    });
+
+    it('should call the subscribe service on form submit', () => {
+      subscribe.mockImplementation(() => new Promise(() => {
+      }))
+      render(<Home/>)
+      const emailInput = screen.getByLabelText(/email/i)
+      const keywordInput = screen.getByLabelText(/keyword/i)
+      const submitInput = screen.getByRole('button', {
+        name: /submit/i,
+      })
+
+      userEvent.type(emailInput, "teste@teste.com")
+      userEvent.type(keywordInput, "Alma")
+      userEvent.click(submitInput)
+
+      expect(subscribe).toHaveBeenCalledTimes(1)
+      expect(subscribe).toHaveBeenLastCalledWith({
+        email: "teste@teste.com",
+        keyword: "Alma"
+      })
     })
 
-    userEvent.type(emailInput, "teste@teste.com")
-    userEvent.type(keywordInput, "Alma")
-    userEvent.click(submitInput)
+    it('should see the popup message for 3 seconds when subscribing', async () => {
+      subscribe.mockImplementation(() => Promise.resolve())
+      render(<Home/>)
+      const emailInput = screen.getByLabelText(/email/i)
+      const keywordInput = screen.getByLabelText(/keyword/i)
+      const submitInput = screen.getByRole('button', {
+        name: /submit/i,
+      })
+      await act(async () => {
+        userEvent.type(emailInput, "teste@teste.com")
+        userEvent.type(keywordInput, "Alma")
+        userEvent.click(submitInput)
 
-    expect(subscribe).toHaveBeenCalledTimes(1)
-    expect(subscribe).toHaveBeenLastCalledWith({
-      email: "teste@teste.com",
-      keyword: "Alma"
-    })
-  })
 
-  it('should see the popup message when subscribing', () => {
-    subscribe.mockImplementation(() => new Promise(() => {
-    }))
-    render(<Home/>)
-    const emailInput = screen.getByLabelText(/email/i)
-    const keywordInput = screen.getByLabelText(/keyword/i)
-    const submitInput = screen.getByRole('button', {
-      name: /submit/i,
-    })
-
-    userEvent.type(emailInput, "teste@teste.com")
-    userEvent.type(keywordInput, "Alma")
-    userEvent.click(submitInput)
-
-    waitFor(() => {
-      expect(screen.getByText('Registered successfully! Check your email')).toBeInTheDocument()
-    })
-  })
-
-  it('should see the error popup message when subscribing fails', () => {
-    subscribe.mockImplementation(() => Promise.reject(new Error()))
-
-    render(<Home/>)
-    const emailInput = screen.getByLabelText(/email/i)
-    const keywordInput = screen.getByLabelText(/keyword/i)
-    const submitInput = screen.getByRole('button', {
-      name: /submit/i,
+        await waitFor(() => {
+          expect(screen.queryByText(/Registered successfully! Check your email/i)).toBeVisible()
+        })
+        jest.advanceTimersByTime(3000)
+        await waitFor(() => {
+          expect(screen.queryByText(/Registered successfully! Check your email/i)).not.toBeVisible()
+        })
+      })
     })
 
-    userEvent.type(emailInput, "teste@teste.com")
-    userEvent.type(keywordInput, "Alma")
-    userEvent.click(submitInput)
+    it('should see the error popup message for 3 seconds when subscribing fails', async () => {
+      subscribe.mockImplementation(() => Promise.reject(new Error()))
 
-    waitFor(() => {
-      expect(screen.getByText('Oops! Something went wrong. Please try again later')).toBeInTheDocument()
+      render(<Home/>)
+      const emailInput = screen.getByLabelText(/email/i)
+      const keywordInput = screen.getByLabelText(/keyword/i)
+      const submitInput = screen.getByRole('button', {
+        name: /submit/i,
+      })
+      await act(async () => {
+        userEvent.type(emailInput, "teste@teste.com")
+        userEvent.type(keywordInput, "Alma")
+        userEvent.click(submitInput)
+
+
+        await waitFor(() => {
+          expect(screen.queryByText(/Oops! Something went wrong. Please try again later/i)).toBeVisible()
+        })
+        jest.advanceTimersByTime(3000)
+        await waitFor(() => {
+          expect(screen.queryByText(/Oops! Something went wrong. Please try again later/i)).not.toBeVisible()
+        })
+      })
     })
+
   })
 })

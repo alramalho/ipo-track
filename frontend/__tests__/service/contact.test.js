@@ -1,4 +1,4 @@
-import {subscribe} from "../../service/service";
+import {contact} from "../../service/contact";
 import moxios from 'moxios'
 
 
@@ -14,21 +14,23 @@ describe('when testing the service', () => {
     moxios.uninstall()
   })
 
-  it('should properly call the subscribe endpoint', async () => {
-    moxios.stubRequest(`${process.env.NEXT_PUBLIC_API_URL}/subscribe`, {
+  it('should properly call the contact endpoint', async () => {
+    moxios.stubRequest(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
       status: 200,
     })
 
-    const response = await subscribe({
+    const response = await contact({
       email: "test-email",
-      keyword: "test-keyword"
+      subject: "test-subject",
+      message: "test-keyword"
     })
     const request = moxios.requests.mostRecent()
 
     expect(request.config.method).toEqual('post')
     expect(JSON.parse(request.config.data)).toEqual({
       email: "test-email",
-      keyword: "test-keyword"
+      subject: "test-subject",
+      message: "test-keyword"
     })
     expect(response.status).toBe(200)
 

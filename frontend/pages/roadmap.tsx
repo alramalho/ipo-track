@@ -4,7 +4,7 @@ import SEO from "../components/seo";
 export default function PrivacyPolicy() {
 
   return (
-    <div className="container">
+    <div>
       <SEO title={"Roadmap"} />
 
 
@@ -45,49 +45,13 @@ export default function PrivacyPolicy() {
 
       <footer>
         <a
-          href="javascript:history.back()"
+          onClick={() => history.back()}
           rel="noopener noreferrer"
         >
           Go back
         </a>
       </footer>
 
-
-      <style jsx>{`
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-          Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-          sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
     </div>
   )
 }
