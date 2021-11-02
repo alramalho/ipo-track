@@ -34,7 +34,6 @@ describe('when testing the index page', () => {
     })
   })
 
-
   it('should not call the subscribe service if honeypot is filled', () => {
     subscribe.mockImplementation(() => new Promise(() => {
     }))
@@ -58,6 +57,7 @@ describe('when testing the index page', () => {
 
     beforeAll(function () {
       jest.useFakeTimers()
+      jest.clearAllMocks()
     });
 
     afterAll(function () {

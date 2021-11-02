@@ -13,9 +13,8 @@ export default function Contact() {
   })
 
   function handleSubmit(event) {
-    console.log("submitted")
     event.preventDefault()
-    if (contactFormData == undefined || contactFormData.honeypot !== undefined) return
+    if (contactFormData && contactFormData.honeypot !== undefined) return
 
     contact(contactFormData)
       .then(() => {
@@ -117,13 +116,13 @@ export default function Contact() {
                 type="submit" value="Submit &rarr;"
               />
             </form>
+            <Toast
+              type={toastProps.type}
+              message={toastProps.message}
+              isVisible={toastProps.isVisible}
+            />
 
           </div>
-          <Toast
-            type={toastProps.type}
-            message={toastProps.message}
-            isVisible={toastProps.isVisible}
-          />
 
         </div>
 

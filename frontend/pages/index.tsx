@@ -109,7 +109,7 @@ export default function Home() {
               <input
                 className="submit-button cursor-pointer	transform transition duration-300 rounded uppercase tracking-wide text-gray-700 leading-tight text-s font-bold py-5 px-4"
                 type="submit" value="Submit &rarr;"
-                onClick={handleSubmit}/>
+              />
             </form>
             <Toast type={toastProps.type} message={toastProps.message} isVisible={toastProps.isVisible}/>
 
@@ -267,6 +267,7 @@ export default function Home() {
           <a className="text-gray-800 highlight" href="#main">&uarr;</a>
         </div>
       </main>
+
       <footer>
         <div className="grid grid-cols-2 gap-5 place-items-center">
           <a

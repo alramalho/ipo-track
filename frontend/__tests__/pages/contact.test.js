@@ -7,9 +7,6 @@ import {subscribe} from "../../service/subscribe";
 import Home from "../../pages";
 
 jest.mock("../../service/contact")
-jest.spyOn(window, 'alert').mockImplementation((text) => {
-  document.getElementById("main").appendChild(<div>{text}</div>)
-});
 
 describe('when testing the index page', () => {
 
