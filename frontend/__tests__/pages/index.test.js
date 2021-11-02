@@ -33,6 +33,26 @@ describe('when testing the index page', () => {
     })
   })
 
+
+  it('should not call the subscribe service if honeypot is filled', () => {
+    subscribe.mockImplementation(() => new Promise(() => {
+    }))
+    render(<Home/>)
+    const emailInput = screen.getByLabelText(/email/i)
+    const keywordInput = screen.getByLabelText(/keyword/i)
+    const honeypotInput = screen.getByTestId(/honeypot/i)
+    const submitInput = screen.getByRole('button', {
+      name: /submit/i,
+    })
+
+    userEvent.type(emailInput, "teste@teste.com")
+    userEvent.type(keywordInput, "Alma")
+    userEvent.type(honeypotInput, "QQ")
+    userEvent.click(submitInput)
+
+    expect(subscribe).toHaveBeenCalledTimes(0)
+  })
+
   it('should call the subscribe service on form submit', () => {
     subscribe.mockImplementation(() => new Promise(() => {
     }))

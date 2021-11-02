@@ -1,4 +1,5 @@
 interface FormData {
     email: string,
-    keyword: string
+    keyword: string,
+    honeypot: string
 }

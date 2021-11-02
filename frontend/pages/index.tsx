@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import React, {useState} from "react"
 import {subscribe} from "../service/service";
 import SEO from "../components/seo";
@@ -15,6 +14,8 @@ export default function Home() {
 
   function handleSubmit(event) {
     event.preventDefault()
+    if(formData.honeypot !== undefined) return
+
     subscribe(formData)
       .then(() => alert('Registered successfully! Check your email'))
       .catch(() => alert('Oops! Something went wrong. Please try again later'))
@@ -78,6 +79,11 @@ export default function Home() {
                     placeholder="stripe"
                     onChange={handleInputChange}/>
                 </div>
+                <input
+                  data-testid="honeypot"
+                  className="hidden"
+                  name="honeypot" id="honeypot"
+                  onChange={handleInputChange}/>
                 <input
                   className="submit-button cursor-pointer	transform transition duration-300 rounded uppercase tracking-wide text-gray-700 leading-tight text-s font-bold py-5 px-4"
                   type="submit" value="Submit &rarr;"
