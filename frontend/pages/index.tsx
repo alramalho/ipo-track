@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {subscribe} from "../service/service";
+import {subscribe} from "../service/subscribe";
 import SEO from "../components/seo";
 
 export default function Home() {
@@ -50,7 +50,7 @@ export default function Home() {
             </div>
 
             <div
-              className='rounded-3xl bg-gray-115 text-gray-900 pt-12 pb-14 px-8 rounded-10 shadow-neum mx-8 mt-24 mb-32 xl:mx-0'>
+              className='rounded-3xl bg-gray-115 text-gray-900 pt-12 pb-14 px-8 rounded-10 shadow-neum mt-24 mb-32 xl:mx-0'>
 
               <form className="flex flex-col md:flex-row justify-around md:items-end"
                     onSubmit={handleSubmit}
@@ -269,41 +269,6 @@ export default function Home() {
 
         <style jsx>{`
 
-          .shadow-inner-neum {
-            box-shadow: inset 3px 3px 7px #e1e1e1, inset -3px -3px 7px #f8f8f8
-          }
-
-          .shadow-inner-neum:focus {
-            box-shadow: inset 3px 3px 7px #d7e5ba, inset -3px -3px 7px #f7fee7
-          }
-
-          .shadow-neum {
-            box-shadow: 20px 20px 40px #e1e1e1, -20px -20px 40px #ffffff;
-          }
-
-          .submit-button {
-            background: linear-gradient(145deg, #ecfccb, #e0efc1);
-            box-shadow: 2px 2px 5px #d1d1d1, -2px -2px 5px #ffffff;
-            transition: 300ms;
-          }
-
-          .submit-button:hover {
-            box-shadow: none;
-          }
-
-          .submit-button:active {
-            box-shadow: inset 2px 2px 7px #d1d1d1, inset -2px -2px 7px #ffffff;
-          }
-
-
-          .hard-text-shadow {
-            text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
-
-          }
-
-          .soft-text-shadow {
-            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
-          }
 
           footer {
             width: 100%;

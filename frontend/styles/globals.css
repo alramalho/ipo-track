@@ -24,6 +24,55 @@ a {
     border-bottom: 1px solid #232323;
 }
 
+.toast {
+    visibility: hidden; 
+    min-width: 10rem;
+    margin-left: -5px;
+    background-color: #333; 
+    color: #fff; 
+    text-align: center; 
+    border-radius: 2px; 
+    padding: 16px; 
+    position: fixed; 
+    z-index: 1; 
+    left: 50%; 
+    bottom: 30px; 
+}
+
+.toast.show {
+    visibility: visible; 
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+.shadow-inner-neum {
+    box-shadow: inset 2px 2px 5px #cfcfcf, inset -3px -3px 7px #f8f8f8;
+    border: 1px solid #e3e3e3;
+}
+
+.shadow-inner-neum:focus {
+    box-shadow: inset 2px 2px 5px #d7e5ba, inset -3px -3px 7px #f7fee7;
+    border: 1px solid #d7e5ba;
+}
+
+.shadow-neum {
+    box-shadow: 15px 15px 20px #e1e1e1, -15px -15px 20px #ffffff;
+}
+
+.submit-button {
+    background: linear-gradient(145deg, #ecfccb, #e0efc1);
+    box-shadow: 2px 2px 5px #d1d1d1, -2px -2px 5px #ffffff;
+    transition: 300ms;
+}
+
+.submit-button:hover {
+    box-shadow: none;
+}
+
+.submit-button:active {
+    box-shadow: inset 2px 2px 7px #d1d1d1, inset -2px -2px 7px #ffffff;
+}
+
 .highlight, em {
     color: inherit;
     font-style: inherit;
