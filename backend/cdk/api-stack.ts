@@ -18,12 +18,29 @@ interface ApiStackProps {
 export class ApiStack extends cdk.Stack {
 
   readonly api: apigw.RestApi;
+  readonly contactLambda: lambda.Function;
   readonly subscribeLambda: lambda.Function;
   readonly publishLambda: lambda.Function;
   readonly userRemovalLambda: lambda.Function;
 
   constructor(scope: cdk.Construct, id: string, props: ApiStackProps) {
     super(scope, id);
+
+    const contactLambdaNameBaseName = 'IPOWarningContactCDK'
+    this.contactLambda = new NodejsFunction(this, 'ContactLambda', {
+      functionName: `${contactLambdaNameBaseName}-${props.environment}`,
+      entry: path.join(__dirname, '../lambdas/contact/index.js'), // accepts .js, .jsx, .ts and .tsx files
+      handler: 'handler',
+      runtime: lambda.Runtime.NODEJS_14_X,
+      memorySize: 1024,
+      timeout: cdk.Duration.seconds(10),
+    });
+    this.contactLambda.grantInvoke(new iam.ServicePrincipal('apigateway.amazonaws.com'));
+    this.contactLambda.addToRolePolicy(new iam.PolicyStatement({
+      actions: ['ses:SendEmail', 'SES:SendRawEmail'],
+      resources: ['*'],
+      effect: iam.Effect.ALLOW,
+    }));
 
     const subscribeLambdaNameBaseName = 'IPOWarningSubscribeCDK'
     this.subscribeLambda = new NodejsFunction(this, 'SubscribeLambda', {
@@ -121,13 +138,25 @@ export class ApiStack extends cdk.Stack {
       proxy: true, // Make lambda responsible for building the API response according to https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-output-format
     }));
 
+    const contactResource = this.api.root.addResource('contact');
+    const stageContactLambda = lambda.Function.fromFunctionArn(
+      this,
+      `contact-lambda-stage`,
+      `arn:aws:lambda:eu-west-1:854257060653:function:${contactLambdaNameBaseName}-\${stageVariables.environment}`
+    )
+    contactResource.addMethod('POST', new LambdaIntegration(stageContactLambda, {
+      proxy: true,
+    }));
+
     this.subscribeLambda.applyRemovalPolicy(RemovalPolicy.DESTROY)
+    this.contactLambda.applyRemovalPolicy(RemovalPolicy.DESTROY)
     this.publishLambda.applyRemovalPolicy(RemovalPolicy.DESTROY)
     this.userRemovalLambda.applyRemovalPolicy(RemovalPolicy.DESTROY)
     this.api.applyRemovalPolicy(RemovalPolicy.DESTROY)
     publishScheduleRule.applyRemovalPolicy(RemovalPolicy.DESTROY)
 
     // Outputs
+    new cdk.CfnOutput(this, `${props.environment}ContactLambdaArn`, {value: this.contactLambda.functionArn});
     new cdk.CfnOutput(this, `${props.environment}SubscribeLambdaArn`, {value: this.subscribeLambda.functionArn});
     new cdk.CfnOutput(this, `${props.environment}PublishLambdaArn`, {value: this.subscribeLambda.functionArn});
     new cdk.CfnOutput(this, `${props.environment}UserRemovalLambdaArn`, {value: this.userRemovalLambda.functionArn});
