@@ -25,7 +25,7 @@ export default function PrivacyPolicy() {
               <br/>
 
               <h3 className="font-serif font-bold text-lg mt-5 mb-2">
-                How is your data used
+                How is your data used?
               </h3>
               <p>
 

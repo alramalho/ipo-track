@@ -126,7 +126,7 @@ export default function Home() {
                   You can learn more about this in the&nbsp;
                   <a href="https://www.investopedia.com/terms/i/ipo.asp" target="__blank"
                      className="highlight" rel="external noopener">
-                    investopedia article regarding IPOs
+                    Investopedia article regarding IPOs
                   </a>
                 </p>
               </div>
@@ -160,7 +160,7 @@ export default function Home() {
                 <p>
                   We check against stock analysis free api, which means we only have the
                   IPOs
-                  going live in the next week. That translates to you getting your warning
+                  going live in the next week. That translates to you getting your warning&nbsp;
                   <em>with 1 week in advance</em>.
                   If you really really want to get notified earlier than that, consider
                   reading our roadmap and even contributing.
@@ -171,7 +171,7 @@ export default function Home() {
                   What happens if I submit multiple times?
                 </h3>
                 <p>
-                  Currently <em>only 1 keyword per email is allowed</em>.
+                  Currently, <em>only 1 keyword per email is allowed</em>.
                   That means if you fill the small form multiple times <em>only the last
                   one
                   will be accounted</em> for and you will be warned about it.
@@ -199,10 +199,9 @@ export default function Home() {
                   to do a 10 000$ initial deposit. 🤯
                   <br/>
                   Timing is everything! So <em>this is for anyone that wants to be the
-                  first
-                  invest in a private company </em>once it goes public but doesn't want
-                  to be constantly browsing the markets to check if its IPO date was
-                  already announced.
+                  first to invest in a private company </em>once it goes public but
+                  doesn't want to be constantly browsing the markets to check if its
+                  IPO date was already announced.
                 </p>
               </div>
             </div>

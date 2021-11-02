@@ -24,19 +24,19 @@ export default function PrivacyPolicy() {
               <br/>
 
               <h3 className="font-serif font-bold text-lg mt-5 mb-2">
-                How is your data used
+                How is your data used?
               </h3>
               <p>
                 When you enter your email and keyword, your email is stored indefinitely in order to further notify you when your keyword matches any word in the announced company name, case insensitive.
               </p>
               <br/>
               <p>
-                We check against stock analysis free api, which means we only have the IPOs going live in the next week.
+                We check against stock analysis free API, which means we only have the IPOs going live in the next week.
                 If you really really want to get notified earlier than that, consider reading our roadmap and even contributing.
               </p>
               <br/>
               <p>
-                We will email when you register, when some company matches your keyword (as stated above) and one email when we you de-activate your account, which happens automatically once you get notified.
+                We will email when you register, when some company matches your keyword (as stated above) and one email when you de-activate your account, which happens automatically once you get notified.
               </p>
 
               <h3 className="font-serif font-bold text-lg mt-5 mb-2">
@@ -44,8 +44,8 @@ export default function PrivacyPolicy() {
               </h3>
 
               <p>
-                Any misuse of the platform, such as wrongly typing the email and the keywords are sole responsibility of the user.
-                We don’t analyze the already public companies, so if you enter a keyword from a company that went live already changes are
+                Any misuse of the platform, such as wrongly typing the email and the keywords are the sole responsibility of the user.
+                We don’t analyze the already public companies, so if you enter a keyword from a company that went live already chances are
                 that you will never receive a warning from us.
               </p>
               <br/>
