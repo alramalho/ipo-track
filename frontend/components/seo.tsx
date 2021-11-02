@@ -10,6 +10,7 @@ interface SEOProps {
 const SEO = ({title, description}: SEOProps) => {
   const renderedTitle = `IPO Warning${title ? ` | ${title}` : ""}`
   return (
+
     <Head>
       <title>{renderedTitle}</title>
       <link rel="icon" href={"./static/favicon.ico"}/>
@@ -29,20 +30,8 @@ const SEO = ({title, description}: SEOProps) => {
           <meta name="twitter:description" content={description}/>
           <meta property="og:description" content={description}/>
         </>
-        : undefined
+        : <></>
       }
-
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-KJ6MKYQ25L" />
-      <Script id="analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        
-          gtag('config', 'G-KJ6MKYQ25L');
-        `}
-      </Script>
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-KJ6MKYQ25L" />
     </Head>
   )
 }
