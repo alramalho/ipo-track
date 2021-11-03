@@ -238,7 +238,7 @@ export default function Home() {
           </section>
 
 
-          <section className='mt-32 mx-8 xl:mx-0 text-left text-gray-800'>
+          <section className='mt-32 mx-8 xl:mx-0 text-left text-gray-800 text-gray-800 font-sans font-light text-md break-words'>
             <h1
               className="font-serif text-5xl font-bold mb-12 text-gray-700 ">
               Some popular IPOs 🔜
