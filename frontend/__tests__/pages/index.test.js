@@ -1,10 +1,10 @@
 import React from 'react'
 import {act, render, screen, waitFor} from '@testing-library/react'
-import Home from '../../pages'
+import Home from '../../src/pages'
 import userEvent from "@testing-library/user-event";
-import {subscribe} from "../../service/subscribe";
+import {subscribe} from "../../src/service/subscribe";
 
-jest.mock("../../service/subscribe")
+jest.mock("../../src/service/subscribe")
 
 
 describe('when testing the index page', () => {
