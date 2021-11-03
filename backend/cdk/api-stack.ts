@@ -8,6 +8,8 @@ import {Rule, Schedule, RuleTargetInput} from '@aws-cdk/aws-events';
 import {LambdaFunction} from '@aws-cdk/aws-events-targets';
 import * as path from 'path';
 import {NodejsFunction} from "@aws-cdk/aws-lambda-nodejs";
+import * as crypto from "crypto";
+
 
 interface ApiStackProps {
   environment: string,
@@ -43,7 +45,7 @@ export class ApiStack extends cdk.Stack {
     }));
 
     const subscribeLambdaNameBaseName = 'IPOWarningSubscribeCDK'
-    this.subscribeLambda = new NodejsFunction(this, 'SubscribeLambda', {
+    const subscribe = new NodejsFunction(this, 'SubscribeLambda', {
       functionName: `${subscribeLambdaNameBaseName}-${props.environment}`,
       entry: path.join(__dirname, '../lambdas/subscribe/index.js'), // accepts .js, .jsx, .ts and .tsx files
       handler: 'handler',
@@ -51,6 +53,7 @@ export class ApiStack extends cdk.Stack {
       memorySize: 1024,
       timeout: cdk.Duration.seconds(10),
     });
+    this.subscribeLambda = subscribe
     this.subscribeLambda.grantInvoke(new iam.ServicePrincipal('apigateway.amazonaws.com'));
     this.subscribeLambda.addToRolePolicy(new iam.PolicyStatement({
       actions: ['ses:SendEmail', 'SES:SendRawEmail'],
@@ -113,20 +116,6 @@ export class ApiStack extends cdk.Stack {
       restApiName: `IPOWarningCDK-${props.environment}`,
       deploy: false
     });
-    const deployment = new apigw.Deployment(this, `${props.environment}_api_deployment`, {api: this.api});
-    this.api.deploymentStage = new apigw.Stage(
-      this,
-      `${props.environment}_stage`,
-      {
-        deployment,
-        stageName: props.environment,
-        variables: {
-          environment: props.environment
-        },
-        loggingLevel: apigw.MethodLoggingLevel.INFO,
-        dataTraceEnabled: true
-      }
-    );
 
     const subscribeResource = this.api.root.addResource('subscribe');
     const stageSubscribeLambda = lambda.Function.fromFunctionArn(
@@ -148,19 +137,37 @@ export class ApiStack extends cdk.Stack {
       proxy: true,
     }));
 
+    const deployment = new apigw.Deployment(this, `${props.environment}_api_deployment`, {
+      api: this.api,
+    });
+    deployment.addToLogicalId(crypto.randomUUID())
+    this.api.deploymentStage = new apigw.Stage(
+      this,
+      `${props.environment}_stage`,
+      {
+        deployment,
+        stageName: props.environment,
+        variables: {
+          environment: props.environment
+        },
+        loggingLevel: apigw.MethodLoggingLevel.INFO,
+        dataTraceEnabled: true
+      }
+    );
+
     this.subscribeLambda.applyRemovalPolicy(RemovalPolicy.DESTROY)
     this.contactLambda.applyRemovalPolicy(RemovalPolicy.DESTROY)
     this.publishLambda.applyRemovalPolicy(RemovalPolicy.DESTROY)
     this.userRemovalLambda.applyRemovalPolicy(RemovalPolicy.DESTROY)
     this.api.applyRemovalPolicy(RemovalPolicy.DESTROY)
     publishScheduleRule.applyRemovalPolicy(RemovalPolicy.DESTROY)
-
     // Outputs
     new cdk.CfnOutput(this, `${props.environment}ContactLambdaArn`, {value: this.contactLambda.functionArn});
     new cdk.CfnOutput(this, `${props.environment}SubscribeLambdaArn`, {value: this.subscribeLambda.functionArn});
     new cdk.CfnOutput(this, `${props.environment}PublishLambdaArn`, {value: this.subscribeLambda.functionArn});
     new cdk.CfnOutput(this, `${props.environment}UserRemovalLambdaArn`, {value: this.userRemovalLambda.functionArn});
     new cdk.CfnOutput(this, `${props.environment}ApiURL`, {value: `https://${this.api.restApiId}.execute-api.${this.region}.amazonaws.com/${props.environment}`});
+    new cdk.CfnOutput(this, `${props.environment}ApiURLLatestDeploymentId`, {value: `${this.api.latestDeployment?.deploymentId}`});
     new cdk.CfnOutput(this, `${props.environment}SubscribeURL`, {
       value: `https://${this.api.restApiId}.execute-api.${this.region}.amazonaws.com/${props.environment}${subscribeResource.path}`,
     })
