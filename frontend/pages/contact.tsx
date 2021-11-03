@@ -31,8 +31,8 @@ export default function Contact() {
           message: 'Oops! Something went wrong. Please try again later\''
         })
       })
-      .finally(async () => {
-        await setTimeout(() => {
+      .finally(() => {
+        setTimeout(() => {
           setToastProps(prev => ({...prev, isVisible: false}))
         }, 3000)
       })
@@ -41,7 +41,9 @@ export default function Contact() {
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setContactFormData({...contactFormData, [event.target.name]: event.target.value})
   }
-
+  function handleHoneypot(event: React.ChangeEvent<HTMLInputElement>) {
+    setContactFormData({...contactFormData, honeypot: event.target.value})
+  }
 
   return (
     <div>
@@ -108,9 +110,11 @@ export default function Contact() {
 
               <input
                 data-testid="honeypot"
-                className="hidden"
-                name="honeypot" id="honeypot"
-                onChange={handleInputChange}/>
+                className="no-show"
+                type="text"
+                placeholder="Your last name"
+                name="Last Name" id="last_name"
+                onChange={handleHoneypot}/>
               <input
                 className="submit-button cursor-pointer	transform transition duration-300 rounded uppercase tracking-wide text-gray-700 leading-tight text-s font-bold py-5 px-4"
                 type="submit" value="Submit &rarr;"

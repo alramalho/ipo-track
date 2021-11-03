@@ -33,11 +33,11 @@ export default function Home() {
         setToastProps({
           isVisible: true,
           type: "error",
-          message: 'Oops! Something went wrong. Please try again later\''
+          message: 'Oops! Something went wrong. Please try again later'
         })
       })
-      .finally(async () => {
-        await setTimeout(() => {
+      .finally(() => {
+        setTimeout(() => {
           setToastProps(prev => ({...prev, isVisible: false}))
         }, 3000)
       })
@@ -45,6 +45,9 @@ export default function Home() {
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setFormData({...formData, [event.target.name]: event.target.value})
+  }
+  function handleHoneypot(event: React.ChangeEvent<HTMLInputElement>) {
+    setFormData({...formData, honeypot: event.target.value})
   }
 
 
@@ -104,9 +107,11 @@ export default function Home() {
                 </div>
                 <input
                   data-testid="honeypot"
-                  className="hidden"
-                  name="honeypot" id="honeypot"
-                  onChange={handleInputChange}/>
+                  className="no-show"
+                  type="text"
+                  placeholder="Your last name"
+                  name="Last Name" id="last_name"
+                  onChange={handleHoneypot}/>
                 <input
                   className="submit-button cursor-pointer	transform transition duration-300 rounded uppercase tracking-wide text-gray-700 leading-tight text-s font-bold py-5 px-4"
                   type="submit" value="Submit &rarr;"
