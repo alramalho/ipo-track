@@ -16,15 +16,36 @@ function get_body_html(keyword) {
 
   return `
     <html>
-        <head></head>
-        <body>
+    <head></head>
+    <body>
+      <div style="max-width: 40rem; background: #fdfdfd; margin: 0 auto; font-family: sans-serif">
+        <img style="object-fit: contain; width: 100%; height: auto"
+             src="https://alramalhosandbox.s3.eu-west-1.amazonaws.com/ipo-bg.png" height="615"
+             width="2481"/>
+        <div style="padding: 1rem">
           <h1>Thank you.</h1>
-          <p>You are seeing this email because you previously subscribed to get an IPO email alert with the keyword "${keyword}" via ipo-warning.com.<p/>
-          <p>By now you should have received the warning already. If that's not the case, please contact our support team at support@ipo-warning.com<p/>
-          <p>This is the last email that you will receive from us.<p/>
-
-          <small><p>If you don't know what this is about or have any questions please reach us at https://www.ipo-warning.com/contact.html.<small/>
-        </body>
+          <p>You are seeing this email because you previously subscribed to get an IPO email
+            alert with the keyword "${keyword}" via ipo-warning.com.
+          </p>
+          <p>By now you should have received the warning already. If that's not the case, please
+            contact our support team at the contact form in our webpage.
+          </p>
+          <p>This is the last email that you will receive from us.
+          </p>
+          <a href="https://stockanalysis.com/ipos/calendar/">Click here to check the full IPO
+            Calendar.</a>
+        </div>
+    
+        <div style="background: #f7f7f7; padding: 1rem">
+          <small>
+            <p>
+              If you don't know what this is about or have any questions please reach us at
+              https://www.ipo-warning.com/contact.html.
+            </p>
+            </small>
+        </div>
+      </div>
+    </body>
     </html>
   `;
 }
@@ -34,7 +55,7 @@ function get_body_text(keyword) {
   return `
     Thank you for using IPO Warning.
     You are seeing this email because you previously subscribed to get an IPO email alert with the keyword "${keyword}" via ipo-warning.com.
-    By now you should have received the warning already. If that's not the case, please contact our support team at support@ipo-warning.com
+    By now you should have received the warning already. If that's not the case, please contact our support team using the contact form present in our webpage
     This is the last email that you will receive from us.
     If you don't know what this is about or have any questions please reach us at https://www.ipo-warning.com/contact.html.
   `;

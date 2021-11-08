@@ -57,149 +57,180 @@ describe('when testing the publish flow', () => {
     nock.cleanAll()
   })
 
-  describe('when there are matches', () => {
 
-    it('should send the email and invoke the user removal lambda for single keyword match', async () => {
-      await dynamoDB.send(new PutItemCommand({
-        TableName: "IPOWarningCDK-sandbox",
-        Item: {
-          'email': {'S': 'teste@teste.com'},
-          'keyword': {'S': 'acme'},
-          'activatedOn': {'S': new Date().toString()}
-        }
-      }))
-      const requestBody = {
-        "stageVariables": {
-          "environment": "sandbox",
-          "dataApiUrl": mockApiUrl,
-          "rapidApiKey": mockRapidApiKey
-          // TODO: Mock this API endpoint instead of having it in the cloud
-        },
-        "body": ""
+  it('should send the email and invoke the user removal lambda for single keyword match', async () => {
+    await dynamoDB.send(new PutItemCommand({
+      TableName: "IPOWarningCDK-sandbox",
+      Item: {
+        'email': {'S': 'teste@teste.com'},
+        'keyword': {'S': 'acme'},
+        'activatedOn': {'S': new Date().toString()}
       }
+    }))
+    const requestBody = {
+      "stageVariables": {
+        "environment": "sandbox",
+        "dataApiUrl": mockApiUrl,
+        "rapidApiKey": mockRapidApiKey
+      },
+      "body": ""
+    }
 
-      const response = await publishLambda.handler(requestBody)
+    const response = await publishLambda.handler(requestBody)
 
-      expect(response).toEqual({
-        "isBase64Encoded": false,
-        'statusCode': 200,
-        'body': JSON.stringify('Success')
-      })
-
-      const query = await dynamoDB.send(new QueryCommand({
-        TableName: 'IPOWarningCDK-sandbox',
-        KeyConditionExpression: 'email = :email',
-        ExpressionAttributeValues: {
-          ':email': {'S': "teste@teste.com"},
-        }
-      }))
-      expect(query['Items'].length).toEqual(1)
-      expect(query['Items'][0]['keyword']).toEqual({'S': 'acme'})
-
-      expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(1)
-      expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(1)
-
-      await dynamoDB.send(new DeleteItemCommand({
-        TableName: 'IPOWarningCDK-sandbox',
-        Key: {
-          'email': {
-            'S': 'teste@teste.com',
-          }
-        },
-      }))
+    expect(response).toEqual({
+      "isBase64Encoded": false,
+      'statusCode': 200,
+      'body': JSON.stringify('Success')
     })
 
-    it('should send the email and invoke the user removal lambda for single keyword match', async () => {
-
-      await dynamoDB.send(new PutItemCommand({
-        TableName: "IPOWarningCDK-sandbox",
-        Item: {
-          'email': {'S': 'teste@teste.com'},
-          'keyword': {'S': 'alma morta'},
-          'activatedOn': {'S': new Date().toString()}
-        }
-      }))
-      const requestBody = {
-        "stageVariables": {
-          "environment": "sandbox",
-          "dataApiUrl": mockApiUrl,
-          "rapidApiKey": mockRapidApiKey
-
-        },
-        "body": ""
+    const query = await dynamoDB.send(new QueryCommand({
+      TableName: 'IPOWarningCDK-sandbox',
+      KeyConditionExpression: 'email = :email',
+      ExpressionAttributeValues: {
+        ':email': {'S': "teste@teste.com"},
       }
+    }))
+    expect(query['Items'].length).toEqual(1)
+    expect(query['Items'][0]['keyword']).toEqual({'S': 'acme'})
 
-      const response = await publishLambda.handler(requestBody)
+    expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(1)
+    expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(1)
 
-      expect(response).toEqual({
-        "isBase64Encoded": false,
-        'statusCode': 200,
-        'body': JSON.stringify('Success')
-      })
-
-      const query = await dynamoDB.send(new QueryCommand({
-        TableName: 'IPOWarningCDK-sandbox',
-        KeyConditionExpression: 'email = :email',
-        ExpressionAttributeValues: {
-          ':email': {'S': "teste@teste.com"},
-        }
-      }))
-      expect(query['Items'].length).toEqual(1)
-      expect(query['Items'][0]['keyword']).toEqual({'S': 'alma morta'})
-
-      expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(1)
-      expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(1)
-
-      await dynamoDB.send(new DeleteItemCommand({
-        TableName: 'IPOWarningCDK-sandbox',
-        Key: {
-          'email': {
-            'S': 'teste@teste.com',
-          }
-        },
-      }))
-    })
   })
 
-  describe('when there are no matches', () => {
-    it('should not send the emails or invoke the user removal lambda', async () => {
-      await dynamoDB.send(new PutItemCommand({
-        TableName: "IPOWarningCDK-sandbox",
-        Item: {
-          'email': {'S': 'teste@teste.com'},
-          'keyword': {'S': 'non_existent'},
-          'activatedOn': {'S': new Date().toString()}
-        }
-      }))
-      const requestBody = {
-        "stageVariables": {
-          "environment": "sandbox",
-          "dataApiUrl": mockApiUrl,
-          "rapidApiKey": mockRapidApiKey
-        },
-        "body": ""
+  it('should send the email and invoke the user removal lambda for multiple keyword match', async () => {
+
+    await dynamoDB.send(new PutItemCommand({
+      TableName: "IPOWarningCDK-sandbox",
+      Item: {
+        'email': {'S': 'teste@teste.com'},
+        'keyword': {'S': 'alma morta'},
+        'activatedOn': {'S': new Date().toString()}
       }
+    }))
+    const requestBody = {
+      "stageVariables": {
+        "environment": "sandbox",
+        "dataApiUrl": mockApiUrl,
+        "rapidApiKey": mockRapidApiKey
 
-      const response = await publishLambda.handler(requestBody)
+      },
+      "body": ""
+    }
 
-      expect(response).toEqual({
-        "isBase64Encoded": false,
-        'statusCode': 200,
-        'body': JSON.stringify('Success')
-      })
+    const response = await publishLambda.handler(requestBody)
 
-      const query = await dynamoDB.send(new QueryCommand({
-        TableName: 'IPOWarningCDK-sandbox',
-        KeyConditionExpression: 'email = :email',
-        ExpressionAttributeValues: {
-          ':email': {'S': "teste@teste.com"},
-        }
-      }))
-      expect(query['Items'].length).toEqual(1)
-      expect(query['Items'][0]['keyword']).toEqual({'S': 'non_existent'})
-
-      expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(0)
-      expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(0)
+    expect(response).toEqual({
+      "isBase64Encoded": false,
+      'statusCode': 200,
+      'body': JSON.stringify('Success')
     })
+
+    const query = await dynamoDB.send(new QueryCommand({
+      TableName: 'IPOWarningCDK-sandbox',
+      KeyConditionExpression: 'email = :email',
+      ExpressionAttributeValues: {
+        ':email': {'S': "teste@teste.com"},
+      }
+    }))
+    expect(query['Items'].length).toEqual(1)
+    expect(query['Items'][0]['keyword']).toEqual({'S': 'alma morta'})
+
+    expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(1)
+    expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(1)
+
+  })
+
+
+  it('should not send the emails or invoke the user removal lambda for totally unexistent keyword', async () => {
+    await dynamoDB.send(new PutItemCommand({
+      TableName: "IPOWarningCDK-sandbox",
+      Item: {
+        'email': {'S': 'teste@teste.com'},
+        'keyword': {'S': 'non_existent'},
+        'activatedOn': {'S': new Date().toString()}
+      }
+    }))
+    const requestBody = {
+      "stageVariables": {
+        "environment": "sandbox",
+        "dataApiUrl": mockApiUrl,
+        "rapidApiKey": mockRapidApiKey
+      },
+      "body": ""
+    }
+
+    const response = await publishLambda.handler(requestBody)
+
+    expect(response).toEqual({
+      "isBase64Encoded": false,
+      'statusCode': 200,
+      'body': JSON.stringify('Success')
+    })
+
+    const query = await dynamoDB.send(new QueryCommand({
+      TableName: 'IPOWarningCDK-sandbox',
+      KeyConditionExpression: 'email = :email',
+      ExpressionAttributeValues: {
+        ':email': {'S': "teste@teste.com"},
+      }
+    }))
+    expect(query['Items'].length).toEqual(1)
+    expect(query['Items'][0]['keyword']).toEqual({'S': 'non_existent'})
+
+    expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(0)
+    expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(0)
+  })
+
+
+  it('should not send the email and invoke the user removal lambda for multiple keyword match if it is not a perfect match', async () => {
+
+    await dynamoDB.send(new PutItemCommand({
+      TableName: "IPOWarningCDK-sandbox",
+      Item: {
+        'email': {'S': 'teste@teste.com'},
+        'keyword': {'S': 'my alma morta'},
+        'activatedOn': {'S': new Date().toString()}
+      }
+    }))
+    const requestBody = {
+      "stageVariables": {
+        "environment": "sandbox",
+        "dataApiUrl": mockApiUrl,
+        "rapidApiKey": mockRapidApiKey
+      },
+      "body": ""
+    }
+
+    const response = await publishLambda.handler(requestBody)
+
+    expect(response).toEqual({
+      "isBase64Encoded": false,
+      'statusCode': 200,
+      'body': JSON.stringify('Success')
+    })
+
+    const query = await dynamoDB.send(new QueryCommand({
+      TableName: 'IPOWarningCDK-sandbox',
+      KeyConditionExpression: 'email = :email',
+      ExpressionAttributeValues: {
+        ':email': {'S': "teste@teste.com"},
+      }
+    }))
+    expect(query['Items'].length).toEqual(1)
+    expect(query['Items'][0]['keyword']).toEqual({'S': 'my alma morta'})
+
+    expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(0)
+    expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(0)
+
+    await dynamoDB.send(new DeleteItemCommand({
+      TableName: 'IPOWarningCDK-sandbox',
+      Key: {
+        'email': {
+          'S': 'teste@teste.com',
+        }
+      },
+    }))
   })
 })

@@ -15,11 +15,26 @@ function get_body_html(sender, subject, message) {
     <html>
     <head></head>
     <body>
-    <h1>Contact from ${sender}.</h1>
-    <h2>${subject}</h2>
-    <p>${message}<p/>
+      <div style="max-width: 40rem; background: #fdfdfd; margin: 0 auto; font-family: sans-serif">
+        <img style="object-fit: contain; width: 100%; height: auto"
+             src="https://alramalhosandbox.s3.eu-west-1.amazonaws.com/ipo-bg.png" height="615"
+             width="2481"/>
+        <div style="padding: 1rem">
+          <h1>Contact from ${sender}.</h1>
+          <h2>${subject}</h2>
+          <p>${message}</p>
+        </div>
+    
+        <div style="background: #f7f7f7; padding: 1rem">
+          <small>
+            <p>
+              If you don't know what this is about or have any questions please reach us at
+              https://www.ipo-warning.com/contact.html.
+            </p>
+            </small>
+        </div>
+      </div>
     </body>
-    </html>
   `;
 }
 

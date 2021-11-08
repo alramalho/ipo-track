@@ -12,27 +12,39 @@ function get_subject(ipo_name) {
   return `${ipo_name} is going public!`
 }
 
-function get_body_html(ipo_name) {
+function get_body_html(ipo_name, keyword) {
 
   return `
-    <html>
-        <head></head>
-        <body>
-          <h1>${ipo_name} is making an IPO!</h1>
-          <a href="https://stockanalysis.com/ipos/calendar/">Click here to know the details.<a/>
-          
-          <small><p>If this is not the company you were looking for, contact us via <a href="https://www.ipo-warning.com/contact.html" className="highlight">our contact form</a>
-          <small/>
-        </body>
-    </html>
+<html>
+<head></head>
+<body>
+<div style="max-width: 40rem; background: #fdfdfd; margin: 0 auto; font-family: sans-serif">
+  <img style="object-fit: contain; width: 100%; height: auto"
+       src="https://alramalhosandbox.s3.eu-west-1.amazonaws.com/ipo-bg.png" height="615" width="2481"/>
+  <div style="padding: 1rem">
+    <h1>${ipo_name} is making an IPO!</h1>
+    <p>You are seeing this email because you subscribed to get an IPO email alert with the
+      keyword "${keyword}" via ipo-warning.com.
+    </p>
+    <a href="https://stockanalysis.com/ipos/calendar/">Click here to check the full IPO Calendar.</a>
+  </div>
+
+    <div style="background: #f7f7f7; padding: 1rem">
+      <small><p>If this is not the company you were looking for, contact us via <a href="https://www.ipo-warning.com/contact.html" className="highlight">our contact form</a></p>
+        </small>
+        </div>
+</div>
+</body>
+</html>
+
   `;
 }
 
 
-function get_body_text(ipo_name) {
+function get_body_text(ipo_name, keyword) {
   return `
     ${ipo_name} is making an IPO!
-    Go to https://stockanalysis.com/ipos/calendar to find more.
+    Go to https://stockanalysis.com/ipos/calendar to check the full IPO Calendar.
     
     If this is not the company you were looking for, please contact us through www.ipo-warning.com/contact.html
   `;
@@ -61,49 +73,45 @@ exports.handler = async (event) => {
   for (const user of activeUsers) {
     const email = user['email']['S']
     const keyword = user['keyword']['S']
-    const keyword_words = keyword.split(" ")
 
     for (const ipoName of parsedIpos) {
-      for (const word of ipoName) {
-        if (keyword_words.includes(word)) {
-          const full_name = ipoName.join(' ')
-
-          try {
-            await ses.send(new SendEmailCommand({
-              Destination: {
-                'ToAddresses': [
-                  email
-                ],
-              },
-              Message: {
-                'Body': {
-                  'Html': {
-                    'Charset': "UTF-8",
-                    'Data': get_body_html(full_name),
-                  },
-                  'Text': {
-                    'Charset': "UTF-8",
-                    'Data': get_body_text(full_name),
-                  },
-                },
-                'Subject': {
+      const full_ipo_name = ipoName.join(' ')
+      if (full_ipo_name.includes(keyword)) {
+        try {
+          await ses.send(new SendEmailCommand({
+            Destination: {
+              'ToAddresses': [
+                email
+              ],
+            },
+            Message: {
+              'Body': {
+                'Html': {
                   'Charset': "UTF-8",
-                  'Data': get_subject(full_name),
+                  'Data': get_body_html(full_ipo_name, keyword),
+                },
+                'Text': {
+                  'Charset': "UTF-8",
+                  'Data': get_body_text(full_ipo_name, keyword),
                 },
               },
-              Source: SENDER,
-            }))
-            console.log(`${keyword} present in ${full_name} for ${email}`)
-            console.log("Email sent!")
-            await remove_user(email, keyword, environment)
-            break
+              'Subject': {
+                'Charset': "UTF-8",
+                'Data': get_subject(full_ipo_name),
+              },
+            },
+            Source: SENDER,
+          }))
+          console.log(`${keyword} present in ${full_ipo_name} for ${email}`)
+          console.log("Email sent!")
+          await remove_user(email, keyword, environment)
+          break
 
-          } catch (e) {
-            console.error(e)
-          }
+        } catch (e) {
+          console.error(e)
         }
-
       }
+
     }
 
   }
