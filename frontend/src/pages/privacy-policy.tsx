@@ -31,6 +31,7 @@ export default function PrivacyPolicy() {
                 This website only collects the user email as it is mandatory for the warning to be sent.
                 You can request the deletion of all your personal data stored at any time by reaching us through&nbsp;
                 <a href="/contact.html" className="highlight">our contact form</a>.
+                All of your data will be delted within the max period of 72hours.
               </p>
             </div>
           </div>
