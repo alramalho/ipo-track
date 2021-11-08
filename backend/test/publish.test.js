@@ -16,7 +16,7 @@ const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 
 jest.mock('@aws-sdk/client-ses')
 jest.mock('@aws-sdk/client-lambda')
-import * as publishLambda from "../lambdas/publish"
+import * as publishLambda from "../lambdas/publish/publish"
 import {mockIPOData} from "./mockedData";
 
 

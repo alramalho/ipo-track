@@ -11,7 +11,7 @@ AWS.config.update({region: 'eu-west-1'});
 const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 
 jest.mock('@aws-sdk/client-ses')
-import * as userRemovalLambda from "../lambdas/user-removal"
+import * as userRemovalLambda from "../lambdas/user-removal/user-removal"
 
 
 describe('when testing the user removal flow', () => {

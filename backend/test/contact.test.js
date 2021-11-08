@@ -3,7 +3,7 @@ AWS.config.update({region:'eu-west-1'});
 const {mocked} = require("ts-jest/utils");
 const SES = require("@aws-sdk/client-ses");
 jest.mock('@aws-sdk/client-ses')
-const contactLambda = require("../lambdas/contact/index")
+const contactLambda = require("../lambdas/contact/contact")
 
 describe('when testing the contact flow', () => {
   let MockedSES = mocked(SES, true);

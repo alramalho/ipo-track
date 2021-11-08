@@ -31,7 +31,7 @@ export class ApiStack extends cdk.Stack {
     const contactLambdaNameBaseName = 'IPOWarningContactCDK'
     this.contactLambda = new NodejsFunction(this, 'ContactLambda', {
       functionName: `${contactLambdaNameBaseName}-${props.environment}`,
-      entry: path.join(__dirname, '../lambdas/contact/index.js'), // accepts .js, .jsx, .ts and .tsx files
+      entry: path.join(__dirname, '../lambdas/contact/contact.js'), // accepts .js, .jsx, .ts and .tsx files
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_14_X,
       memorySize: 1024,
@@ -47,7 +47,7 @@ export class ApiStack extends cdk.Stack {
     const subscribeLambdaNameBaseName = 'IPOWarningSubscribeCDK'
     const subscribe = new NodejsFunction(this, 'SubscribeLambda', {
       functionName: `${subscribeLambdaNameBaseName}-${props.environment}`,
-      entry: path.join(__dirname, '../lambdas/subscribe/index.js'), // accepts .js, .jsx, .ts and .tsx files
+      entry: path.join(__dirname, '../lambdas/subscribe/subscribe.js'), // accepts .js, .jsx, .ts and .tsx files
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_14_X,
       memorySize: 1024,
@@ -63,7 +63,7 @@ export class ApiStack extends cdk.Stack {
 
     this.publishLambda = new NodejsFunction(this, 'PublishLambda', {
       functionName: `IPOWarningPublishCDK-${props.environment}`,
-      entry: path.join(__dirname, '../lambdas/publish/index.js'),
+      entry: path.join(__dirname, '../lambdas/publish/publish.js'),
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_14_X,
       memorySize: 1024,
@@ -92,7 +92,7 @@ export class ApiStack extends cdk.Stack {
 
     this.userRemovalLambda = new NodejsFunction(this, 'UserRemovalLambda', {
       functionName: `IPOWarningUserRemovalCDK-${props.environment}`,
-      entry: path.join(__dirname, '../lambdas/user-removal/index.js'),
+      entry: path.join(__dirname, '../lambdas/user-removal/user-removal.js'),
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_14_X,
       memorySize: 1024,

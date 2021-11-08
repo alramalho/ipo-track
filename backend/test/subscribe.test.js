@@ -6,7 +6,7 @@ const {mocked} = require("ts-jest/utils");
 const SES = require("@aws-sdk/client-ses");
 const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 jest.mock('@aws-sdk/client-ses')
-const subscribeLambda = require("../lambdas/subscribe/index")
+const subscribeLambda = require("../lambdas/subscribe/subscribe")
 
 describe('when testing the subscribe flow', () => {
   let MockedSES = mocked(SES, true);
