@@ -6,7 +6,7 @@ const ses = new SESClient({region: "eu-west-1"});
 const {LambdaClient, InvokeCommand} = require("@aws-sdk/client-lambda");
 const lambda = new LambdaClient({region: "eu-west-1"});
 
-const SENDER = 'alexandre.ramalho.1998@gmail.com'
+const SENDER = 'warningipo@gmail.com'
 
 function get_subject(ipo_name) {
   return `${ipo_name} is going public!`

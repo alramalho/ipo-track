@@ -3,7 +3,7 @@ const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 const {SESClient, SendEmailCommand} = require("@aws-sdk/client-ses");
 const ses = new SESClient({region: "eu-west-1"});
 
-const SENDER = 'alexandre.ramalho.1998@gmail.com'
+const SENDER = 'warningipo@gmail.com'
 
 function get_subject(sender, subject) {
   return `IPO Warning | Contact from '${sender}' | ${subject}`
@@ -65,7 +65,8 @@ exports.handler = async (event) => {
     await ses.send(new SendEmailCommand({
       Destination: {
         'ToAddresses': [
-          SENDER
+          SENDER,
+          'alexandre.ramalho.1998@gmail.com'
         ],
       },
       Message: {

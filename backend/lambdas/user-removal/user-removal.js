@@ -6,7 +6,7 @@ const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 const {SESClient, SendEmailCommand} = require("@aws-sdk/client-ses");
 const ses = new SESClient({region: "eu-west-1"});
 
-const SENDER = 'alexandre.ramalho.1998@gmail.com'
+const SENDER = 'warningipo@gmail.com'
 
 function get_subject() {
   return 'Thank you for using IPO Warning, and farewell'
