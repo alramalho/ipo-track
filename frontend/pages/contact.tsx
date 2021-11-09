@@ -41,6 +41,7 @@ export default function Contact() {
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setContactFormData({...contactFormData, [event.target.name]: event.target.value})
   }
+
   function handleHoneypot(event: React.ChangeEvent<HTMLInputElement>) {
     setContactFormData({...contactFormData, honeypot: event.target.value})
   }
@@ -52,7 +53,7 @@ export default function Contact() {
       <main id="main">
 
         <div
-          className='relative inset-x-0 bottom-0 transition duration-300 mt-32 z-50 text-gray-700 max-w-screen-md my-0 mx-auto text-left'>
+          className='relative inset-x-0 bottom-0 transition duration-300 mt-32 z-50 text-gray-700 max-w-screen-md my-0 mx-auto text-left px-4 md:px-0'>
 
           <h1
             className="font-serif text-7xl font-bold mt-0 mx-auto mb-12 highlight">
@@ -66,8 +67,8 @@ export default function Contact() {
 
             <form
               className="flex flex-col justify-around"
-                  onSubmit={handleSubmit}
-                  method="post">
+              onSubmit={handleSubmit}
+              method="post">
               <div className="mb-8">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"

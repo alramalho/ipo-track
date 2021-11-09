@@ -14,7 +14,7 @@ AWS.config.update({region: 'eu-west-1'});
 
 const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 
-jest.mock('@aws-sdk/client-ses')
+// jest.mock('@aws-sdk/client-ses')
 jest.mock('@aws-sdk/client-lambda')
 import * as publishLambda from "../lambdas/publish/publish"
 import {mockIPOData} from "./mockedData";
@@ -143,7 +143,6 @@ describe('when testing the publish flow', () => {
 
   })
 
-
   it('should not send the emails or invoke the user removal lambda for totally unexistent keyword', async () => {
     await dynamoDB.send(new PutItemCommand({
       TableName: "IPOWarningCDK-sandbox",
@@ -183,7 +182,6 @@ describe('when testing the publish flow', () => {
     expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(0)
     expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(0)
   })
-
 
   it('should not send the email and invoke the user removal lambda for multiple keyword match if it is not a perfect match', async () => {
 
