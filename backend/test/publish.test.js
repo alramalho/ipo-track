@@ -57,6 +57,7 @@ describe('when testing the publish flow', () => {
     nock.cleanAll()
   })
 
+  //todo: test with 'a' keyword
 
   it('should send the email and invoke the user removal lambda for single keyword match', async () => {
     await dynamoDB.send(new PutItemCommand({
