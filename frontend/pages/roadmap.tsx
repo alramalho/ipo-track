@@ -28,6 +28,7 @@ export default function PrivacyPolicy() {
                 <li><em>Add the exact date and price of the IPO to the emails</em></li>
                 <li><em>Provide alerts more than 1 week in advance.</em> Unfortunately, to support this we would have to pay a monthly fee on top of the hosting and domain costs, which for a project that doesn’t make any money is impossible.</li>
                 <li><em>More than 1 keyword subscription  per email.</em></li>
+                <li><em>Create enterprise emails</em> (support@ipo-warning.com).</li>
 
               </ul>
 
