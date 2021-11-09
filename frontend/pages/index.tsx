@@ -53,7 +53,7 @@ export default function Home() {
 
   return (
     <div>
-      <SEO description={"Be the first to know when some company goes public."}/>
+      <SEO description={"Get an alert when some company goes public."}/>
 
       <main id="main">
         <div
@@ -70,7 +70,7 @@ export default function Home() {
               </h1>
 
               <p className="font-sans text-lg font-light mt-0 mb-3 mx-auto ">
-                Be the first to know when some company goes public.&nbsp;
+                Get an alert when some company goes public.&nbsp;
                 <em>(it's <span className="font-medium"> free</span>)</em>
               </p>
             </div>
