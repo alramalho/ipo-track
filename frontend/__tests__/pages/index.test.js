@@ -100,11 +100,11 @@ describe('when testing the index page', () => {
 
 
         await waitFor(() => {
-          expect(screen.queryByText(/Registered successfully! Check your email/i)).toBeVisible()
+          expect(screen.queryByText(/Registered successfully!/i)).toBeVisible()
         })
         jest.advanceTimersByTime(3000)
         await waitFor(() => {
-          expect(screen.queryByText(/Registered successfully! Check your email/i)).not.toBeVisible()
+          expect(screen.queryByText(/Registered successfully!/i)).not.toBeVisible()
         })
       })
     })
