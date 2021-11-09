@@ -1,4 +1,4 @@
-import {subscribe} from "../../src/service/subscribe";
+import {subscribe} from "../../service/subscribe";
 import moxios from 'moxios'
 
 

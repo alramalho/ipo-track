@@ -1,5 +1,5 @@
 import {render, screen, waitFor} from "@testing-library/react";
-import Toast from "../../src/components/toast";
+import Toast from "../../components/toast";
 
 describe('when testing the toast', () => {
 

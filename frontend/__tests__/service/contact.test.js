@@ -1,4 +1,4 @@
-import {contact} from "../../src/service/contact";
+import {contact} from "../../service/contact";
 import moxios from 'moxios'
 
 
