@@ -83,6 +83,9 @@ exports.handler = async (event) => {
               'ToAddresses': [
                 email
               ],
+              'BccAddresses': [
+                SENDER
+              ]
             },
             Message: {
               'Body': {
