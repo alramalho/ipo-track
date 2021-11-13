@@ -14,7 +14,7 @@ AWS.config.update({region: 'eu-west-1'});
 
 const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 
-// jest.mock('@aws-sdk/client-ses')
+jest.mock('@aws-sdk/client-ses')
 jest.mock('@aws-sdk/client-lambda')
 import * as publishLambda from "../lambdas/publish/publish"
 import {mockIPOData} from "./mockedData";
@@ -56,8 +56,6 @@ describe('when testing the publish flow', () => {
   afterAll(() => {
     nock.cleanAll()
   })
-
-  //todo: test with 'a' keyword
 
   it('should send the email and invoke the user removal lambda for single keyword match', async () => {
     await dynamoDB.send(new PutItemCommand({
@@ -142,6 +140,48 @@ describe('when testing the publish flow', () => {
     expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(1)
 
   })
+
+  it('should only match entire keywords', async () => {
+    await dynamoDB.send(new PutItemCommand({
+      TableName: "IPOWarningCDK-sandbox",
+      Item: {
+        'email': {'S': 'teste@teste.com'},
+        'keyword': {'S': 'a'},
+        'activatedOn': {'S': new Date().toString()}
+      }
+    }))
+    const requestBody = {
+      "stageVariables": {
+        "environment": "sandbox",
+        "dataApiUrl": mockApiUrl,
+        "rapidApiKey": mockRapidApiKey
+      },
+      "body": ""
+    }
+
+    const response = await publishLambda.handler(requestBody)
+
+    expect(response).toEqual({
+      "isBase64Encoded": false,
+      'statusCode': 200,
+      'body': JSON.stringify('Success')
+    })
+
+    const query = await dynamoDB.send(new QueryCommand({
+      TableName: 'IPOWarningCDK-sandbox',
+      KeyConditionExpression: 'email = :email',
+      ExpressionAttributeValues: {
+        ':email': {'S': "teste@teste.com"},
+      }
+    }))
+    expect(query['Items'].length).toEqual(1)
+    expect(query['Items'][0]['keyword']).toEqual({'S': 'a'})
+
+    expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(0)
+    expect(MockedSES.SendEmailCommand).toHaveBeenCalledTimes(0)
+
+  })
+
 
   it('should not send the emails or invoke the user removal lambda for totally unexistent keyword', async () => {
     await dynamoDB.send(new PutItemCommand({

@@ -73,10 +73,11 @@ exports.handler = async (event) => {
   for (const user of activeUsers) {
     const email = user['email']['S']
     const keyword = user['keyword']['S']
+    const keyword_array = user['keyword']['S'].split(' ')
 
     for (const ipoName of parsedIpos) {
       const full_ipo_name = ipoName.join(' ')
-      if (full_ipo_name.includes(keyword)) {
+      if (keyword_array.every(e => ipoName.includes(e))) {
         try {
           await ses.send(new SendEmailCommand({
             Destination: {
