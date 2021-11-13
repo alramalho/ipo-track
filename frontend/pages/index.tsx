@@ -53,7 +53,7 @@ export default function Home() {
 
   return (
     <div>
-      <SEO description={"Get an alert when some company goes public."}/>
+      <SEO/>
 
       <main id="main">
         <div
