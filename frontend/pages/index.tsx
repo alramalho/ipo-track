@@ -26,7 +26,8 @@ export default function Home() {
         setToastProps({
           isVisible: true,
           type: "success",
-          message: 'Registered successfully! Check your inbox! (don\'t forget SPAM)'
+          message: 'Registered successfully! Check your inbox! (don\'t forget SPAM).\n' +
+            'If you didn\'t receive an email please contact our support.'
         })
       })
       .catch(() => {
