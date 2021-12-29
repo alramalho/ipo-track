@@ -28,7 +28,7 @@ export class DbStack extends cdk.Stack {
     });
     props?.writableBy?.forEach(resource => dynamoTable.grantWriteData(resource))
     props?.readableBy?.forEach(resource => dynamoTable.grantReadData(resource))
-    dynamoTable.applyRemovalPolicy(RemovalPolicy.DESTROY)
+    dynamoTable.applyRemovalPolicy(RemovalPolicy.SNAPSHOT)
 
     new cdk.CfnOutput(this, 'DynamoDbTableName', {value: dynamoTable.tableName});
   }
