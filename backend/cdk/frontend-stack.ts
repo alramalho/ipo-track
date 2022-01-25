@@ -32,12 +32,12 @@ export class FrontendStack extends cdk.Stack {
         {httpStatus: 404, responsePagePath: '/404.html'},
         {httpStatus: 403, responsePagePath: '/404.html'}
       ],
-      domainNames: inProduction ? ['www.ipo-warning.com'] : ['sandbox.ipo-warning.com'],
+      domainNames: inProduction ? ['www.ipo-track.com'] : ['sandbox.ipo-track.com'],
       certificate: props.sharedCertificate
     })
 
     new route53.ARecord(this, `ARecord-${props.environment}`, {
-      recordName: inProduction ? "www.ipo-warning.com" : "sandbox.ipo-warning.com",
+      recordName: inProduction ? "www.ipo-track.com" : "sandbox.ipo-track.com",
       zone: props.sharedHostedZone,
       target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution))
     });
