@@ -19,7 +19,7 @@ export default function PrivacyPolicy() {
           </h1>
           <div className="font-sans font-light text-md break-words">
             <p>
-              IPO Warning (the “website” or “site”) takes your privacy and rights
+              IPO Track (the “website” or “site”) takes your privacy and rights
               seriously. We won’t sell or give your data to any third parties at any point
               in time.
             </p>
@@ -29,7 +29,7 @@ export default function PrivacyPolicy() {
               How is your data used?
             </h3>
             <p>
-              This website only collects the user email as it is mandatory for the warning
+              This website only collects the user email as it is mandatory for the track
               to be sent.
               You can request the deletion of all your personal data stored at any time by
               reaching us through&nbsp;

@@ -23,7 +23,7 @@ describe('when testing the user removal flow', () => {
 
   beforeAll(async () => {
     await dynamoDB.send(new PutItemCommand({
-      TableName: "IPOWarningCDK-sandbox",
+      TableName: "IPOTrackCDK-sandbox",
       Item: {
         'email': {'S': 'teste@teste.com'},
         'keyword': {'S': 'acme'},
@@ -45,7 +45,7 @@ describe('when testing the user removal flow', () => {
 
     const response = await userRemovalLambda.handler(requestBody)
     const query = await dynamoDB.send(new QueryCommand({
-      TableName: 'IPOWarningCDK-sandbox',
+      TableName: 'IPOTrackCDK-sandbox',
       KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
         ':email': {'S': "teste@teste.com"},

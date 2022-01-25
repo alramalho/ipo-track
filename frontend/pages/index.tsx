@@ -65,7 +65,7 @@ export default function Home() {
             <div className="px-4 md:px-0">
               <h1
                 className="font-serif text-7xl font-bold mt-0 mx-auto mb-8 highlight">
-                IPO Warning&nbsp;
+                IPO Track&nbsp;
                 <img className="inline object-left max-h-16 -mt-2 object-scale-down"
                      src="./static/ringing-bell.svg" alt="Ringing bell"/>
               </h1>
@@ -171,7 +171,7 @@ export default function Home() {
               🧐 How does this work?
             </h1>
             <p>
-              It is very simple:<br/><br/> <em>IPO Warning checks on a regular basis
+              It is very simple:<br/><br/> <em>IPO Track checks on a regular basis
               for
               recently
               announced upcoming IPOs</em>. We analyse them
@@ -188,13 +188,13 @@ export default function Home() {
 
 
             <h2 className="font-serif font-bold text-lg mt-5 mb-2">
-              When will I get the warning?
+              When will I get the track?
             </h2>
             <p>
               We check against stock analysis free api, which means we only have the
               IPOs
               going live in the next week. That translates to you getting your
-              warning&nbsp;
+              track&nbsp;
               <em>with 1 week in advance</em>.
               If you really really want to get notified earlier than that, consider
               reading our roadmap and even contributing.

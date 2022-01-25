@@ -8,9 +8,9 @@
     "build": "yarn verify && rm -rf .next && rm -rf out && next build && next export",
     "start": "next build && next start",
     "sitemap": "node scripts/generate-sitemap.js",
-    "deploy-sandbox": "aws s3 sync ./out s3://ipo-warning-s3-bucket-sandbox/ --delete --profile ipo-warning",
+    "deploy-sandbox": "aws s3 sync ./out s3://ipo-track-s3-bucket-sandbox/ --delete --profile ipo-track",
     "fast-deploy-sandbox": "yarn build && yarn deploy-sandbox",
-    "deploy-production": "aws s3 sync ./out s3://ipo-warning-s3-bucket-production/ --delete --profile ipo-warning",
+    "deploy-production": "aws s3 sync ./out s3://ipo-track-s3-bucket-production/ --delete --profile ipo-track",
     "fast-deploy-production": "yarn build && yarn sitemap && yarn deploy-production",
     "test": "jest"
   },

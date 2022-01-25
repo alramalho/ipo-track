@@ -13,7 +13,7 @@ describe('when testing the index page', () => {
       render(<Home/>)
 
       const heading = screen.getByRole('heading', {
-        name: /ipo warning/i,
+        name: /ipo track/i,
       })
 
       expect(heading).toBeInTheDocument()

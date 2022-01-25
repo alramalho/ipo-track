@@ -44,7 +44,7 @@ describe('when testing the publish flow', () => {
 
   afterEach(async () => {
     await dynamoDB.send(new DeleteItemCommand({
-      TableName: 'IPOWarningCDK-sandbox',
+      TableName: 'IPOTrackCDK-sandbox',
       Key: {
         'email': {
           'S': 'teste@teste.com',
@@ -59,7 +59,7 @@ describe('when testing the publish flow', () => {
 
   it('should send the email and invoke the user removal lambda for single keyword match', async () => {
     await dynamoDB.send(new PutItemCommand({
-      TableName: "IPOWarningCDK-sandbox",
+      TableName: "IPOTrackCDK-sandbox",
       Item: {
         'email': {'S': 'teste@teste.com'},
         'keyword': {'S': 'acme'},
@@ -84,7 +84,7 @@ describe('when testing the publish flow', () => {
     })
 
     const query = await dynamoDB.send(new QueryCommand({
-      TableName: 'IPOWarningCDK-sandbox',
+      TableName: 'IPOTrackCDK-sandbox',
       KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
         ':email': {'S': "teste@teste.com"},
@@ -101,7 +101,7 @@ describe('when testing the publish flow', () => {
   it('should send the email and invoke the user removal lambda for multiple keyword match', async () => {
 
     await dynamoDB.send(new PutItemCommand({
-      TableName: "IPOWarningCDK-sandbox",
+      TableName: "IPOTrackCDK-sandbox",
       Item: {
         'email': {'S': 'teste@teste.com'},
         'keyword': {'S': 'alma morta'},
@@ -127,7 +127,7 @@ describe('when testing the publish flow', () => {
     })
 
     const query = await dynamoDB.send(new QueryCommand({
-      TableName: 'IPOWarningCDK-sandbox',
+      TableName: 'IPOTrackCDK-sandbox',
       KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
         ':email': {'S': "teste@teste.com"},
@@ -143,7 +143,7 @@ describe('when testing the publish flow', () => {
 
   it('should only match entire keywords', async () => {
     await dynamoDB.send(new PutItemCommand({
-      TableName: "IPOWarningCDK-sandbox",
+      TableName: "IPOTrackCDK-sandbox",
       Item: {
         'email': {'S': 'teste@teste.com'},
         'keyword': {'S': 'a'},
@@ -168,7 +168,7 @@ describe('when testing the publish flow', () => {
     })
 
     const query = await dynamoDB.send(new QueryCommand({
-      TableName: 'IPOWarningCDK-sandbox',
+      TableName: 'IPOTrackCDK-sandbox',
       KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
         ':email': {'S': "teste@teste.com"},
@@ -185,7 +185,7 @@ describe('when testing the publish flow', () => {
 
   it('should not send the emails or invoke the user removal lambda for totally unexistent keyword', async () => {
     await dynamoDB.send(new PutItemCommand({
-      TableName: "IPOWarningCDK-sandbox",
+      TableName: "IPOTrackCDK-sandbox",
       Item: {
         'email': {'S': 'teste@teste.com'},
         'keyword': {'S': 'non_existent'},
@@ -210,7 +210,7 @@ describe('when testing the publish flow', () => {
     })
 
     const query = await dynamoDB.send(new QueryCommand({
-      TableName: 'IPOWarningCDK-sandbox',
+      TableName: 'IPOTrackCDK-sandbox',
       KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
         ':email': {'S': "teste@teste.com"},
@@ -226,7 +226,7 @@ describe('when testing the publish flow', () => {
   it('should not send the email and invoke the user removal lambda for multiple keyword match if it is not a perfect match', async () => {
 
     await dynamoDB.send(new PutItemCommand({
-      TableName: "IPOWarningCDK-sandbox",
+      TableName: "IPOTrackCDK-sandbox",
       Item: {
         'email': {'S': 'teste@teste.com'},
         'keyword': {'S': 'my alma morta'},
@@ -251,7 +251,7 @@ describe('when testing the publish flow', () => {
     })
 
     const query = await dynamoDB.send(new QueryCommand({
-      TableName: 'IPOWarningCDK-sandbox',
+      TableName: 'IPOTrackCDK-sandbox',
       KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
         ':email': {'S': "teste@teste.com"},
@@ -264,7 +264,7 @@ describe('when testing the publish flow', () => {
     expect(MockedLambda.InvokeCommand).toHaveBeenCalledTimes(0)
 
     await dynamoDB.send(new DeleteItemCommand({
-      TableName: 'IPOWarningCDK-sandbox',
+      TableName: 'IPOTrackCDK-sandbox',
       Key: {
         'email': {
           'S': 'teste@teste.com',

@@ -18,7 +18,7 @@ describe('when testing the subscribe flow', () => {
   afterAll(async () => {
 
     await dynamoDB.send(new DeleteItemCommand({
-      TableName: 'IPOWarningCDK-sandbox',
+      TableName: 'IPOTrackCDK-sandbox',
       Key: {
         'email': {
           'S': 'teste@teste.com',
@@ -49,7 +49,7 @@ describe('when testing the subscribe flow', () => {
     })
 
     const query = await dynamoDB.send(new QueryCommand({
-      TableName: 'IPOWarningCDK-sandbox',
+      TableName: 'IPOTrackCDK-sandbox',
       KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
         ':email': {'S': "teste@teste.com"},

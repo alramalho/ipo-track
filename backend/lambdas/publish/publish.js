@@ -6,7 +6,7 @@ const ses = new SESClient({region: "eu-west-1"});
 const {LambdaClient, InvokeCommand} = require("@aws-sdk/client-lambda");
 const lambda = new LambdaClient({region: "eu-west-1"});
 
-const SENDER = 'warningipo@gmail.com'
+const SENDER = 'trackipo@gmail.com'
 
 function get_subject(ipo_name) {
   return `${ipo_name} is going public!`
@@ -24,13 +24,13 @@ function get_body_html(ipo_name, keyword) {
   <div style="padding: 1rem">
     <h1>${ipo_name} is making an IPO!</h1>
     <p>You are seeing this email because you subscribed to get an IPO email alert with the
-      keyword "${keyword}" via ipo-warning.com.
+      keyword "${keyword}" via ipo-track.com.
     </p>
     <a href="https://stockanalysis.com/ipos/calendar/">Click here to check the full IPO Calendar.</a>
   </div>
 
     <div style="background: #f7f7f7; padding: 1rem">
-      <small><p>If this is not the company you were looking for, contact us via <a href="https://www.ipo-warning.com/contact.html" className="highlight">our contact form</a></p>
+      <small><p>If this is not the company you were looking for, contact us via <a href="https://www.ipo-track.com/contact.html" className="highlight">our contact form</a></p>
         </small>
         </div>
 </div>
@@ -46,7 +46,7 @@ function get_body_text(ipo_name, keyword) {
     ${ipo_name} is making an IPO!
     Go to https://stockanalysis.com/ipos/calendar to check the full IPO Calendar.
     
-    If this is not the company you were looking for, please contact us through www.ipo-warning.com/contact.html
+    If this is not the company you were looking for, please contact us through www.ipo-track.com/contact.html
   `;
 }
 
@@ -57,7 +57,7 @@ exports.handler = async (event) => {
 
   let activeUsers = []
   const query = await dynamoDB.send(new ScanCommand({
-        TableName: `IPOWarningCDK-${environment}`,
+        TableName: `IPOTrackCDK-${environment}`,
         IndexName: "activatedOn-index"
       }
     )
@@ -130,7 +130,7 @@ exports.handler = async (event) => {
 async function remove_user(user_email, user_keyword, environment) {
   try {
     await lambda.send(new InvokeCommand({
-      FunctionName: `IPOWarningUserRemovalCDK-${environment}`,
+      FunctionName: `IPOTrackUserRemovalCDK-${environment}`,
       InvocationType: 'RequestResponse',
       Payload: new TextEncoder().encode(JSON.stringify({
         "stageVariables": {"environment": "sandbox"},

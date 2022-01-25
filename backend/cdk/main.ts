@@ -21,7 +21,7 @@ if (!process.env.RAPID_API_KEY) {
   process.exit(1)
 }
 
-new MainStack(app, `IPOWarningCdkStack`, {
+new MainStack(app, `IPOTrackCdkStack`, {
   environment: process.env.ENVIRONMENT,
   dataApiUrl: process.env.DATA_API_URL,
   rapidApiKey: process.env.RAPID_API_KEY

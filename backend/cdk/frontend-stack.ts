@@ -22,10 +22,10 @@ export class FrontendStack extends cdk.Stack {
     const inProduction = props.environment == 'production'
 
     const bucket = new s3.Bucket(this, `Bucket-${props.environment}`, {
-      bucketName: `ipo-warning-s3-bucket-${props.environment}`
+      bucketName: `ipo-track-s3-bucket-${props.environment}`
     });
 
-    const distribution = new cloudfront.Distribution(this, `IPOWarningDistribution-${props.environment}`, {
+    const distribution = new cloudfront.Distribution(this, `IPOTrackDistribution-${props.environment}`, {
       defaultBehavior: {origin: new origins.S3Origin(bucket)},
       defaultRootObject: "index.html",
       errorResponses: [

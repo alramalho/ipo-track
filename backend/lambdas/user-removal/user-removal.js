@@ -6,10 +6,10 @@ const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 const {SESClient, SendEmailCommand} = require("@aws-sdk/client-ses");
 const ses = new SESClient({region: "eu-west-1"});
 
-const SENDER = 'warningipo@gmail.com'
+const SENDER = 'trackipo@gmail.com'
 
 function get_subject() {
-  return 'Thank you for using IPO Warning, and farewell'
+  return 'Thank you for using IPO Track, and farewell'
 }
 
 function get_body_html(keyword) {
@@ -25,9 +25,9 @@ function get_body_html(keyword) {
         <div style="padding: 1rem">
           <h1>Thank you.</h1>
           <p>You are seeing this email because you previously subscribed to get an IPO email
-            alert with the keyword "${keyword}" via ipo-warning.com.
+            alert with the keyword "${keyword}" via ipo-track.com.
           </p>
-          <p>By now you should have received the warning already. If that's not the case, please
+          <p>By now you should have received the track already. If that's not the case, please
             contact our support team at the contact form in our webpage.
           </p>
           <p>This is the last email that you will receive from us.
@@ -40,7 +40,7 @@ function get_body_html(keyword) {
           <small>
             <p>
               If you don't know what this is about or have any questions please reach us at
-              https://www.ipo-warning.com/contact.html.
+              https://www.ipo-track.com/contact.html.
             </p>
             </small>
         </div>
@@ -53,11 +53,11 @@ function get_body_html(keyword) {
 
 function get_body_text(keyword) {
   return `
-    Thank you for using IPO Warning.
-    You are seeing this email because you previously subscribed to get an IPO email alert with the keyword "${keyword}" via ipo-warning.com.
-    By now you should have received the warning already. If that's not the case, please contact our support team using the contact form present in our webpage
+    Thank you for using IPO Track.
+    You are seeing this email because you previously subscribed to get an IPO email alert with the keyword "${keyword}" via ipo-track.com.
+    By now you should have received the track already. If that's not the case, please contact our support team using the contact form present in our webpage
     This is the last email that you will receive from us.
-    If you don't know what this is about or have any questions please reach us at https://www.ipo-warning.com/contact.html.
+    If you don't know what this is about or have any questions please reach us at https://www.ipo-track.com/contact.html.
   `;
 }
 
@@ -100,7 +100,7 @@ exports.handler = async (event) => {
     console.log("Email sent!")
 
     await dynamoDB.send(new UpdateItemCommand({
-      TableName: `IPOWarningCDK-${environment}`,
+      TableName: `IPOTrackCDK-${environment}`,
       Key: {email: {'S': userEmail}},
       UpdateExpression: "REMOVE activatedOn",
       ReturnValues: "UPDATED_NEW"

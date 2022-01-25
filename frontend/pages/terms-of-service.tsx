@@ -21,7 +21,7 @@ export default function PrivacyPolicy() {
               Please read the terms and conditions carefully before you use this website.
               Your use of the site assumes that you agree to these terms, as well as our
               privacy policy.
-              IPO Warning (the “website” or “site”) may modify these terms at any
+              IPO Track (the “website” or “site”) may modify these terms at any
               time. </p>
             <br/>
 
@@ -56,7 +56,7 @@ export default function PrivacyPolicy() {
               keywords are the sole responsibility of the user.
               We don’t analyze the already public companies, so if you enter a keyword
               from a company that went live already chances are
-              that you will never receive a warning from us.
+              that you will never receive a track from us.
             </p>
             <br/>
             <p>

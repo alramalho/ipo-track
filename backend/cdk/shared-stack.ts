@@ -13,7 +13,7 @@ export class SharedStack extends cdk.Stack {
 
     this.hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, 'SharedHostedZone', {
       hostedZoneId: "Z06420601ZYM964XOXTOX",
-      zoneName: "ipo-warning.com"
+      zoneName: "ipo-track.com"
     })
     this.certificate = acm.Certificate.fromCertificateArn(this, `SharedCertificate`, "arn:aws:acm:us-east-1:854257060653:certificate/3c473564-082d-4d3b-96ee-b8527d91dc50")
   }

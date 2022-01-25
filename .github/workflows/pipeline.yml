@@ -41,9 +41,9 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region eu-west-1
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ipo-warning
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-warning
-          aws configure set region eu-west-1  --profile ipo-warning
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ipo-track
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-track
+          aws configure set region eu-west-1  --profile ipo-track
 
       - name: Deploy-Backend
         run: |
@@ -63,7 +63,7 @@ jobs:
 
           export SANDBOX_DISTRIBUTION_ID=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
           yarn deploy-sandbox
-          aws cloudfront create-invalidation --distribution-id=$SANDBOX_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
+          aws cloudfront create-invalidation --distribution-id=$SANDBOX_DISTRIBUTION_ID --paths / --profile=ipo-track | > /dev/null
 
 
   Run-Tests:
@@ -97,9 +97,9 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region eu-west-1
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ipo-warning
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-warning
-          aws configure set region eu-west-1  --profile ipo-warning
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ipo-track
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-track
+          aws configure set region eu-west-1  --profile ipo-track
 
 
       - name: Test
@@ -149,9 +149,9 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region eu-west-1
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ipo-warning
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-warning
-          aws configure set region eu-west-1  --profile ipo-warning
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ipo-track
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  --profile ipo-track
+          aws configure set region eu-west-1  --profile ipo-track
 
 
       - name: Deploy-Backend
@@ -174,5 +174,5 @@ jobs:
 
           export PRODUCTION_DISTRIBUTION_ID=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
           yarn deploy-production
-          aws cloudfront create-invalidation --distribution-id=$PRODUCTION_DISTRIBUTION_ID --paths / --profile=ipo-warning | > /dev/null
+          aws cloudfront create-invalidation --distribution-id=$PRODUCTION_DISTRIBUTION_ID --paths / --profile=ipo-track | > /dev/null
 

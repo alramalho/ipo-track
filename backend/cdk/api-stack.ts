@@ -28,7 +28,7 @@ export class ApiStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: ApiStackProps) {
     super(scope, id);
 
-    const contactLambdaNameBaseName = 'IPOWarningContactCDK'
+    const contactLambdaNameBaseName = 'IPOTrackContactCDK'
     this.contactLambda = new NodejsFunction(this, 'ContactLambda', {
       functionName: `${contactLambdaNameBaseName}-${props.environment}`,
       entry: path.join(__dirname, '../lambdas/contact/contact.js'), // accepts .js, .jsx, .ts and .tsx files
@@ -44,7 +44,7 @@ export class ApiStack extends cdk.Stack {
       effect: iam.Effect.ALLOW,
     }));
 
-    const subscribeLambdaNameBaseName = 'IPOWarningSubscribeCDK'
+    const subscribeLambdaNameBaseName = 'IPOTrackSubscribeCDK'
     const subscribe = new NodejsFunction(this, 'SubscribeLambda', {
       functionName: `${subscribeLambdaNameBaseName}-${props.environment}`,
       entry: path.join(__dirname, '../lambdas/subscribe/subscribe.js'), // accepts .js, .jsx, .ts and .tsx files
@@ -62,7 +62,7 @@ export class ApiStack extends cdk.Stack {
     }));
 
     this.publishLambda = new NodejsFunction(this, 'PublishLambda', {
-      functionName: `IPOWarningPublishCDK-${props.environment}`,
+      functionName: `IPOTrackPublishCDK-${props.environment}`,
       entry: path.join(__dirname, '../lambdas/publish/publish.js'),
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_14_X,
@@ -91,7 +91,7 @@ export class ApiStack extends cdk.Stack {
     }));
 
     this.userRemovalLambda = new NodejsFunction(this, 'UserRemovalLambda', {
-      functionName: `IPOWarningUserRemovalCDK-${props.environment}`,
+      functionName: `IPOTrackUserRemovalCDK-${props.environment}`,
       entry: path.join(__dirname, '../lambdas/user-removal/user-removal.js'),
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_14_X,
@@ -105,7 +105,7 @@ export class ApiStack extends cdk.Stack {
       effect: iam.Effect.ALLOW,
     }));
 
-    this.api = new apigw.RestApi(this, 'IPOWarningRestAPI', {
+    this.api = new apigw.RestApi(this, 'IPOTrackRestAPI', {
       endpointConfiguration: {
         types: [EndpointType.REGIONAL]
       },
@@ -113,7 +113,7 @@ export class ApiStack extends cdk.Stack {
         allowOrigins: apigw.Cors.ALL_ORIGINS,
         allowMethods: ['POST']
       },
-      restApiName: `IPOWarningCDK-${props.environment}`,
+      restApiName: `IPOTrackCDK-${props.environment}`,
       deploy: false
     });
 

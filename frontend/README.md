@@ -1,4 +1,4 @@
-# IPO Warning frontend
+# IPO Track frontend
 
 `Notes:`
 - throughout the code, the imports are done always with the end goal in mind – the `out` 

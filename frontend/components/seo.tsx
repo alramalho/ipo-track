@@ -7,7 +7,7 @@ interface SEOProps {
 }
 
 const SEO = ({title, description}: SEOProps) => {
-  const renderedTitle = `IPO Warning${title ? ` | ${title}` : ""}`
+  const renderedTitle = `IPO Track${title ? ` | ${title}` : ""}`
   return (
 
     <Head>
@@ -16,8 +16,8 @@ const SEO = ({title, description}: SEOProps) => {
       <meta property="og:type" content="website"/>
       <meta property="og:title" content={renderedTitle}/>
       <meta property="og:image" content="./static/ipo-bg.png"/>
-      <meta property="og:url" content="www.ipo-warning.com"/>
-      <meta property="og:site_name" content="IPO Warning"/>
+      <meta property="og:url" content="www.ipo-track.com"/>
+      <meta property="og:site_name" content="IPO Track"/>
       <meta name="twitter:title" content={renderedTitle}/>
       <meta name="twitter:image" content="./static/ipo-bg.png"/>
       <meta name="twitter:creator" content="@_alramalho"/>

@@ -3,10 +3,10 @@ const dynamoDB = new DynamoDBClient({region: "eu-west-1"})
 const {SESClient, SendEmailCommand} = require("@aws-sdk/client-ses");
 const ses = new SESClient({region: "eu-west-1"});
 
-const SENDER = 'warningipo@gmail.com'
+const SENDER = 'trackipo@gmail.com'
 
 function get_subject(sender, subject) {
-  return `IPO Warning | Contact from '${sender}' | ${subject}`
+  return `IPO Track | Contact from '${sender}' | ${subject}`
 }
 
 function get_body_html(sender, subject, message) {
@@ -29,7 +29,7 @@ function get_body_html(sender, subject, message) {
           <small>
             <p>
               If you don't know what this is about or have any questions please reach us at
-              https://www.ipo-warning.com/contact.html.
+              https://www.ipo-track.com/contact.html.
             </p>
             </small>
         </div>
