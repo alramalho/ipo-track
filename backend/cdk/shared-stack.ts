@@ -15,6 +15,6 @@ export class SharedStack extends cdk.Stack {
       hostedZoneId: "Z06420601ZYM964XOXTOX",
       zoneName: "ipo-track.com"
     })
-    this.certificate = acm.Certificate.fromCertificateArn(this, `SharedCertificate`, "arn:aws:acm:us-east-1:854257060653:certificate/3c473564-082d-4d3b-96ee-b8527d91dc50")
+    this.certificate = acm.Certificate.fromCertificateArn(this, `SharedCertificate`, "arn:aws:acm:us-east-1:854257060653:certificate/12c204cf-42b2-4daf-95a0-3209f7e4bbc4")
   }
 }
