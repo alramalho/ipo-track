@@ -12,3 +12,6 @@ are actually integration tests between lambdas and its dependencies (like DB). M
 - **Unified Infraestrcture as Code**: All infrastructure is written as code so that nothing gets forgotten.
 - **Monorepo**: Everything (but secrets) is in the repo, no need to look absolutely anywhere else
   to start developing and contributing. This includes infrastructure, backend, frontend, and ci/cd pipelines.
+
+
+# 🏆 Awarded _A_ class on [MPM](https://alramalho.medium.com/the-maintainable-program-manifesto-mpm-3ba5239f7a8)
