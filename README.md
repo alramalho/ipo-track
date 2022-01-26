@@ -1,6 +1,6 @@
 # IPO WARNING
 
-Everything that is needed for the app to fully work is present in this repo, with the exception of domain and hosted zone configuration.
+Everything that is needed for the app to fully work is present in this repo, with the exception of domain, SSL certificate,  and hosted zone configuration.
 
 We couldn't find a way to edit the defautl NameServers record, and since it is not mandatory for 
 the app to work fully we figured it isn't needed for the IaC.
