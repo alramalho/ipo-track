@@ -151,7 +151,7 @@ export default function Home() {
               This makes IPOs a possible good investment, with some previous private
               companies having experienced a huge stock price increase some days or
               weeks
-              after its
+              after its public release.
 
             </p>
 
