@@ -1,6 +1,8 @@
-# IPO WARNING
+# IPO Track 🔔
 
-Everything that is needed for the app to fully work is present in this repo, with the exception of domain, SSL certificate,  and hosted zone configuration.
+Everything that is needed for the app to fully work is present in this repo, with the exception of domain, SSL certificate,  and frontend distribution. This was done in Netlify in order to participate in the [Hashnode/Netlify hackathon](https://townhall.hashnode.com/netlify-hackathon)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0ea084ae-a6d4-4e6e-a728-d7b0209849a5/deploy-status)](https://app.netlify.com/sites/ipo-track/deploys)
 
 We couldn't find a way to edit the defautl NameServers record, and since it is not mandatory for 
 the app to work fully we figured it isn't needed for the IaC.
