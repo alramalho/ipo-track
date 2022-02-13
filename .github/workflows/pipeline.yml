@@ -34,6 +34,9 @@ jobs:
           aws --version
           aws -h
 
+          npm install netlify-cli --save-dev
+          netlify -v
+
 
 
       - name: Configure AWS
@@ -59,11 +62,16 @@ jobs:
           yarn
 
           export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null' | tr -d '"')
+          netlify env:set NEXT_PUBLIC_API_URL=$(echo $NEXT_PUBLIC_API_URL)
           yarn build
+          netlify deploy --dir /out
 
-          export SANDBOX_DISTRIBUTION_ID=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
-          yarn deploy-sandbox
-          aws cloudfront create-invalidation --distribution-id=$SANDBOX_DISTRIBUTION_ID --paths / --profile=ipo-track | > /dev/null
+#          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null' | tr -d '"')
+#          yarn build
+#
+#          export SANDBOX_DISTRIBUTION_ID=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
+#          yarn deploy-sandbox
+#          aws cloudfront create-invalidation --distribution-id=$SANDBOX_DISTRIBUTION_ID --paths / --profile=ipo-track | > /dev/null
 
 
   Run-Tests:
@@ -168,11 +176,16 @@ jobs:
           cd frontend
           yarn
 
-          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionApiURL' | grep -v 'null' | tr -d '"')
+          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null' | tr -d '"')
+          netlify env:set NEXT_PUBLIC_API_URL=$(echo $NEXT_PUBLIC_API_URL)
           yarn build
-          yarn sitemap
+          netlify deploy --dir /out --prod
 
-          export PRODUCTION_DISTRIBUTION_ID=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
-          yarn deploy-production
-          aws cloudfront create-invalidation --distribution-id=$PRODUCTION_DISTRIBUTION_ID --paths / --profile=ipo-track | > /dev/null
+#          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionApiURL' | grep -v 'null' | tr -d '"')
+#          yarn build
+#          yarn sitemap
+#
+#          export PRODUCTION_DISTRIBUTION_ID=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
+#          yarn deploy-production
+#          aws cloudfront create-invalidation --distribution-id=$PRODUCTION_DISTRIBUTION_ID --paths / --profile=ipo-track | > /dev/null
 
