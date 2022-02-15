@@ -12,6 +12,9 @@ jobs:
       ENVIRONMENT: sandbox
       DATA_API_URL: https://arnnvraxch.execute-api.eu-west-1.amazonaws.com/sandbox/stocks
       RAPID_API_KEY: irrelevant
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
     steps:
 
       - name: Checkout source code
@@ -64,7 +67,7 @@ jobs:
           export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null' | tr -d '"')
           netlify env:set NEXT_PUBLIC_API_URL=$(echo $NEXT_PUBLIC_API_URL)
           yarn build
-          netlify deploy --dir /out
+          netlify deploy --auth $NETLIFY_AUTH_TOKEN --dir ./out
 
 #          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null' | tr -d '"')
 #          yarn build
@@ -129,6 +132,8 @@ jobs:
       ENVIRONMENT: production
       DATA_API_URL: https://upcoming-ipo-calendar.p.rapidapi.com/ipos-thisweek
       RAPID_API_KEY: ${{ secrets.RAPID_API_KEY }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
     steps:
 
@@ -179,7 +184,7 @@ jobs:
           export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxApiURL' | grep -v 'null' | tr -d '"')
           netlify env:set NEXT_PUBLIC_API_URL=$(echo $NEXT_PUBLIC_API_URL)
           yarn build
-          netlify deploy --dir /out --prod
+          netlify deploy --auth $NETLIFY_AUTH_TOKEN --dir ./out --prod
 
 #          export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionApiURL' | grep -v 'null' | tr -d '"')
 #          yarn build
