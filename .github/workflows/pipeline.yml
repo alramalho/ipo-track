@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: sandbox
-      DATA_API_URL: https://arnnvraxch.execute-api.eu-west-1.amazonaws.com/sandbox/stocks
       RAPID_API_KEY: irrelevant
       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -20,7 +19,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
 
-      - name: Install dependencies
+      - name: Environment setting
         run: |
           sudo apt install nodejs
           node -v
@@ -40,6 +39,7 @@ jobs:
           npm install netlify-cli --save-dev
           netlify -v
 
+          export DATA_API_URL=http://$(aws apigateway get-rest-apis | jq '.items[] | select(.name == "IPOTrackCDK-sandbox") | .id' | grep -v null | tr -d '"').execute-api.eu-west-1.amazonaws.com/sandbox/mockApi
 
 
       - name: Configure AWS
@@ -75,7 +75,6 @@ jobs:
 #          export SANDBOX_DISTRIBUTION_ID=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .sandboxCloudFrontDistributionID' | grep -v 'null' | tr -d '"')
 #          yarn deploy-sandbox
 #          aws cloudfront create-invalidation --distribution-id=$SANDBOX_DISTRIBUTION_ID --paths / --profile=ipo-track | > /dev/null
-
 
   Run-Tests:
     needs: Deploy-To-Sandbox
