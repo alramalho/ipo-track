@@ -3,11 +3,11 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0ea084ae-a6d4-4e6e-a728-d7b0209849a5/deploy-status)](https://app.netlify.com/sites/ipo-track/deploys)
 
 
-Everything that is needed for the app to fully work is present in this repo, with the exception of domain, SSL certificate,  and frontend distribution. This was done in Netlify in order to participate in the [Hashnode/Netlify hackathon](https://townhall.hashnode.com/netlify-hackathon)
+### Welcome to Ipo-track repo!
 
+Here you can find all the inner workings of this application.
+Everything that it needs to fully work is present, with the exception of domain, SSL certificate,  and frontend distribution. This was done in Netlify in order to participate in the [Hashnode/Netlify hackathon](https://townhall.hashnode.com/netlify-hackathon)
 
-We couldn't find a way to edit the defautl NameServers record, and since it is not mandatory for 
-the app to work fully we figured it isn't needed for the IaC.
 
 # Guiding principles:
 - **TDD**
