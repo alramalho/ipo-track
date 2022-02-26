@@ -121,7 +121,7 @@ export class ApiStack extends cdk.Stack {
     console.log(props.environment)
     if (props.environment == 'sandbox') {
       const mockApiBaseName = 'MockRapidApi'
-      new NodejsFunction(this, 'MockRapidApi', {
+      const mockApiLambda = new NodejsFunction(this, 'MockRapidApi', {
         functionName: `${mockApiBaseName}-${props.environment}`,
         entry: path.join(__dirname, '../lambdas/mock-rapidapi/mock-rapidapi.js'),
         handler: 'handler',
@@ -137,6 +137,7 @@ export class ApiStack extends cdk.Stack {
         `arn:aws:lambda:eu-west-1:854257060653:function:${mockApiBaseName}-\${stageVariables.environment}`
       )
       mockApiResource.addMethod('GET', new LambdaIntegration(stageMockApiLambda));
+      mockApiLambda.grantInvoke(new iam.ServicePrincipal('apigateway.amazonaws.com'));
 
     }
 
