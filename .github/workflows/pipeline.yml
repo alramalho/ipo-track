@@ -51,6 +51,8 @@ jobs:
 
       - name: Deploy-Backend
         run: |
+          echo "TEST"
+          echo $NETLIFY_AUTH_TOKEN
           export DATA_API_URL=http://$(aws apigateway get-rest-apis | jq '.items[] | select(.name == "IPOTrackCDK-sandbox") | .id' | grep -v null | tr -d '"').execute-api.eu-west-1.amazonaws.com/sandbox/mockApi
 
           cd backend
