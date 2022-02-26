@@ -12,7 +12,7 @@ import * as crypto from "crypto";
 
 
 interface ApiStackProps {
-  environment: string,
+  environment: 'sandbox' | 'production',
   dataApiUrl: string,
   rapidApiKey: string,
 }
@@ -116,6 +116,31 @@ export class ApiStack extends cdk.Stack {
       restApiName: `IPOTrackCDK-${props.environment}`,
       deploy: false
     });
+
+    console.log("In environment:")
+    console.log(props.environment)
+    if (props.environment == 'sandbox') {
+      const mockApiBaseName = 'MockRapidApi'
+      new NodejsFunction(this, 'MockRapidApi', {
+        functionName: `${mockApiBaseName}-${props.environment}`,
+        entry: path.join(__dirname, '../lambdas/mock-rapidapi/mock-rapidapi.js'),
+        handler: 'handler',
+        runtime: lambda.Runtime.NODEJS_14_X,
+        memorySize: 1024,
+        timeout: cdk.Duration.seconds(10),
+      });
+
+      const mockApiResource = this.api.root.addResource('mockApi');
+      const stageMockApiLambda = lambda.Function.fromFunctionArn(
+        this,
+        `mockApi-lambda-stage`,
+        `arn:aws:lambda:eu-west-1:854257060653:function:${mockApiBaseName}-\${stageVariables.environment}`
+      )
+      mockApiResource.addMethod('GET', new LambdaIntegration(stageMockApiLambda, {
+        proxy: true, // Make lambda responsible foglolr building the API response according to https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-output-format
+      }));
+
+    }
 
     const subscribeResource = this.api.root.addResource('subscribe');
     const stageSubscribeLambda = lambda.Function.fromFunctionArn(

@@ -3,7 +3,7 @@ import {DbStack} from "./db-stack";
 import {ApiStack} from "./api-stack";
 
 interface MainStackProps {
-  environment: string
+  environment: 'sandbox' | 'production'
   dataApiUrl: string
   rapidApiKey: string
 }
