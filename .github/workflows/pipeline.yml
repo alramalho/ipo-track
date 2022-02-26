@@ -39,8 +39,6 @@ jobs:
           npm install netlify-cli --save-dev
           netlify -v
 
-          export DATA_API_URL=http://$(aws apigateway get-rest-apis | jq '.items[] | select(.name == "IPOTrackCDK-sandbox") | .id' | grep -v null | tr -d '"').execute-api.eu-west-1.amazonaws.com/sandbox/mockApi
-
 
       - name: Configure AWS
         run: |
@@ -53,6 +51,8 @@ jobs:
 
       - name: Deploy-Backend
         run: |
+          export DATA_API_URL=http://$(aws apigateway get-rest-apis | jq '.items[] | select(.name == "IPOTrackCDK-sandbox") | .id' | grep -v null | tr -d '"').execute-api.eu-west-1.amazonaws.com/sandbox/mockApi
+
           cd backend
           yarn
           cdk bootstrap
