@@ -136,9 +136,7 @@ export class ApiStack extends cdk.Stack {
         `mockApi-lambda-stage`,
         `arn:aws:lambda:eu-west-1:854257060653:function:${mockApiBaseName}-\${stageVariables.environment}`
       )
-      mockApiResource.addMethod('GET', new LambdaIntegration(stageMockApiLambda, {
-        proxy: true, // Make lambda responsible foglolr building the API response according to https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-output-format
-      }));
+      mockApiResource.addMethod('GET', new LambdaIntegration(stageMockApiLambda));
 
     }
 
