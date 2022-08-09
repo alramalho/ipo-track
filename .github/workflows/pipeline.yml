@@ -183,7 +183,7 @@ jobs:
           yarn
 
           export NEXT_PUBLIC_API_URL=$(aws cloudformation describe-stacks | jq '.Stacks | .[] | .Outputs | reduce .[]? as $i ({}; .[$i.OutputKey] = $i.OutputValue) | .productionApiURL' | grep -v 'null' | tr -d '"')
-          netlify env:set NEXT_PUBLIC_API_URL=$(echo $NEXT_PUBLIC_API_URL)
+          netlify env:set NEXT_PUBLIC_API_URL $(echo $NEXT_PUBLIC_API_URL)
           yarn build
           netlify deploy --auth $NETLIFY_AUTH_TOKEN --dir ./out --prod
 
