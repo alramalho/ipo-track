@@ -91,6 +91,7 @@ jobs:
         run: |
           sudo apt install nodejs
           node -v
+          echo "amaral tas a balda"
           sudo apt install npm
           npm -v
           npm install -g aws-cdk
