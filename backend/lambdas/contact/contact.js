@@ -29,7 +29,7 @@ function get_body_html(sender, subject, message) {
           <small>
             <p>
               If you don't know what this is about or have any questions please reach us at
-              https://www.ipo-track.com/contact.html.
+              https://ipo-track.alexramalho.dev/contact.html.
             </p>
             </small>
         </div>
