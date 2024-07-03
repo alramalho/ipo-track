@@ -1,4 +1,5 @@
 ![](media/ipo-bg.png)
+# URL changed to [ipo-track.alexramalho.dev](https://ipo-track.alexramalho.dev/)
 ---
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0ea084ae-a6d4-4e6e-a728-d7b0209849a5/deploy-status)](https://app.netlify.com/sites/ipo-track/deploys)
 
